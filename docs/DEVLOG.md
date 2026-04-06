@@ -2114,108 +2114,7 @@ Activity 8:    Reward (ArtCorner or fun variant)
 - The lesson builder should sort by difficulty and append an ArtCorner at the end. This is a lessonBuilder change, not a widget change.
 
 ### Roadmap: Three Horizons
-
-#### Horizon 1: Exam-Ready (Next 3 Days)
-
-- Goal: Kids can use this productively for exam review.
-```
-Day 1:
-  - Batch 1 bug fixes (P0-P3, stars, dead file) → deploy
-  - Wire Ch15-17 Flash data + fix Ch14 adapter gaps
-  - Add session dedup to lessonBuilder
-  - Emoji upgrade pass across all widgets
-
-Day 2:
-  - Expand generator pools (ShapeComposer, WordProblem)
-  - Add difficulty curve to lessonBuilder
-  - Wire ArtCorner as reward activity per chapter
-  - Source or generate mascot SVG (1 character, 4 poses)
-  - Deploy and real-device test with an actual child
-
-Day 3:
-  - Fix anything the child-test reveals
-  - Polish exam practice mode with real assessment data
-  - Final deploy
-```
-
-#### Horizon 2: Rich Experience (Next 2 Weeks)
-
-- Goal: The app feels like it belongs next to the textbook.
-```
-- Illustrated SVG asset set for all 3D/2D shapes
-- Chapter-themed backgrounds (colors already in chapter data)
-- Mascot speech bubbles for instructions
-- Sound effects (correct/wrong/celebrate)
-- YouTube playlist integration (help button → relevant video)
-- Progress celebration screens between chapters
-- Parent dashboard (PIN-protected stats view)
-- Adaptive difficulty (track error rate, auto-adjust)
-```
-
-#### Horizon 3: Platform (Post-Exams)
-
-- Goal: Reusable for other terms, other grades, other subjects.
-```
-- CMS: Admin tool to author activities without code
-  (JSON editor with visual preview)
-- Multi-term support: Term 1 content as a second "campaign"
-- Grade 2 expansion: Same widget library, new content
-- Offline PWA: Service worker for classroom use without WiFi
-- Analytics: Which concepts do kids struggle with most?
-- Arabic-medium version: Same engine, Arabic content for 
-  government schools
-- Open-source release: Engine + empty content template
-```
-
-#### Architecture Notes for Future Contributors
-
-- The codebase is well-structured for this. Key decisions that enable the roadmap:
-**What's right:**
-- ActivityRenderer switch pattern makes adding widgets trivial
-- Generator + Flash adapter dual-source means content can come from anywhere
-- Types are strict — new contributors get compiler errors, not runtime bugs
-- Bundle splitting already done — adding assets won't bloat initial load
-
-**What needs attention:**
-- book-terms.ts should become the single source for all display strings (some are still hardcoded in generators)
-- The adapter's adaptProblem function is a growing switch statement — consider a registry pattern if it exceeds 15 types
-- Visual assets need a manifest system: src/assets/manifest.ts mapping contextHint → asset path, so components don't each solve this differently
-- Testing: zero tests currently. For Horizon 2+, add Vitest snapshot tests for generators (ensure they produce valid data) and Playwright for critical user flows
-
-**The asset manifest idea specifically:**
-```ts
-// src/assets/manifest.ts
-export const ASSET_MAP: Record<string, { emoji: string; svg?: string; photo?: string }> = {
-  "apple":       { emoji: "🍎", svg: "/assets/items/apple.svg" },
-  "gift-box":    { emoji: "🎁", svg: "/assets/items/giftbox.svg" },
-  "tennis-ball": { emoji: "🎾" },
-  "cheese-wedge":{ emoji: "🧀" },
-  "juice-box":   { emoji: "🧃" },
-  "cup":         { emoji: "🥤" },
-  "star":        { emoji: "⭐" },
-  "bird":        { emoji: "🐦" },
-  "pencil":      { emoji: "✏️" },
-  "book":        { emoji: "📚" },
-  // 3D shapes
-  "cube":        { emoji: "🧊", svg: "/assets/shapes/cube.svg" },
-  "ball":        { emoji: "⚽", svg: "/assets/shapes/ball.svg" },
-  "cylinder":    { emoji: "🥫", svg: "/assets/shapes/cylinder.svg" },
-  // characters
-  "mascot-happy":     { svg: "/assets/mascot/happy.svg" },
-  "mascot-thinking":  { svg: "/assets/mascot/thinking.svg" },
-  "mascot-celebrate": { svg: "/assets/mascot/celebrate.svg" },
-};
-
-// Usage in any component:
-function AssetIcon({ hint, size }: { hint: string; size: number }) {
-  const asset = ASSET_MAP[hint];
-  if (asset?.svg) return <img src={asset.svg} width={size} />;
-  if (asset?.emoji) return <span style={{ fontSize: size }}>{asset.emoji}</span>;
-  return null;
-}
-```
-
-- Every widget that currently ignores contextHint just wraps its display area with <AssetIcon hint={data.contextHint} />. One pattern, all widgets, progressive enhancement (emoji now, SVG later, photos eventually).
+`docs\ROADMAP-HORIZONS.md`
 
 ---
 
@@ -2360,3 +2259,36 @@ What needs attention during the content pass:
 **Result:** Ch14 adapted activities: 19 (was 12), skipped: 0 (was 7).
 
 **Verification:** `npm run build` passed. Runtime adapter test confirmed 0 skips.
+
+---
+
+### Task 6: Import ch15-17 flash data + add adapter handlers [2026-04-07]
+
+**Issue:** Ch15-17 had zero flash data wired — `buildChapter15/16/17Activities()` used only generators. Also ch15-17 JSONs use array-of-sheets format (not single object like ch10-14), and use underscore-separated type names.
+
+**Changes:**
+
+**lessonBuilder.ts:**
+- Imported `chapter_15/16/17.json`.
+- Added `normalizeSheetArray()` to flatten array-of-sheets → single `{chapter, title, problems}`.
+- Added ch15-17 to `FLASH_CHAPTERS`.
+
+**flashDataAdapter.ts:**
+- Imported `TellTimeData` + `getHourAngle` from clockGenerator.
+- Added 18 new cases to `adaptProblem()` switch (including underscore/hyphen aliases).
+- New adapters: `adaptMixedArithmetic`, `adaptMultipleChoice`, `adaptNumberComparison`, `adaptGridFragment`, `adaptAreaOrdering`, `adaptMakeTenAddition`, `adaptAnalogClockRead`, `adaptCountingTo100`, `adaptPlaceValueComposition`, `adaptSubtractionWordProblem`, `adaptOrdinalWordProblem`, `adaptShapeTracingMatch`, `adaptOddOneOut3d`, `adaptCapacityMatching`, `adaptObjectPartCounting`, `adaptFillMissingNumbers`, `adaptNumberOrdering`, `createClockReadData`.
+- Fixed `adaptWordProblem`: handles `data.total` as alias for `data.initial`.
+- Fixed `adaptCapacityOrdering`: handles `rank` field as alias for `order`; added `quarter`/`half`/`three-quarters` level mappings.
+- Fixed `adaptMatching`: handles ch15 number-pair format `[[70,30],...]` for "match to make 100".
+
+**Result:**
+| Chapter | Activities | Skipped | Skip reasons |
+|---------|-----------|---------|-------------|
+| ch14 | 19 | 0 | — |
+| ch15 | 26 | 4 | stick_construction (2), shape_composition, dot_grid_copy |
+| ch16 | 24 | 2 | stick_construction, shape_decomposition |
+| ch17 | 14 | 4 | visual_pattern, number-comparison (text), shape-logic, stick-analysis |
+
+All remaining skips are visual/drawing/logic types with no matching interactive widget.
+
+**Verification:** `npm run build` passed. Runtime adapter test confirmed totals.

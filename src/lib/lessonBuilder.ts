@@ -3,6 +3,9 @@ import chapter11Raw from "../../data/chapter_11.json";
 import chapter12Raw from "../../data/chapter_12.json";
 import chapter13Raw from "../../data/chapter_13.json";
 import chapter14Raw from "../../data/chapter_14.json";
+import chapter15Raw from "../../data/chapter_15.json";
+import chapter16Raw from "../../data/chapter_16.json";
+import chapter17Raw from "../../data/chapter_17.json";
 import { adaptFlashChapter } from "./adapters/flashDataAdapter";
 import { generateAreaGrid } from "./generators/areaGridGenerator";
 import { generateBlockGrouper } from "./generators/blockGrouperGenerator";
@@ -26,12 +29,25 @@ import {
 import { generateWordProblem } from "./generators/wordProblemGenerator";
 import type { Activity, ActivityData, ConceptKey, GuidedBoxProblem } from "../types/curriculum";
 
+/** Ch15-17 JSONs are arrays of sheet objects; flatten to the single-object format the adapter expects. */
+function normalizeSheetArray(sheets: unknown, chapterNum: number): { chapter: number; title: string; problems: unknown[] } {
+  const arr = Array.isArray(sheets) ? sheets : [sheets];
+  return {
+    chapter: chapterNum,
+    title: `Chapter ${chapterNum}`,
+    problems: arr.flatMap((s: Record<string, unknown>) => (s.problems as unknown[]) ?? []),
+  };
+}
+
 const FLASH_CHAPTERS: Record<string, unknown> = {
   ch10: chapter10Raw,
   ch11: chapter11Raw,
   ch12: chapter12Raw,
   ch13: chapter13Raw,
   ch14: chapter14Raw,
+  ch15: normalizeSheetArray(chapter15Raw, 15),
+  ch16: normalizeSheetArray(chapter16Raw, 16),
+  ch17: normalizeSheetArray(chapter17Raw, 17),
 };
 
 export interface BuiltLesson {

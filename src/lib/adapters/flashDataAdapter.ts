@@ -16,7 +16,9 @@ import type {
   PlaceValueData,
   Shape3Dto2DData,
   ShapeIdentifyData,
+  TellTimeData,
 } from "../../types/curriculum";
+import { getHourAngle } from "../generators/clockGenerator";
 
 interface FlashChapter {
   chapter: number;
@@ -92,6 +94,7 @@ function adaptProblem(p: FlashProblem): Activity[] {
     case "fill-in-the-blanks":
       return adaptFillInBlanks(p);
     case "word-problem":
+    case "word_problem":
       return adaptWordProblem(p);
     case "result-finding":
       return adaptResultFinding(p);
@@ -106,7 +109,48 @@ function adaptProblem(p: FlashProblem): Activity[] {
     case "math-problems":
       return adaptMathProblems(p);
     case "capacity-ordering":
+    case "capacity_ordering":
       return adaptCapacityOrdering(p);
+    // --- Ch15-17 types (underscore + hyphen variants) ---
+    case "mixed_arithmetic":
+      return adaptMixedArithmetic(p);
+    case "multiple_choice":
+      return adaptMultipleChoice(p);
+    case "comparison_circle":
+    case "number_comparison":
+    case "number-comparison":
+      return adaptNumberComparison(p);
+    case "grid_fragment":
+      return adaptGridFragment(p);
+    case "area_ordering":
+    case "area_ordering_grid":
+      return adaptAreaOrdering(p);
+    case "make_ten_addition":
+      return adaptMakeTenAddition(p);
+    case "analog_clock_read":
+    case "analog-clock-read":
+      return adaptAnalogClockRead(p);
+    case "counting_to_100":
+      return adaptCountingTo100(p);
+    case "place-value-composition":
+      return adaptPlaceValueComposition(p);
+    case "subtraction-word-problem":
+      return adaptSubtractionWordProblem(p);
+    case "ordinal-word-problem":
+      return adaptOrdinalWordProblem(p);
+    case "trace_source_identification":
+    case "shape-tracing-match":
+      return adaptShapeTracingMatch(p);
+    case "odd_one_out_3d":
+      return adaptOddOneOut3d(p);
+    case "capacity_matching":
+      return adaptCapacityMatching(p);
+    case "object_part_counting":
+      return adaptObjectPartCounting(p);
+    case "fill_missing_numbers":
+      return adaptFillMissingNumbers(p);
+    case "number_ordering":
+      return adaptNumberOrdering(p);
     default:
       return [];
   }
@@ -188,10 +232,40 @@ interface FlashMatchData {
 
 function adaptMatching(p: FlashProblem): Activity[] {
   const matchData = p.data as FlashMatchData | undefined;
-  const pairs = p.pairs as [string, string][] | undefined;
-  if (!matchData || !pairs?.length) return [];
+  const pairs = p.pairs as unknown[] | undefined;
+  if (!pairs?.length) return [];
 
-  return pairs.flatMap((pair, index) => {
+  // Ch15 format: pairs are [number, number] arrays (e.g. "Match to make 100")
+  if (Array.isArray(pairs[0]) && typeof (pairs[0] as number[])[0] === "number") {
+    return (pairs as [number, number][]).map((pair, index) => {
+      const data: GuidedBoxProblem = {
+        type: "addition",
+        equation: `${pair[0]} + ? = 100`,
+        steps: [
+          {
+            id: `${p.id}-${index}-s1`,
+            template: `${pair[0]} + {0} = 100`,
+            blanks: [{ index: 0, correctValue: pair[1] }],
+            revealAfterPrevious: false,
+          },
+        ],
+        finalAnswer: 100,
+      };
+
+      return {
+        id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+        type: "quiz" as const,
+        conceptKey: "guided-box-make10" as ConceptKey,
+        difficulty: 1 as const,
+        data,
+      };
+    });
+  }
+
+  // Ch10-style format: shapes + names matching
+  if (!matchData) return [];
+
+  return (pairs as [string, string][]).flatMap((pair, index) => {
     const shape = matchData.shapes.find((entry) => entry.id === pair[0]);
     if (!shape) return [];
 
@@ -617,6 +691,7 @@ interface FlashCharacter {
 
 interface FlashWordProblemData {
   initial?: number;
+  total?: number;
   added?: number;
   removed?: number;
   given?: number;
@@ -632,31 +707,32 @@ function adaptWordProblem(p: FlashProblem): Activity[] {
   if (!raw) return [];
 
   const characters = p.characters as FlashCharacter[] | undefined;
+  const initial = raw.initial ?? raw.total;
 
-  if (typeof raw.initial === "number" && typeof raw.added === "number") {
+  if (typeof initial === "number" && typeof raw.added === "number") {
     const unit = raw.unit ?? raw.item ?? "items";
     return [createWordProblemActivity({
       id: p.id,
       storyAr: p.instruction,
       storyEn: p.instruction,
       operation: "+",
-      operands: [raw.initial, raw.added],
-      correctAnswer: typeof p.answer === "number" ? p.answer : raw.initial + raw.added,
+      operands: [initial, raw.added],
+      correctAnswer: typeof p.answer === "number" ? p.answer : initial + raw.added,
       imageId: unit,
       contextHint: unit,
     })];
   }
 
   const removed = raw.removed ?? raw.given;
-  if (typeof raw.initial === "number" && typeof removed === "number") {
+  if (typeof initial === "number" && typeof removed === "number") {
     const unit = raw.item ?? raw.unit ?? "items";
     return [createWordProblemActivity({
       id: p.id,
       storyAr: p.instruction,
       storyEn: p.instruction,
       operation: "-",
-      operands: [raw.initial, removed],
-      correctAnswer: typeof p.answer === "number" ? p.answer : raw.initial - removed,
+      operands: [initial, removed],
+      correctAnswer: typeof p.answer === "number" ? p.answer : initial - removed,
       imageId: unit,
       contextHint: unit,
     })];
@@ -889,7 +965,8 @@ function adaptMathProblems(p: FlashProblem): Activity[] {
 interface FlashCapacityOrderItem {
   label: string;
   level: string;
-  order: number;
+  order?: number;
+  rank?: number;
 }
 
 function adaptCapacityOrdering(p: FlashProblem): Activity[] {
@@ -897,7 +974,8 @@ function adaptCapacityOrdering(p: FlashProblem): Activity[] {
   const imageType = (p as unknown as { imageType?: string }).imageType;
   if (!items?.length) return [];
 
-  const sorted = [...items].sort((a, b) => a.order - b.order);
+  const getOrder = (item: FlashCapacityOrderItem) => item.order ?? item.rank ?? 0;
+  const sorted = [...items].sort((a, b) => getOrder(a) - getOrder(b));
 
   const data: CapacityData = {
     type: "compare-capacity",
@@ -920,6 +998,554 @@ function adaptCapacityOrdering(p: FlashProblem): Activity[] {
     difficulty: 1,
     data,
   }];
+}
+
+// --- Ch15-17 adapters ---
+
+function adaptMixedArithmetic(p: FlashProblem): Activity[] {
+  const subProblems = (p as unknown as { subProblems?: { sentence: string; answer: number }[] }).subProblems;
+  if (!Array.isArray(subProblems) || !subProblems.length) return [];
+
+  return subProblems.flatMap((sub, index) => {
+    const equation = sub.sentence.replace("__", "?");
+    const activity = createEquationActivity(
+      equation,
+      sub.answer,
+      index === 0 ? p.id : `${p.id}-${index + 1}`,
+    );
+    return activity ? [activity] : [];
+  });
+}
+
+function adaptMultipleChoice(p: FlashProblem): Activity[] {
+  const questions = (p as unknown as { questions?: { text: string; options: number[]; answer: number }[] }).questions;
+  if (!Array.isArray(questions) || !questions.length) return [];
+
+  return questions.flatMap((q, index) => {
+    const equation = q.text.replace("__", "?");
+    const activity = createEquationActivity(
+      equation,
+      q.answer,
+      index === 0 ? p.id : `${p.id}-${index + 1}`,
+    );
+    return activity ? [activity] : [];
+  });
+}
+
+function adaptNumberComparison(p: FlashProblem): Activity[] {
+  // comparison_circle format: pairs with {options: [a, b], answer}
+  const pairFormat = p.pairs as Array<{ options: number[]; answer: number }> | undefined;
+  if (pairFormat?.length && typeof pairFormat[0]?.answer === "number") {
+    return pairFormat.map((pair, index) => {
+      const data: GuidedBoxProblem = {
+        type: "addition",
+        equation: `${pair.options[0]} ? ${pair.options[1]}`,
+        steps: [
+          {
+            id: `${p.id}-${index}-s1`,
+            template: `Which is greater: ${pair.options[0]} or ${pair.options[1]}? Answer: {0}`,
+            blanks: [{ index: 0, correctValue: pair.answer }],
+            revealAfterPrevious: false,
+          },
+        ],
+        finalAnswer: pair.answer,
+      };
+
+      return {
+        id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+        type: "quiz" as const,
+        conceptKey: "guided-box-make10" as ConceptKey,
+        difficulty: 1 as const,
+        data,
+      };
+    });
+  }
+
+  // number_comparison / number-comparison: items with {left, right, answer}
+  const items = p.items as Array<{ left: unknown; right: unknown; answer: string }> | undefined;
+  if (!items?.length) return [];
+
+  return items.map((item, index) => {
+    const left = typeof item.left === "number" ? item.left : parseInt(String(item.left), 10) || 0;
+    const right = typeof item.right === "number" ? item.right : parseInt(String(item.right), 10) || 0;
+    const larger = Math.max(left, right);
+
+    const data: GuidedBoxProblem = {
+      type: "addition",
+      equation: `${item.left} ? ${item.right}`,
+      steps: [
+        {
+          id: `${p.id}-${index}-s1`,
+          template: `Which is greater: ${item.left} or ${item.right}? Answer: {0}`,
+          blanks: [{ index: 0, correctValue: larger }],
+          revealAfterPrevious: false,
+        },
+      ],
+      finalAnswer: larger,
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "quiz" as const,
+      conceptKey: "guided-box-make10" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+    };
+  });
+}
+
+function adaptGridFragment(p: FlashProblem): Activity[] {
+  const fragments = (p as unknown as { fragments?: Array<{ name?: string; base: number; neighbors: Record<string, number>; answer: number[] }> }).fragments;
+  if (!Array.isArray(fragments) || !fragments.length) return [];
+
+  return fragments.map((frag, index) => {
+    const neighborValues = Object.values(frag.neighbors).filter((v): v is number => typeof v === "number");
+
+    const data: HundredsChartData = {
+      type: "place-value-hundreds-chart",
+      mode: "fill-missing",
+      missingCells: [frag.base],
+      preHighlighted: neighborValues,
+      correctCell: frag.base,
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "interactive" as const,
+      conceptKey: "place-value-hundreds-chart" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+    };
+  });
+}
+
+function adaptAreaOrdering(p: FlashProblem): Activity[] {
+  const items = p.items as Array<{ id: string; type?: string; units: number; rank: number }> | undefined;
+  if (!items || items.length < 2) return [];
+
+  const results: Activity[] = [];
+  const sorted = [...items].sort((a, b) => a.rank - b.rank);
+
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const first = sorted[i]!;
+    const second = sorted[i + 1]!;
+
+    const data: AreaGridData = {
+      type: "compare-area",
+      mode: "count-compare",
+      gridRows: 0,
+      gridCols: 0,
+      shapeA: [],
+      shapeB: [],
+      shapeLabels: [first.id, second.id],
+      shapeColors: ["blue", "orange"],
+      shapeCounts: [
+        { label: first.id, count: first.units, color: "blue" },
+        { label: second.id, count: second.units, color: "orange" },
+      ],
+      question: "which-larger",
+      correctAnswer: first.units >= second.units ? first.id : second.id,
+    };
+
+    results.push({
+      id: i === 0 ? p.id : `${p.id}-pair${i + 1}`,
+      type: "interactive",
+      conceptKey: "compare-area",
+      difficulty: 1,
+      data,
+    });
+  }
+
+  return results;
+}
+
+function adaptMakeTenAddition(p: FlashProblem): Activity[] {
+  const raw = p.data as { start: number; add: number } | undefined;
+  const answer = typeof p.answer === "number" ? p.answer : 0;
+  if (!raw) return [];
+
+  const { start, add } = raw;
+  const give = 10 - start;
+  const keep = add - give;
+
+  const data: GuidedBoxProblem = {
+    type: "addition",
+    equation: `${start} + ${add}`,
+    steps: [
+      {
+        id: `${p.id}-s1`,
+        template: `${start} needs {0} more to make 10.`,
+        blanks: [{ index: 0, correctValue: give }],
+        revealAfterPrevious: false,
+      },
+      {
+        id: `${p.id}-s2`,
+        template: `Split ${add} into {0} and {1}`,
+        blanks: [
+          { index: 0, correctValue: give },
+          { index: 1, correctValue: keep },
+        ],
+        revealAfterPrevious: true,
+      },
+      {
+        id: `${p.id}-s3`,
+        template: `10 + {0} = {1}`,
+        blanks: [
+          { index: 0, correctValue: keep },
+          { index: 1, correctValue: answer || start + add },
+        ],
+        revealAfterPrevious: true,
+      },
+    ],
+    finalAnswer: answer || start + add,
+  };
+
+  return [{
+    id: p.id,
+    type: "interactive",
+    conceptKey: "guided-box-make10",
+    difficulty: 1,
+    data,
+  }];
+}
+
+function adaptAnalogClockRead(p: FlashProblem): Activity[] {
+  const items = p.items as Array<{ id?: string; time: string }> | undefined;
+  // Single-item variant (ch17)
+  const singleTime = (p as unknown as { time?: string }).time;
+
+  const timeList: string[] = [];
+  if (items?.length) {
+    timeList.push(...items.map((item) => item.time));
+  } else if (singleTime) {
+    timeList.push(singleTime);
+  }
+
+  if (!timeList.length) return [];
+
+  return timeList.flatMap((time, index) => {
+    const data = createClockReadData(time);
+    if (!data) return [];
+    return [{
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "interactive" as const,
+      conceptKey: "tell-time" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+    }];
+  });
+}
+
+function adaptCountingTo100(p: FlashProblem): Activity[] {
+  const items = p.items as Array<{ bundles: number; singles: number; answer: number }> | undefined;
+  if (!items?.length) return [];
+
+  return items.map((item, index) => {
+    const data: PlaceValueData = {
+      type: "place-value-group",
+      totalItems: item.answer,
+      expectedTens: item.bundles,
+      expectedOnes: item.singles,
+      visualType: "sticks",
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "interactive" as const,
+      conceptKey: "place-value-group" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+    };
+  });
+}
+
+function adaptPlaceValueComposition(p: FlashProblem): Activity[] {
+  const answer = typeof p.answer === "number" ? p.answer : parseInt(String(p.answer), 10);
+  if (Number.isNaN(answer)) return [];
+
+  const data: GuidedBoxProblem = {
+    type: "addition",
+    equation: p.instruction,
+    steps: [
+      {
+        id: `${p.id}-s1`,
+        template: p.instruction.replace(String(answer), "{0}").replace("__", "{0}"),
+        blanks: [{ index: 0, correctValue: answer }],
+        revealAfterPrevious: false,
+      },
+    ],
+    finalAnswer: answer,
+  };
+
+  return [{
+    id: p.id,
+    type: "quiz",
+    conceptKey: "guided-box-make10",
+    difficulty: 1,
+    data,
+  }];
+}
+
+function adaptSubtractionWordProblem(p: FlashProblem): Activity[] {
+  const answer = typeof p.answer === "number" ? p.answer : parseInt(String(p.answer), 10);
+  if (Number.isNaN(answer)) return [];
+
+  const numbers = p.instruction.match(/\d+/g)?.map((v) => parseInt(v, 10)) ?? [];
+  const initial = numbers[0] ?? answer + (numbers[1] ?? 0);
+  const removed = numbers[1] ?? initial - answer;
+
+  return [createWordProblemActivity({
+    id: p.id,
+    storyAr: p.instruction,
+    storyEn: p.instruction,
+    operation: "-",
+    operands: [initial, removed],
+    correctAnswer: answer,
+    imageId: "items",
+  })];
+}
+
+function adaptOrdinalWordProblem(p: FlashProblem): Activity[] {
+  const answer = typeof p.answer === "number" ? p.answer : parseInt(String(p.answer), 10);
+  if (Number.isNaN(answer)) return [];
+
+  const data: GuidedBoxProblem = {
+    type: "subtraction",
+    equation: p.instruction,
+    steps: [
+      {
+        id: `${p.id}-s1`,
+        template: `${p.instruction} Answer: {0}`,
+        blanks: [{ index: 0, correctValue: answer }],
+        revealAfterPrevious: false,
+      },
+    ],
+    finalAnswer: answer,
+  };
+
+  return [{
+    id: p.id,
+    type: "quiz",
+    conceptKey: "guided-box-sub10",
+    difficulty: 1,
+    data,
+  }];
+}
+
+function adaptShapeTracingMatch(p: FlashProblem): Activity[] {
+  // trace_source_identification: single shape → identify 3D source
+  const options = (p as unknown as { options?: string[] }).options;
+  const answer = typeof p.answer === "string" ? p.answer : String(p.answer ?? "");
+
+  if (options?.length && answer) {
+    const shape3d = normalizeShape3d(answer);
+    if (!shape3d) return [];
+
+    const data: ShapeIdentifyData = {
+      type: "shape-3d-identify",
+      targetShape: answer,
+      options,
+      correctIndex: options.indexOf(answer),
+    };
+
+    return [{
+      id: p.id,
+      type: "quiz",
+      conceptKey: "shape-3d-identify",
+      difficulty: 1,
+      data,
+    }];
+  }
+
+  // shape-tracing-match: pairs of object → 2D shape
+  const pairs = p.pairs as Array<{ object: string; shape: string }> | undefined;
+  if (!pairs?.length) return [];
+
+  return pairs.flatMap((pair, index) => {
+    const footprint = normalize2d(pair.shape);
+    if (!footprint) return [];
+
+    const data: Shape3Dto2DData = {
+      type: "shape-3d-to-2d",
+      shape3d: "cube", // placeholder — tracing focuses on 2D result
+      correctFootprint: footprint,
+      distractors: getFootprintDistractors(footprint),
+    };
+
+    return [{
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "interactive" as const,
+      conceptKey: "shape-3d-to-2d" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+      contextHint: pair.object,
+    }];
+  });
+}
+
+function adaptOddOneOut3d(p: FlashProblem): Activity[] {
+  const groups = (p as unknown as { groups?: Array<{ items: string[]; answer: string }> }).groups;
+  if (!Array.isArray(groups) || !groups.length) return [];
+
+  return groups.map((group, index) => {
+    const answerIndex = group.items.indexOf(group.answer);
+
+    const data: ShapeIdentifyData = {
+      type: "shape-3d-identify",
+      targetShape: group.answer,
+      options: group.items,
+      correctIndex: answerIndex >= 0 ? answerIndex : 0,
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "quiz" as const,
+      conceptKey: "shape-3d-identify" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+      contextHint: "Which one does not belong?",
+    };
+  });
+}
+
+function adaptCapacityMatching(p: FlashProblem): Activity[] {
+  const pairs = p.pairs as Array<{ item1: string; item2: string; cups: number }> | undefined;
+  if (!pairs?.length) return [];
+
+  return pairs.map((pair, index) => {
+    const data: CapacityData = {
+      type: "compare-capacity",
+      containers: [
+        { id: "a", label: pair.item1, imageId: "container", capacityCups: pair.cups },
+        { id: "b", label: pair.item2, imageId: "container", capacityCups: pair.cups },
+      ],
+      mode: "compare-two",
+      question: "which-more",
+      correctAnswer: pair.cups,
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "interactive" as const,
+      conceptKey: "compare-capacity" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+      contextHint: `${pair.item1} = ${pair.item2} (${pair.cups} cups)`,
+    };
+  });
+}
+
+function adaptObjectPartCounting(p: FlashProblem): Activity[] {
+  const questions = (p as unknown as { questions?: Array<{ shape: string; answer: number }> }).questions;
+  if (!Array.isArray(questions) || !questions.length) return [];
+
+  return questions.map((q, index) => {
+    const data: PlaceValueData = {
+      type: "place-value-group",
+      totalItems: q.answer,
+      expectedTens: Math.floor(q.answer / 10),
+      expectedOnes: q.answer % 10,
+      visualType: "blocks",
+      mode: "count-only",
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "interactive" as const,
+      conceptKey: "place-value-group" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+      contextHint: `Count ${q.shape} shapes`,
+    };
+  });
+}
+
+function adaptFillMissingNumbers(p: FlashProblem): Activity[] {
+  const sequences = (p as unknown as { sequences?: Array<{ data: (number | null)[]; answer: number[] }> }).sequences;
+  if (!Array.isArray(sequences) || !sequences.length) return [];
+
+  return sequences.flatMap((seq, seqIndex) => {
+    const missingCells = seq.answer;
+    if (!missingCells.length) return [];
+
+    const data: HundredsChartData = {
+      type: "place-value-hundreds-chart",
+      mode: "fill-missing",
+      missingCells,
+      preHighlighted: seq.data.filter((v): v is number => v !== null),
+      correctCell: missingCells[0]!,
+    };
+
+    return [{
+      id: seqIndex === 0 ? p.id : `${p.id}-${seqIndex + 1}`,
+      type: "interactive" as const,
+      conceptKey: "place-value-hundreds-chart" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+    }];
+  });
+}
+
+function adaptNumberOrdering(p: FlashProblem): Activity[] {
+  const normalized = (p as unknown as { normalized?: number[] }).normalized;
+  const answer = p.answer as number[] | undefined;
+  if (!normalized?.length || !answer?.length) return [];
+
+  // Present as a sequence of comparison activities
+  const sorted = [...normalized].sort((a, b) => a - b);
+  const results: Activity[] = [];
+
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const left = sorted[i]!;
+    const right = sorted[i + 1]!;
+
+    const data: GuidedBoxProblem = {
+      type: "addition",
+      equation: `${left} < ${right}`,
+      steps: [
+        {
+          id: `${p.id}-${i}-s1`,
+          template: `What comes after ${left}? Answer: {0}`,
+          blanks: [{ index: 0, correctValue: right }],
+          revealAfterPrevious: false,
+        },
+      ],
+      finalAnswer: right,
+    };
+
+    results.push({
+      id: i === 0 ? p.id : `${p.id}-${i + 1}`,
+      type: "quiz",
+      conceptKey: "guided-box-make10",
+      difficulty: 1,
+      data,
+    });
+  }
+
+  return results;
+}
+
+function createClockReadData(time: string): TellTimeData | null {
+  const match = time.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return null;
+
+  const hour = parseInt(match[1] ?? "", 10);
+  const minute = parseInt(match[2] ?? "", 10);
+
+  if (minute !== 0 && minute !== 30) return null;
+
+  const minuteLabel: "o-clock" | "half-past" = minute === 0 ? "o-clock" : "half-past";
+
+  return {
+    type: "tell-time",
+    mode: "read-time",
+    hourHandAngle: getHourAngle(hour, minuteLabel),
+    minuteHandAngle: minute * 6,
+    correctHour: hour,
+    correctMinuteLabel: minuteLabel,
+    options: [time, `${hour}:00`, `${hour}:30`].filter((v, i, a) => a.indexOf(v) === i),
+    correctOption: time,
+  };
 }
 
 function createWordProblemActivity({
@@ -1016,7 +1642,10 @@ function getRelativeCapacity(fill: string | undefined): number {
   const map: Record<string, number> = {
     empty: 0,
     low: 1,
+    quarter: 1,
     medium: 2,
+    half: 2,
+    "three-quarters": 3,
     high: 3,
     full: 4,
   };
