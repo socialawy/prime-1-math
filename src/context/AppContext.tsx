@@ -12,6 +12,7 @@ import type {
   ActivityResult,
   SoundEffect,
   StudentProfile,
+  ChapterProgress,
 } from "../types/curriculum";
 import { storage } from "../lib/storage";
 
@@ -35,10 +36,42 @@ type ProgressAction =
   | { type: "ADD_STARS"; count: number }
   | { type: "RESET_PROGRESS" };
 
+const CHAPTER_SEQUENCE = [
+  "ch10",
+  "ch11",
+  "ch12",
+  "ch13",
+  "ch14",
+  "ch15",
+  "ch16",
+  "ch17",
+] as const;
+
+function createEmptyChapterProgress(
+  chapterId: string,
+  status: "locked" | "available" | "in-progress" | "completed",
+): ChapterProgress {
+  return {
+    chapterId,
+    status,
+    lessonsProgress: {},
+    bestScore: 0,
+    starsEarned: 0 as const,
+  };
+}
+
+function getNextChapterId(chapterId: string): string | null {
+  const currentIndex = CHAPTER_SEQUENCE.indexOf(chapterId as (typeof CHAPTER_SEQUENCE)[number]);
+  if (currentIndex === -1 || currentIndex === CHAPTER_SEQUENCE.length - 1) return null;
+  return CHAPTER_SEQUENCE[currentIndex + 1] ?? null;
+}
+
 function createDefaultProgress(student: StudentProfile): ProgressStore {
   return {
     student,
-    chapterProgress: {},
+    chapterProgress: {
+      ch10: createEmptyChapterProgress("ch10", "available"),
+    },
     totalStars: 0,
     streakDays: 0,
     lastSessionDate: new Date().toISOString().slice(0, 10),
@@ -53,13 +86,11 @@ function progressReducer(
 
   switch (action.type) {
     case "COMPLETE_ACTIVITY": {
-      const cp = state.chapterProgress[action.chapterId] ?? {
-        chapterId: action.chapterId,
-        status: "in-progress" as const,
-        lessonsProgress: {},
-        bestScore: 0,
-        starsEarned: 0 as const,
-      };
+      const cp = state.chapterProgress[action.chapterId] ??
+        createEmptyChapterProgress(
+          action.chapterId,
+          action.chapterId === "ch10" ? "available" : "in-progress",
+        );
       const lp = cp.lessonsProgress[action.lessonId] ?? {
         lessonId: action.lessonId,
         status: "in-progress" as const,
@@ -95,37 +126,56 @@ function progressReducer(
     }
 
     case "COMPLETE_LESSON": {
-      const cp = state.chapterProgress[action.chapterId];
-      if (!cp) {
-        next = state;
-        break;
-      }
+      const cp = state.chapterProgress[action.chapterId] ??
+        createEmptyChapterProgress(
+          action.chapterId,
+          action.chapterId === "ch10" ? "available" : "in-progress",
+        );
       const lp = cp.lessonsProgress[action.lessonId];
       if (!lp) {
         next = state;
         break;
       }
 
-      const stars = action.score >= 90 ? 3 : action.score >= 70 ? 2 : 1;
+      const stars = action.score >= 90 ? 3 : action.score >= 75 ? 2 : action.score >= 50 ? 1 : 0;
+      const earnedStars = Math.max(cp.starsEarned, stars) as 0 | 1 | 2 | 3;
+      const updatedChapter = {
+        ...cp,
+        status: "completed" as const,
+        bestScore: Math.max(cp.bestScore, action.score),
+        starsEarned: earnedStars,
+        lessonsProgress: {
+          ...cp.lessonsProgress,
+          [action.lessonId]: {
+            ...lp,
+            status: "completed" as const,
+            bestScore: Math.max(lp.bestScore, action.score),
+          },
+        },
+      };
+
+      const chapterProgress = {
+        ...state.chapterProgress,
+        [action.chapterId]: updatedChapter,
+      };
+
+      const nextChapterId = getNextChapterId(action.chapterId);
+      const shouldUnlockNext =
+        nextChapterId !== null &&
+        ((action.chapterId === "ch10" && earnedStars >= 1) || action.chapterId !== "ch10");
+
+      if (shouldUnlockNext && nextChapterId) {
+        const existingNext = chapterProgress[nextChapterId];
+        chapterProgress[nextChapterId] = existingNext
+          ? { ...existingNext, status: existingNext.status === "completed" ? "completed" : "available" }
+          : createEmptyChapterProgress(nextChapterId, "available");
+      }
 
       next = {
         ...state,
-        chapterProgress: {
-          ...state.chapterProgress,
-          [action.chapterId]: {
-            ...cp,
-            lessonsProgress: {
-              ...cp.lessonsProgress,
-              [action.lessonId]: {
-                ...lp,
-                status: "completed",
-                bestScore: Math.max(lp.bestScore, action.score),
-              },
-            },
-          },
-        },
+        chapterProgress,
         totalStars:
-          state.totalStars + Math.max(0, stars - (cp.starsEarned ?? 0)),
+          state.totalStars + Math.max(0, earnedStars - (cp.starsEarned ?? 0)),
       };
       break;
     }
@@ -138,13 +188,7 @@ function progressReducer(
           ...state.chapterProgress,
           [action.chapterId]: existing
             ? { ...existing, status: "available" }
-            : {
-                chapterId: action.chapterId,
-                status: "available",
-                lessonsProgress: {},
-                bestScore: 0,
-                starsEarned: 0,
-              },
+            : createEmptyChapterProgress(action.chapterId, "available"),
         },
       };
       break;
@@ -193,6 +237,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   language: "en",
   soundEnabled: true,
   musicEnabled: false,
+  devMode: false,
 };
 
 export function AppProvider({ children }: { children: ReactNode }) {

@@ -2562,7 +2562,7 @@ I replaced the placeholder `LessonScreen.tsx` with a real activity lesson flow:
 ![alt text](image.png)
 ![alt text](image-1.png)
 
-### Task 4: Chapter Unlock Logic
+### Task 4: Chapter Unlock Logic - COMPLETED ✅ [2026-04-06]
 ```
 In the progress reducer (AppContext.tsx), implement unlock logic:
 
@@ -2586,9 +2586,30 @@ Also add a "dev mode" toggle in settings that unlocks all
 chapters (for testing and for kids who want to jump around).
 ```
 
+**Output:** [2026-04-06]
+
+I've updated `AppContext.tsx` so progress now behaves as expected:
+- **Default Availability:** Chapter 10 starts available by default.
+- **Star Calculation:** `COMPLETE_LESSON` now calculates stars (0/1/2/3) using the 50/75/90 thresholds.
+- **Persistent Progress:** Completed chapters store `status`, `bestScore`, and `starsEarned`.
+- **Automatic Unlocks:** Sequential progression is enforced; `ch11` unlocks if `ch10` is finished with ≥ 1 star.
+- **Dev Mode Toggle:** Added a lightweight dev-mode toggle to `ChapterMap.tsx` for quick testing, bypassing unlock requirements.
+- **Type Safety:** Extended `curriculum.ts` with `settings.devMode`.
+
+**Verification:**
+- `npx tsc -p tsconfig.json --pretty false` passed.
+
+**Note:** The dev-mode toggle is currently session-level and not yet persisted to `localStorage`.
+
+![alt text](image-2.png)
+
+---
+
 ### Task 5: Exam Practice Mode
 
 - This is the killer feature for a 2-week review app. NotebookLM told us there are 10 final assessments, 6 questions each, covering all chapters.
+`docs\queries`
+`data`
 ```
 Create src/screens/ExamPractice.tsx
 
@@ -2609,7 +2630,7 @@ Create src/screens/ExamPractice.tsx
 - Show results per assessment: score, time, weak areas
 - "Generate New Assessment" button creates a fresh set
 
-If Flash delivers assessments.json with the actual book assessments,
+We have assessments.json with the actual book assessments,
 swap in that data. The generated ones are the fallback.
 ```
 
@@ -2659,22 +2680,22 @@ load on demand, not all upfront. Wrap in Suspense with a spinner.
 **confirm that commits go through user `socialawy` for Vercel deployment**
 
 
-```
+- Create some stunning media/visuals/graphs with NotebookLM
 - Create README.md with: what this is, screenshot, how to run locally 
 (npm install, npm run dev), how to add content (drop JSON in data/), 
 tech stack list.
 
 - Create docs/ARCHITECTURE.md: paste the component scorecard table, the data flow (Flash JSON → adapter → ActivityRenderer → widget), and the state management layers diagram from our blueprint.
-```
+
 ### Task 7: Deploy
-```
+
 1. npm run build
 2. Verify dist/ output is under 300KB per chunk
 3. Deploy to Vercel: npx vercel --prod
    OR Netlify: npx netlify deploy --prod --dir=dist
 4. Test on a real tablet (iPad or Android) with touch
 5. Share the URL
-```
+
 
 - Vercel is the right call. Zero config for Vite, free tier is generous, preview deploys on every push. One thing: add to vite.config.ts:
 

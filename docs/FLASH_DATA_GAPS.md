@@ -27,7 +27,3 @@ All known Flash problem types from Chapters 10-14 now have adapter coverage. The
 
 - `split-tree-addition` and `split-tree-subtraction` are still recomputed from the equation instead of parsed from the Flash step text. That keeps the adapter stable, but it can drift from the exact textbook teaching sequence if the workbook chooses a different split strategy.
 - `result-finding` visual recall uses generated distractors because Flash does not provide options for those items.
-
-## Temporary workspace note
-
-- A temporary file `src/lib/adapters/flashDataAdapter.next.ts` may still be present if the sandbox blocks deletion. Its content matches the main adapter and can be removed later without behavior change.

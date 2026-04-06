@@ -300,6 +300,7 @@ export interface AppSettings {
   language: "ar" | "en";
   soundEnabled: boolean;
   musicEnabled: boolean;
+  devMode: boolean;
 }
 
 export type SoundEffect =
