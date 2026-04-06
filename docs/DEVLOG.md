@@ -2306,3 +2306,15 @@ All remaining skips are visual/drawing/logic types with no matching interactive 
 - All use `takeOrGenerate()` pattern consistent with ch11/ch14.
 
 **Verification:** `npm run build` passed.
+
+---
+
+### Task 8: Add same-session dedup in lessonBuilder [2026-04-07]
+
+**Issue:** Generator pools are small (e.g. Make10 ~30, ClockFace 24). When a lesson builds multiple activities of the same type, duplicates can appear in the same session.
+
+**Changes (lessonBuilder.ts):**
+- Split `buildLessonForChapter()` into raw builder + dedup wrapper.
+- Added `dedupActivities()`: hashes `activity.data` via `JSON.stringify`, filters duplicates within the same lesson build.
+
+**Verification:** `npm run build` passed.

@@ -58,6 +58,11 @@ export interface BuiltLesson {
 }
 
 export function buildLessonForChapter(chapterId: string): BuiltLesson {
+  const lesson = buildLessonRaw(chapterId);
+  return { ...lesson, activities: dedupActivities(lesson.activities) };
+}
+
+function buildLessonRaw(chapterId: string): BuiltLesson {
   switch (chapterId) {
     case "ch10":
       return {
@@ -370,4 +375,15 @@ function cloneGuidedActivity(
 
 function isGuidedBox(data: ActivityData): data is GuidedBoxProblem {
   return typeof data === "object" && data !== null && "equation" in data && "steps" in data;
+}
+
+/** Remove activities with duplicate content within the same lesson. */
+function dedupActivities(activities: Activity[]): Activity[] {
+  const seen = new Set<string>();
+  return activities.filter((activity) => {
+    const hash = JSON.stringify(activity.data);
+    if (seen.has(hash)) return false;
+    seen.add(hash);
+    return true;
+  });
 }
