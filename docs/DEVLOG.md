@@ -2320,6 +2320,18 @@ What needs attention during the content pass:
 
 ---
 
+### Fix: `adaptFillInBlanks` conceptKey routing [2026-04-07]
+
+**Issue:** Fill-in-blank equations from flash data were assigned `addition-make-10` / `subtraction-use-10` conceptKeys. ActivityRenderer routes those to SplitTreeAdder, which calls `parseEquation()` on strings like `"9 + 4 = ?"` — the `= ?` suffix splits into 3 parts, returning null. Activities would render as PlaceholderCards.
+
+**Change:** Route fill-in-blanks to `guided-box-make10` / `guided-box-sub10` instead. These go to GuidedBoxFill, which handles single-step GuidedBoxProblems correctly.
+
+**File:** `src/lib/adapters/flashDataAdapter.ts`
+
+**Verification:** `npm run build` passed.
+
+---
+
 ### Fix: Stars display + delete dead file [2026-04-07]
 
 **Issue:** #10 — `"*".repeat(n)` rendered literal asterisks for stars. LessonScreen.next.tsx was an unused duplicate.

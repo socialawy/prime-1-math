@@ -576,7 +576,7 @@ function adaptFillInBlanks(p: FlashProblem): Activity[] {
 
   return items.map((item, index) => {
     const isAdd = item.equation.includes("+");
-    const conceptKey: ConceptKey = isAdd ? "addition-make-10" : "subtraction-use-10";
+    const conceptKey: ConceptKey = isAdd ? "guided-box-make10" : "guided-box-sub10";
 
     const data: GuidedBoxProblem = {
       type: isAdd ? "addition" : "subtraction",
