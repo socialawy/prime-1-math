@@ -1,5 +1,8 @@
 # DEVLOG (2026-04-05)
 
+- Original DEVLOG.md -> `local-files\DEVLOG.md`
+- This current version, without most of the code snippets
+
 ## Phase 0: Data & Plan
 
 ### Task-1: (x)
@@ -328,21 +331,7 @@ GuidedBoxFill is the exam trainer — sequential boxes, text-heavy, mirrors the 
     - Prompt: "Which number do you want to split?"
     - Child taps one → dispatch CHOOSE_SPLIT
     - Reducer computes correctSplit:
-```ts
-case "CHOOSE_SPLIT": {
-  const other = action.target === "A" ? state.numberB : state.numberA;
-  const target = action.target === "A" ? state.numberA : state.numberB;
-  const give = 10 - other;
-  const keep = target - give;
-  return {
-    ...state,
-    phase: "split-open",
-    splitTarget: action.target,
-    correctSplit: [give, keep],
-    tenFrameCount: other,  // pre-fill ten-frame with the OTHER number
-  };
-}
-```
+
 - If allowSplitChoice is false, skip this phase entirely
 
 - `split-open` (animation phase, ~600ms)
@@ -364,20 +353,6 @@ case "CHOOSE_SPLIT": {
     - Child drags dots one-by-one to the ten-frame empty slots
     - Each successful drop: pop sound, tenFrameCount++
     - Use @dnd-kit/core: each dot is a <Draggable>, each empty ten-frame cell is a <Droppable>
-```ts
-// Simplified drag handler
-function handleDragEnd(event: DragEndEvent) {
-  if (event.over?.id.startsWith("frame-slot-")) {
-    dispatch({ type: "DRAG_DOT_TO_FRAME" });
-    audio.playEffect("pop");
-    
-    if (state.tenFrameCount + 1 === 10) {
-      // Small delay then trigger the celebration
-      setTimeout(() => dispatch({ type: "TEN_FRAME_FULL" }), 300);
-    }
-  }
-}
-```
 For younger/struggling kids, add an auto-snap: if the dot is dragged within 40px of an empty slot, it snaps in. Don't require precision.
 
 - `ten-complete` (animation phase, ~1s)
@@ -402,39 +377,8 @@ For younger/struggling kids, add an auto-snap: if the dot is dragged within 40px
 #### The Ten-Frame Component (Extracted + Reusable)
 
 - This will be reused by other components later (BlockGrouper at minimum), so build it as a standalone:
-```ts
-// src/components/shared/TenFrame.tsx
-
-interface TenFrameProps {
-  filledCount: number;          // 0-10, animated
-  filledColor: string;          // "red" | "blue" 
-  emptySlots: boolean;          // show empty circles or hide them
-  droppable: boolean;           // enable @dnd-kit drop zones
-  onSlotDrop?: (slotIndex: number) => void;
-  size: "sm" | "md" | "lg";    // responsive sizing
-}
-
-// Renders a 2×5 grid (standard ten-frame layout):
-//  ┌───┬───┬───┬───┬───┐
-//  │ ● │ ● │ ● │ ● │ ● │  ← top row (slots 0-4)
-//  ├───┼───┼───┼───┼───┤
-//  │ ● │ ● │ ● │ ● │ ○ │  ← bottom row (slots 5-9)
-//  └───┴───┴───┴───┴───┘
-// Fills left-to-right, top-to-bottom
-```
 
 #### The Loose Dots Component (Also Reusable)
-```ts
-// src/components/shared/DraggableDots.tsx
-
-interface DraggableDotsProps {
-  count: number;
-  color: string;
-  groups?: [number, number];     // if split, e.g., [1, 3] shows a gap
-  highlightGroup?: 0 | 1;       // which group is draggable
-  onDotDragStart?: (dotIndex: number) => void;
-}
-```
 
 #### Subtraction Mode
 When `mode === "subtraction",` the flow inverts:
@@ -449,29 +393,6 @@ When `mode === "subtraction",` the flow inverts:
 State machine phases are identical, just the dot movement direction reverses (removing instead of adding).
 
 #### Sample Data
-```ts
-// src/data/samples/splitTree-samples.ts
-
-export const SPLIT_SAMPLES: SplitTreeProblem[] = [
-  // Addition — easy (split small number off 9)
-  { mode: "addition", numberA: 9, numberB: 4, 
-    allowSplitChoice: true, expectedAnswer: 13 },
-  { mode: "addition", numberA: 8, numberB: 5, 
-    allowSplitChoice: true, expectedAnswer: 13 },
-  
-  // Addition — medium (split off 7 or 8)  
-  { mode: "addition", numberA: 7, numberB: 6, 
-    allowSplitChoice: true, expectedAnswer: 13 },
-  
-  // Subtraction — easy
-  { mode: "subtraction", numberA: 13, numberB: 4, 
-    allowSplitChoice: false, presetSplit: "B", expectedAnswer: 9 },
-  
-  // Subtraction — medium
-  { mode: "subtraction", numberA: 14, numberB: 6, 
-    allowSplitChoice: true, expectedAnswer: 8 },
-];
-```
 
 #### Build Instructions
 ```
@@ -577,32 +498,32 @@ Split 14 into 10 and 4
 10 - 8 = 2
 2 + 4 = 6
 ```
-- These teach different mental models. Method A says "chip away at the number you're subtracting." Method B says "break your big number into a ten and leftovers, subtract from the ten, recombine." The exam will expect the method the book teaches.
+- Both are valid, in the books.
 
-#### Query4: `queries\Q4.md`
+#### Query4: `local-files\queries\Q4.md`
 
 
 #### Adapter Gaps — Priority Order
 
 ```
-Priority 1 (do now): Add GuidedBoxProblem to the ActivityData 
+Priority 1 (done): Add GuidedBoxProblem to the ActivityData 
 union in curriculum.ts. Remove the cast in the adapter.
 
-Priority 2 (do now): Expand the adapter to loop through all 
+Priority 2 (done): Expand the adapter to loop through all 
 sub-items in multi-item Flash problems, not just the first. 
 This should multiply available content 3-5x.
 
-Priority 3 (do now): Preserve the context field ("cheese-wedge", 
+Priority 3 (done): Preserve the context field ("cheese-wedge", 
 "tennis-ball") in the adapted data. Add an optional contextHint 
 field to the base Activity interface. Components can use it for 
 flavor text or icon selection.
 
 Priority 4 (defer): Area grid cell coordinates — we'll handle 
 this when building the AreaGrid component. A count-only mode is 
-fine for now. #TODO
+fine for now. (Done)
 
 Priority 5 (defer): The 5 skipped problem types — we'll map them 
-as we build each corresponding component. #TODO
+as we build each corresponding component. (Done)
 ```
 
 **Output:** [2026-04-06]
@@ -670,84 +591,10 @@ Used for teaching: "Each row has 10 numbers"
 ```
 
 #### Props Interface
-```ts
-interface HundredsChartProps {
-  data: HundredsChartProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface HundredsChartProblem {
-  mode: "fill-missing" | "jump-by-10" | "color-pattern" | "find-number";
-  
-  // For fill-missing: which cells are blank
-  missingCells?: number[];
-  
-  // For jump-by-10: the starting number and direction
-  jumpStart?: number;
-  jumpDirection?: "down" | "up";  // +10 or -10
-  jumpBlanks?: number[];          // which jumps are blank
-  
-  // For color-pattern: which cells to pre-highlight, which to ask
-  preHighlighted?: number[];
-  targetCells?: number[];         // child must color these
-  patternRule?: string;           // "Color all numbers that end in 5"
-  
-  // For find-number: place-value riddle
-  riddle?: string;                // "I have 3 tens and 7 ones. Who am I?"
-  correctCell?: number;           // 37
-}
-```
 
 #### State Machine
-```ts
-interface ChartState {
-  phase: "interactive" | "checking" | "celebrate";
-  filledCells: Record<number, number | null>;  // cellPosition → userValue
-  coloredCells: Set<number>;
-  selectedCell: number | null;
-  currentBlankIndex: number;      // which blank is active
-  mistakes: number;
-  startTime: number;
-}
-
-type ChartAction =
-  | { type: "TAP_CELL"; cellNumber: number }
-  | { type: "SUBMIT_VALUE"; value: number }
-  | { type: "COLOR_CELL"; cellNumber: number }
-  | { type: "CHECK_ANSWERS" }
-  | { type: "WRONG_CELL" }
-  | { type: "CELEBRATE" };
-```
 
 #### Grid Rendering Logic
-```ts
-// The grid is always 10×10. Cells are numbered 1-100.
-// Row index = Math.floor((n - 1) / 10)
-// Col index = (n - 1) % 10
-
-function renderCell(n: number, state: ChartState, problem: HundredsChartProblem) {
-  const isMissing = problem.missingCells?.includes(n);
-  const isHighlighted = problem.preHighlighted?.includes(n);
-  const isColored = state.coloredCells.has(n);
-  const isSelected = state.selectedCell === n;
-  const userValue = state.filledCells[n];
-
-  if (isMissing && userValue === null) {
-    // Empty input cell — tappable, blue border
-    return <BlankCell onTap={() => dispatch({ type: "TAP_CELL", cellNumber: n })} />;
-  }
-  if (isMissing && userValue !== null) {
-    // Filled by student — green if correct, show value
-    return <FilledCell value={userValue} correct={userValue === n} />;
-  }
-  if (isHighlighted || isColored) {
-    // Colored/highlighted — yellow or pattern color
-    return <HighlightedCell value={n} />;
-  }
-  // Normal cell
-  return <NormalCell value={n} />;
-}
-```
 
 #### Teaching the +10/-10 Pattern (Book's Core Concept)
 
@@ -775,50 +622,6 @@ function renderCell(n: number, state: ChartState, problem: HundredsChartProblem)
 ```
 
 #### Generator Function
-```ts
-// src/lib/generators/hundredsChartGenerator.ts
-
-export function generateFillMissing(
-  count: number = 5, 
-  region?: { rowStart: number; rowEnd: number }
-): HundredsChartProblem {
-  // Pick `count` random cells to blank out
-  const min = region ? (region.rowStart - 1) * 10 + 1 : 1;
-  const max = region ? region.rowEnd * 10 : 100;
-  const missing: number[] = [];
-  while (missing.length < count) {
-    const n = randomInt(min, max);
-    if (!missing.includes(n)) missing.push(n);
-  }
-  return { mode: "fill-missing", missingCells: missing.sort((a, b) => a - b) };
-}
-
-export function generateJumpBy10(startCol?: number): HundredsChartProblem {
-  const col = startCol ?? randomInt(1, 10);
-  // Full column: col, col+10, col+20, ..., col+90
-  const fullJump = Array.from({ length: 10 }, (_, i) => col + i * 10);
-  // Blank out 3-4 of them (not the first)
-  const blanks = pickRandom(fullJump.slice(1), randomInt(3, 4));
-  return {
-    mode: "jump-by-10",
-    jumpStart: col,
-    jumpDirection: "down",
-    preHighlighted: fullJump.filter(n => !blanks.includes(n)),
-    jumpBlanks: blanks.sort((a, b) => a - b),
-  };
-}
-
-export function generateFindNumber(): HundredsChartProblem {
-  const tens = randomInt(1, 9);
-  const ones = randomInt(0, 9);
-  const answer = tens * 10 + ones;
-  return {
-    mode: "find-number",
-    riddle: `I have ${tens} tens and ${ones} ones. Who am I?`,
-    correctCell: answer,
-  };
-}
-```
 
 #### Build Instructions
 ```
@@ -952,22 +755,6 @@ phase now asks: "Which number do you want to split?"
 ```
 
 ##### Props:
-```ts
-interface BlockGrouperProps {
-  data: BlockGrouperProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface BlockGrouperProblem {
-  totalItems: number;           // e.g., 34
-  visualType: "stars" | "blocks" | "dots";
-  expectedTens: number;         // 3
-  expectedOnes: number;         // 4
-  // interaction mode:
-  mode: "group-then-count"      // drag to group, then fill values
-      | "count-only";           // groups pre-made, just fill tens/ones/total
-}
-```
 
 ##### State machine — simple, 3 phases:
 ```ts
@@ -1003,28 +790,6 @@ phase: "grouping" | "counting" | "celebrate"
 
 ##### Generator:
 
-```ts
-export function generateBlockGrouper(
-  difficulty: 1 | 2 | 3
-): BlockGrouperProblem {
-  // Diff 1: 10-30 items, clean tens (20, 30) 
-  // Diff 2: 20-50 items, has ones remainder
-  // Diff 3: 50-99 items
-  const ranges = { 1: [10, 30], 2: [20, 50], 3: [50, 99] };
-  const [min, max] = ranges[difficulty];
-  let total = randomInt(min, max);
-  if (difficulty === 1) total = Math.round(total / 10) * 10;
-  
-  return {
-    totalItems: total,
-    visualType: pick(["stars", "blocks", "dots"]),
-    expectedTens: Math.floor(total / 10),
-    expectedOnes: total % 10,
-    mode: difficulty === 1 ? "count-only" : "group-then-count",
-  };
-}
-```
-
 #### 4B: NumberLine
 
 - The book uses number lines with jumps — a frog or kangaroo hops along. The child fills in missing landing points.
@@ -1050,35 +815,7 @@ export function generateBlockGrouper(
 ```
 
 ##### Props:
-```ts
-interface NumberLineProps {
-  data: NumberLineProblem;
-  onComplete: (result: ActivityResult) => void;
-}
 
-interface NumberLineProblem {
-  rangeStart: number;
-  rangeEnd: number;
-  jumpSize: 1 | 2 | 5 | 10;
-  points: NumberLinePoint[];      // all points on the line
-  showJumpArrows: boolean;        // show hop arrows between points
-}
-
-interface NumberLinePoint {
-  value: number;
-  type: "labeled" | "blank";     // blank = child fills in
-}
-```
-##### State:
-```ts
-interface NumberLineState {
-  phase: "filling" | "celebrate";
-  currentBlankIndex: number;      // which blank is active (left to right)
-  filledValues: Record<number, number | null>;  // pointIndex → value
-  mistakes: number;
-  startTime: number;
-}
-```
 ##### Rendering:
 
 ```ts
@@ -1096,38 +833,7 @@ interface NumberLineState {
 ```
 
 ##### Generator:
-```ts
-export function generateNumberLine(
-  jumpSize: 1 | 2 | 5 | 10,
-  difficulty: 1 | 2 | 3
-): NumberLineProblem {
-  const maxEnd = jumpSize === 1 ? 20 : jumpSize === 2 ? 30 : 100;
-  const start = 0;
-  const end = difficulty === 1 ? maxEnd / 2 : maxEnd;
-  
-  const points: NumberLinePoint[] = [];
-  for (let v = start; v <= end; v += jumpSize) {
-    points.push({ value: v, type: "labeled" });
-  }
-  
-  // Blank out some middle points (never first or last)
-  const blankCount = difficulty === 1 ? 2 : difficulty === 2 ? 3 : 5;
-  const blankable = points.slice(1, -1);
-  const toBlanks = pickRandom(blankable, Math.min(blankCount, blankable.length));
-  for (const bp of toBlanks) {
-    const idx = points.indexOf(bp);
-    points[idx] = { ...points[idx], type: "blank" };
-  }
-  
-  return {
-    rangeStart: start,
-    rangeEnd: end,
-    jumpSize,
-    points,
-    showJumpArrows: true,
-  };
-}
-```
+
 #### Build Instructions 
 ```
 Build two components that complete Chapter 14:
@@ -1249,134 +955,16 @@ Two shapes drawn on a square grid. Child counts the colored squares in each shap
 ```
 
 #### Props
-```ts
-interface AreaGridProps {
-  data: AreaGridProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface AreaGridProblem {
-  mode: "grid-visual" | "count-compare";
-  
-  // grid-visual mode: full grid with colored cells
-  gridRows?: number;
-  gridCols?: number;
-  shapes?: {
-    label: string;           // "Blue" / "Orange"
-    color: string;           // tailwind color key
-    cells: [number, number][];  // [row, col] pairs
-  }[];
-  
-  // count-compare mode: just numbers (Flash adapter fallback)
-  shapeCounts?: { label: string; count: number; color: string }[];
-  
-  // question type
-  question: "which-larger" | "which-smaller" | "how-many-more" | "count-each";
-  correctAnswer: number | string;  // number for "how-many-more", label string for "which-X"
-}
-```
 
 #### State
-```ts
-interface AreaGridState {
-  phase: "counting" | "comparing" | "celebrate";
-  userCounts: Record<string, number | null>;  // label → user's count
-  userChoice: string | null;                   // for which-larger/smaller
-  userDifference: number | null;              // for how-many-more
-  mistakes: number;
-  startTime: number;
-}
-
-// Flow:
-// 1. "counting" — if grid-visual: child taps cells to count each shape
-//    (cells flash when tapped to confirm they've been counted)
-//    Then fills count boxes.
-//    If count-compare: counts are pre-filled, skip to comparing.
-//
-// 2. "comparing" — child answers the question (tap a shape button, 
-//    or enter a number for "how-many-more")
-//
-// 3. "celebrate"
-```
 
 #### Counting Interaction (The Clever Part)
 
 - The book says "Count the squares." Kids at this age often miscount by tapping the same cell twice or skipping one. Build a tap-to-mark mechanic:
 
-```ts
-// Child taps a colored cell → it gets a subtle checkmark overlay
-// A running counter for that shape's color increments
-// Tapping an already-marked cell unmarks it (toggle)
-// After marking, the count auto-fills the input box
-// Child can also just type the number directly if they counted mentally
-
-// This teaches systematic counting — a key skill at this age
-```
-
 #### Generator
-```ts
-// src/lib/generators/areaGridGenerator.ts
 
-export function generateAreaGrid(difficulty: 1 | 2 | 3): AreaGridProblem {
-  const gridSize = difficulty === 1 ? 4 : difficulty === 2 ? 5 : 6;
-  
-  // Generate two random connected shapes on the grid
-  const shapeA = generateConnectedShape(gridSize, randomInt(3, 5 + difficulty));
-  const shapeB = generateConnectedShape(gridSize, randomInt(3, 5 + difficulty), shapeA);
-  
-  const countA = shapeA.length;
-  const countB = shapeB.length;
-  
-  return {
-    mode: "grid-visual",
-    gridRows: gridSize,
-    gridCols: gridSize,
-    shapes: [
-      { label: "Blue", color: "blue", cells: shapeA },
-      { label: "Orange", color: "orange", cells: shapeB },
-    ],
-    question: pick(["which-larger", "how-many-more"]),
-    correctAnswer: countA > countB ? "Blue" 
-      : countB > countA ? "Orange" 
-      : Math.abs(countA - countB), // for how-many-more
-  };
-}
-
-// Helper: grow a connected shape by random-walking from a seed cell
-function generateConnectedShape(
-  gridSize: number, 
-  targetSize: number,
-  avoid?: [number, number][]
-): [number, number][] {
-  const cells: [number, number][] = [];
-  const avoidSet = new Set((avoid || []).map(([r,c]) => `${r},${c}`));
-  
-  // Pick a random starting cell not in avoid zone
-  let startR: number, startC: number;
-  do {
-    startR = randomInt(0, gridSize - 1);
-    startC = randomInt(0, gridSize - 1);
-  } while (avoidSet.has(`${startR},${startC}`));
-  
-  cells.push([startR, startC]);
-  
-  while (cells.length < targetSize) {
-    // Pick a random existing cell, grow in a random direction
-    const [r, c] = pick(cells);
-    const dirs = [[0,1],[0,-1],[1,0],[-1,0]];
-    const [dr, dc] = pick(dirs);
-    const nr = r + dr, nc = c + dc;
-    const key = `${nr},${nc}`;
-    if (nr >= 0 && nr < gridSize && nc >= 0 && nc < gridSize 
-        && !cells.some(([cr,cc]) => cr === nr && cc === nc)
-        && !avoidSet.has(key)) {
-      cells.push([nr, nc]);
-      avoidSet.add(key);
-    }
-  }
-  return cells;
-}
-```
+---
 
 **Output:** [2026-04-06]
 ● **Done.** Implemented `AreaGrid` with full visual counting support and content fallback for Chapter 11.
@@ -1420,54 +1008,8 @@ The book verbs: "Circle the container that has more water", "Write how many cups
 ```
 
 #### Props
-```
-interface CapacityPourerProps {
-  data: CapacityProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface CapacityProblem {
-  mode: "count-cups" | "compare-two" | "order-multiple" | "difference";
-  
-  containers: {
-    id: string;
-    label: string;               // "Container A" or contextHint like "Red jug"
-    capacityCups: number;        // the answer
-    imageType?: string;          // "jug" | "bottle" | "box" — for icon selection
-  }[];
-  
-  // For compare-two
-  compareQuestion?: "which-more" | "which-less";
-  
-  // For difference
-  differenceAnswer?: number;     // |A - B|
-  
-  // For order-multiple  
-  correctOrder?: string[];       // container ids in correct sequence
-}
-```
 
 #### State
-```
-interface CapacityState {
-  phase: "measuring" | "answering" | "celebrate";
-  
-  // count-cups: child fills in cup count per container
-  userCounts: Record<string, number | null>;
-  
-  // compare-two: child taps one container
-  userChoice: string | null;
-  
-  // order-multiple: child drags containers into order
-  userOrder: string[];
-  
-  // difference: child enters a number
-  userDifference: number | null;
-  
-  mistakes: number;
-  startTime: number;
-}
-```
 
 #### Interaction Modes
 
@@ -1480,41 +1022,6 @@ order-multiple: 3-4 containers shown. Child drags them left-to-right into order 
 difference: Two containers with cup stacks. "How many more cups does A have than B?" Child enters the number.
 
 #### Generator
-```ts
-export function generateCapacity(
-  mode: CapacityProblem["mode"],
-  difficulty: 1 | 2 | 3
-): CapacityProblem {
-  const maxCups = difficulty === 1 ? 5 : difficulty === 2 ? 8 : 10;
-  const containerCount = mode === "compare-two" || mode === "difference" ? 2
-    : mode === "order-multiple" ? randomInt(3, 4) : randomInt(2, 3);
-  
-  const containers = Array.from({ length: containerCount }, (_, i) => ({
-    id: `c${i}`,
-    label: `Container ${String.fromCharCode(65 + i)}`,
-    capacityCups: randomInt(1, maxCups),
-    imageType: pick(["jug", "bottle", "box"]),
-  }));
-  
-  // Ensure no ties for compare/order questions
-  const caps = new Set(containers.map(c => c.capacityCups));
-  if (caps.size < containers.length) {
-    containers[containers.length - 1].capacityCups += 1;
-  }
-  
-  const sorted = [...containers].sort((a, b) => a.capacityCups - b.capacityCups);
-  
-  return {
-    mode,
-    containers,
-    compareQuestion: mode === "compare-two" ? pick(["which-more", "which-less"]) : undefined,
-    correctOrder: mode === "order-multiple" ? sorted.map(c => c.id) : undefined,
-    differenceAnswer: mode === "difference" 
-      ? Math.abs(containers[0].capacityCups - containers[1].capacityCups) 
-      : undefined,
-  };
-}
-```
 
 #### Build Instructions
 ```
@@ -1594,23 +1101,6 @@ Mode B: "Cross out the shape that does not belong."
 ```
 
 ##### Props
-```ts
-interface ShapeIdentifierProps {
-  data: ShapeIdentifyProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface ShapeIdentifyProblem {
-  mode: "find-correct" | "odd-one-out";
-  instruction: string;         // exact book text
-  shapes: {
-    id: string;
-    name: string;              // "Cube shape" — from book-terms.ts
-    type: "cube" | "cuboid" | "cylinder" | "ball" | "prism";
-    isCorrect: boolean;        // true = the answer (find) or the odd one (odd-out)
-  }[];
-}
-```
 
 - State — minimal. Single phase: picking → celebrate. Child taps one shape. Right = green outline + ding. Wrong = red flash + try again. After correct, celebrate + onComplete. No useReducer needed — a simple useState suffices.
 
@@ -1655,17 +1145,7 @@ interface ShapeFootprintProblem {
 ```
 - Interaction: 3D shape on left, 2D answer options on right. Child taps a 2D shape. Correct = the 2D shape animates "stamping" onto the 3D shape's face (Framer Motion scale + opacity), then celebrate. Wrong = red flash, retry.
 
-#### Mapping (from the book):
-
-```ts
-export const FOOTPRINT_MAP: Record<string, string[]> = {
-  cube:     ["square"],
-  cuboid:   ["rectangle", "square"],  // different faces give different prints
-  cylinder: ["circle"],
-  ball:     ["circle"],
-  prism:    ["triangle", "rectangle"],
-};
-```
+#### Mapping (from the book)
 
 #### Build Instructions
 ```
@@ -1742,26 +1222,7 @@ Build two Ch10 components:
 ```
 
 #### Props
-```ts
-interface ClockFaceProps {
-  data: ClockProblem;
-  onComplete: (result: ActivityResult) => void;
-}
 
-interface ClockProblem {
-  mode: "read-time" | "set-time";
-  
-  // read-time: clock is preset, child picks answer
-  hour?: number;                   // 1-12
-  minuteType?: "o-clock" | "half-past";
-  options?: string[];              // ["3 o'clock", "3 half past", "6 o'clock"]
-  correctOption?: string;
-  
-  // set-time: target given, child drags hands
-  targetHour?: number;
-  targetMinuteType?: "o-clock" | "half-past";
-}
-```
 - Clock rendering: SVG circle with 12 number labels around the rim. Two hands (lines from center):
   - Hour hand: short, thick
   - Minute hand: long, thin
@@ -1774,43 +1235,8 @@ interface ClockProblem {
   - When both are correct, auto-celebrate
 
 - For dragging, compute angle from touch position to center, snap to nearest valid angle. Don't use dnd-kit for this — use direct pointer events with atan2:
-```ts
-function handlePointerMove(e: PointerEvent, hand: "hour" | "minute") {
-  const rect = svgRef.current.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
-  const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI) + 90;
-  
-  if (hand === "minute") {
-    // Snap to 0° (12) or 180° (6)
-    const snapped = Math.abs(angle) < 90 ? 0 : 180;
-    setMinuteAngle(snapped);
-  } else {
-    // Snap to nearest 30° increment
-    const snapped = Math.round(angle / 30) * 30;
-    setHourAngle(snapped);
-  }
-}
-```
 
 #### Generator:
-```ts
-export function generateClockProblem(mode: "read-time" | "set-time"): ClockProblem {
-  const hour = randomInt(1, 12);
-  const minuteType = pick(["o-clock", "half-past"]);
-  const correctLabel = minuteType === "o-clock" 
-    ? `${hour} o'clock` 
-    : `${hour} half past`;
-  
-  if (mode === "read-time") {
-    // Generate 2 wrong options
-    const wrongs = generateWrongTimes(hour, minuteType, 2);
-    const options = shuffle([correctLabel, ...wrongs]);
-    return { mode, hour, minuteType, options, correctOption: correctLabel };
-  }
-  return { mode, targetHour: hour, targetMinuteType: minuteType };
-}
-```
 
 #### Build Instructions
 ```
@@ -1864,26 +1290,7 @@ Build src/components/interactives/ClockFace.tsx
 - This is the hardest remaining UX problem but the lowest exam priority. For v1, simplify:
 
 #### Props
-```ts
-interface ShapeComposerProps {
-  data: ShapeComposerProblem;
-  onComplete: (result: ActivityResult) => void;
-}
 
-interface ShapeComposerProblem {
-  // For v1: simplified to "which combination makes this shape?"
-  mode: "select-pieces" | "drag-compose";
-  
-  targetDescription: string;    // "a rectangle"
-  correctPieces: string[];      // ["triangle", "triangle"] 
-  
-  // select-pieces mode: multiple choice
-  options: { id: string; pieces: string[]; label: string }[];
-  correctOptionId: string;
-  
-  // drag-compose mode: deferred to v2
-}
-```
 - **V1 Vision:** Build select-pieces mode only. Show the target shape, show 3 options (each is a visual combination of 2D shapes), child taps the correct combination. This covers the exam question format without implementing full drag-and-snap geometry.
 
 #### Build Instructions
@@ -1920,7 +1327,6 @@ Build src/components/interactives/ShapeComposer.tsx — V1 ONLY
 
 ### Component #10: WordProblem (Ch17) - COMPLETED ✅ [2026-04-06]
 
-
 - The book: short story → write the "mathematical sentence" → write the answer.
 ```
 "Hani has 12 apples. He gave 5 to his friend. 
@@ -1936,22 +1342,7 @@ Build src/components/interactives/ShapeComposer.tsx — V1 ONLY
 ```
 
 #### Props
-```ts
-interface WordProblemProps {
-  data: WordProblemData;
-  onComplete: (result: ActivityResult) => void;
-}
 
-interface WordProblemData {
-  story: string;                  // English text
-  imageHint?: string;             // "apples" | "birds" | "books" — for emoji/icon
-  operation: "+" | "-";
-  operandA: number;
-  operandB: number;
-  correctAnswer: number;
-  unit?: string;                  // "apples", "books" — for answer label
-}
-```
 - State — three sequential inputs:
   - Child enters first operand (or it's pre-filled from story)
   - Child picks operation (+ or −) by tapping one of two buttons
@@ -1966,30 +1357,7 @@ interface WordProblemData {
 ```
 
 #### Generator
-```ts
-export function generateWordProblem(difficulty: 1 | 2 | 3): WordProblemData {
-  const op = pick(["+", "-"]);
-  const items = pick(["apples", "books", "birds", "pencils", "stars"]);
-  const names = pick(["Hani", "Sara", "Omar", "Nour"]);
-  
-  let a: number, b: number;
-  if (op === "+") {
-    a = randomInt(3, 9 * difficulty);
-    b = randomInt(1, a);
-  } else {
-    a = randomInt(5, 10 * difficulty);
-    b = randomInt(1, a - 1);
-  }
-  
-  const answer = op === "+" ? a + b : a - b;
-  
-  const story = op === "+"
-    ? `${names} has ${a} ${items}. He got ${b} more. How many ${items} does ${names} have now?`
-    : `${names} has ${a} ${items}. He gave ${b} to his friend. How many ${items} does ${names} have now?`;
-  
-  return { story, imageHint: items, operation: op, operandA: a, operandB: b, correctAnswer: answer, unit: items };
-}
-```
+
 
 #### Build Instructions
 ```
@@ -2045,26 +1413,6 @@ Build src/components/interactives/WordProblem.tsx
 ```
 
 #### Props
-```ts
-interface ArtCornerProps {
-  data: ArtCornerProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface ArtCornerProblem {
-  regions: {
-    id: string;
-    equation: string;          // "10 + 3"
-    correctResult: number;
-    correctColor: string;      // determined by colorCode rules
-  }[];
-  colorCode: {
-    rule: string;              // "teen number" | "even" | "greater than 10"
-    color: string;             // "orange" | "blue"
-  }[];
-  instruction: string;         // "Color the spaces with sum of teen numbers in orange"
-}
-```
 
 - Interaction:
   - Child taps a region → equation highlights → number pad appears → child enters answer
@@ -2391,39 +1739,9 @@ I've added a real exam-practice path with:
 ### Task 6: Bundle Splitting (5-Minute Fix)
 
 - 520KB is fine for desktop but sluggish on a school tablet over slow WiFi.
-```
-In vite.config.ts, add manual chunks:
-
-build: {
-  rollupOptions: {
-    output: {
-      manualChunks: {
-        'vendor-dnd': ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],
-        'vendor-motion': ['framer-motion'],
-        'vendor-audio': ['howler'],
-        'interactives': [
-          './src/components/interactives/SplitTreeAdder',
-          './src/components/interactives/GuidedBoxFill',
-          './src/components/interactives/HundredsChart',
-          './src/components/interactives/BlockGrouper',
-          './src/components/interactives/NumberLine',
-          './src/components/interactives/AreaGrid',
-          './src/components/interactives/CapacityPourer',
-          './src/components/interactives/ClockFace',
-          './src/components/interactives/ShapeIdentifier',
-          './src/components/interactives/ShapeFootprint',
-          './src/components/interactives/ShapeComposer',
-          './src/components/interactives/WordProblem',
-          './src/components/interactives/ArtCorner',
-        ],
-      }
-    }
-  }
-}
 
 Also add React.lazy() for ActivityRenderer's imports so interactives 
 load on demand, not all upfront. Wrap in Suspense with a spinner.
-```
 
 **Output:** [2026-04-06]
 
@@ -2484,7 +1802,7 @@ tech stack list.
 4. Test on a real tablet (iPad or Android) with touch
 5. Share the URL
 
-#### What's been done (6.5 REPO POLISH):
+#### What's been done
 - safer build script in package.json
 - SPA deploy configs in vercel.json and netlify.toml
 - repo docs in README.md and ARCHITECTURE.md
@@ -2536,3 +1854,435 @@ base: '/'  // or '/math-review/' if deploying to a subpath
 - **Metadata**: Added `homepage` and project metadata to `package.json`.
 - **Local Dev**: Enabled `--host` in the Vite `dev` script to allow school-tablet testing over the local network.
 - **Docs**: Resolved YAML frontmatter errors in `README.md` that were causing parsing issues in the deployment pipeline.
+esting [2026-04-06]
+
+**Notes:**
+- Mobile top buttons overlap with the page (dev mode and exampractice)
+- First unit, q5 to 7, empty/duplicated. Chapter ends with "nice tracing", with no next action, unless clicked back to chapters from the top of the page
+- Doesn't unlock next chapter
+- Many questions have no shapes.
+
+---
+
+**What changed:**
+
+- **ChapterMap.tsx**: The top header now stacks/wraps on mobile, so Exam Practice and Dev Mode should stop overlapping the page.
+- **lessonBuilder.ts**: Chapter 10 now uses a clean generated shape set for all 8 activities instead of relying on messy leftover adapted items, so q5-q7 should no longer be empty or duplicated.
+- **LessonScreen.tsx**: The screen now scrolls back to the top whenever the activity changes or the lesson completes, so the completion card should actually appear instead of leaving you stuck at the last widget message.
+- **ExamPractice.tsx**: Same top-scroll reset for assessment transitions.
+
+**Verification:**
+- `npx tsc -p tsconfig.json --pretty false` passed
+
+---
+
+### Deep Review — prim-1-math (Claude Code/Opus 4.6)
+
+**Summary**
+
+┌─────┬───────────────────────────────────┬─────────────────────────────────────────────────────────────────────┐   
+│  #  │               Issue               │                               Impact                                │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 1   │ Ch15-17 flash data not wired      │ 3 chapters running on thin generated content, ignoring extracted    │   
+│     │                                   │ curriculum                                                          │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 2   │ Ch14 adapter gap                  │ 50% of chapter content silently dropped                             │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 3   │ Mobile first-visit block          │ Users can't see the "Let's Go!" button on first mobile load         │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 4   │ Clock handling for non :00/:30    │ Wrong clock display for :15/:45 times                               │   
+│     │ times                             │                                                                     │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 5   │ Teen number silent failure        │ Edge case but confusing UX                                          │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 6   │ Arabic stories missing            │ Defeats bilingual purpose                                           │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 7   │ Missing 0 on some number pads     │ Can't type certain valid answers                                    │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 8   │ AreaGrid visual hollowness        │ Works but pedagogically thin vs BLUEPRINT vision                    │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 9   │ ShapeComposer 3-template pool     │ Ch15 students see duplicates                                        │   
+├─────┼───────────────────────────────────┼─────────────────────────────────────────────────────────────────────┤   
+│ 10  │ Stars display / dead file         │ Cosmetic cleanup                                                    │   
+└─────┴───────────────────────────────────┴─────────────────────────────────────────────────────────────────────┘
+
+---
+
+### P0: Mobile first-visit block (#3)
+```
+Replace min-h-screen with min-h-dvh in:
+- SplashScreen.tsx
+- ChapterMap.tsx
+
+If Tailwind version doesn't support dvh, use: 
+min-height: 100dvh with a fallback:
+min-height: calc(100vh - 80px)
+```
+
+#### Viewport Fix Summary
+- SplashScreen.tsx: Changed min-h-screen to min-h-dvh in the main container.
+- ChapterMap.tsx: Changed min-h-screen to min-h-dvh in the main container.
+
+#### P1: Missing 0 on number pads (#7)
+- A child trying to type 10 or 20 digit-by-digit literally cannot. Change row 2 from [6,7,8,9,⌫] to [6,7,8,9,0] and move backspace to a third row or put it beside the confirm button. Affects GuidedBoxFill and SplitTreeAdder.
+
+#### P3: Clock :15/:45 filter (#4)
+
+- The book only teaches o'clock and half-past. The component correctly handles only those. The problem is chapter_16.json containing 4:15, which the component can't render properly. Don't expand the clock component — filter the data:
+```
+In the adapter or lessonBuilder, when processing clock data:
+Skip any time where minutes !== 0 and minutes !== 30.
+Log skipped times to console.warn for future reference.
+```
+
+- This is a data-level fix, not a component change.
+
+#### P4: Wire Ch15-17 Flash data (#1)
+
+- This is the biggest content gap. The data exists, the adapter just doesn't load it.
+```
+In lessonBuilder.ts, add to FLASH_CHAPTERS:
+
+import chapter15Raw from '../data/chapter_15.json';
+import chapter16Raw from '../data/chapter_16.json';
+import chapter17Raw from '../data/chapter_17.json';
+
+const FLASH_CHAPTERS = {
+  ch10: chapter10Raw, ch11: chapter11Raw, ch12: chapter12Raw,
+  ch13: chapter13Raw, ch14: chapter14Raw, ch15: chapter15Raw,
+  ch16: chapter16Raw, ch17: chapter17Raw,
+};
+
+Then in adaptProblem(), add handlers for the missing types:
+- "matching-to-100" → GuidedBoxFill (equation style: ___ + 70 = 100)
+- "grid-fragment-fill" → HundredsChart (mode: fill-missing)  
+- "math-problems" → GuidedBoxFill or WordProblem depending on 
+  whether it has steps
+- "capacity-ordering" → CapacityPourer (mode: order-multiple)
+- "stick-construction" → ShapeComposer (count sticks to build shape)
+- "number-comparison" → simple MCQ wrapped in ShapeIdentifier 
+  style (tap the larger number)
+
+For types that genuinely don't map to any widget, adapt them 
+as WordProblem format: show the instruction text as the "story", 
+let the child enter the numerical answer.
+```
+
+#### P5: Ch14 adapter gap (#2)
+
+- Same pattern as above — add the missing type handlers. The 50% silent drop is real and these are high-exam-weight place value problems.
+
+#### P6: Stars display (#10 + dead file)
+```
+Replace "*".repeat(n) with actual star rendering in both 
+ChapterMap.tsx and LessonScreen.tsx:
+
+{Array.from({ length: 3 }).map((_, i) => (
+  <span key={i} className={i < starsEarned ? "text-yellow-400" : "text-gray-300"}>
+    ★
+  </span>
+))}
+
+Delete LessonScreen.next.tsx.
+```
+
+#### Deferring (Post-Exam or V2)
+
+| Issue | Why Defer |
+|---|---|
+| #6 Arabic stories | The app is English-medium for language schools. Arabic was always optional secondary. Not exam-relevant. |
+| #8 AreaGrid visual hollowness | count-compare mode works. The grid-visual mode exists for generated problems. Flash data just lacks coordinates. Pedagogically adequate for exam review. |
+| #9 ShapeComposer thin pool | Ch15 is the lowest exam weight chapter. 3 templates with some repetition beats zero content. Expand the template pool if time allows. |
+| ArtCorner orphaned | Add it as a bonus activity at the end of each chapter lesson. One line in lessonBuilder per chapter. Low priority. |
+| Audio stubs | Nice-to-have. Kids can use this silently. Sound files need sourcing. |
+SplashScreen avatar picker	Cosmetic. Current stub works.
+
+**Reassessment**
+
+#### The Visual Problem
+
+- Built a math engine and called it a kids' app. The logic is correct. The pedagogy is sound. But a 7-year-old doesn't care about pedagogical soundness — they care about whether the screen makes them want to tap it.
+
+- The book works because every page has:
+  - Colorful illustrated characters (Mazen, Sara) who "talk" through speech bubbles
+  - Real-world photos of objects (gift boxes, tennis balls, juice containers)
+  - Bright themed backgrounds per chapter
+  - Reward stickers and playful framing
+
+- The app has:
+  - Geometric SVG outlines on white backgrounds
+  - Number pads
+  - Text instructions
+
+#### The Content Problem
+Three separate issues creating the "poor content" feeling:
+1. Duplicates: The generators have small template pools. When a chapter runs 8 activities and the pool has 3-5 templates, kids see repeats within a single session.
+2. Logic gaps: Some adapted Flash problems lose their visual context. A question about "which container holds more" without the container illustration becomes meaningless — it's just two numbers.
+3. No images: The contextHint field exists ("cheese-wedge", "tennis-ball") but nothing renders it. The component receives the hint and ignores it.
+
+---
+
+### Forward Plan: Two Tracks
+
+#### Track 1: Visual Layer (The Hard One)
+-This isn't a code problem. It's an asset pipeline problem. Here's how to solve it without original illustration work:
+**Tier 1** Emoji upgrade (Today, zero cost)
+- Every widget that currently shows plain text or blank space can use emoji as visual anchors. This is surprisingly effective for 7-year-olds:
+```
+Current:  "Hani has 12 apples."     [text only]
+Upgrade:  "🧑 Hani has 12 🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎"
+
+Current:  Container A [number]
+Upgrade:  🫙 Container A  🥤🥤🥤🥤🥤
+
+Current:  Shape identification [SVG outline]  
+Upgrade:  Real-world hint below: "Like a 🎁" / "Like a ⚽" / "Like a 🥫"
+```
+
+- Implementation: Create src/components/shared/EmojiMap.tsx that maps contextHint strings to emoji clusters. Every widget that receives contextHint renders the emoji. One shared component, adopted by all widgets.
+
+**Tier 2** Illustrated SVG set (findable)
+- The 3D shape SVGs need work. The current isometric outlines are geometrically correct but lifeless. What kids need:
+  - Rounded corners, soft shadows, gradient fills
+  - A consistent "toy-like" aesthetic — think wooden blocks, not wireframes
+  - Character mascot (one simple character who appears in prompts)
+
+- The mascot: One simple character SVG in 3-4 poses (happy, thinking, celebrating, pointing). Appears in speech bubbles next to instructions. This alone transforms the feel from "tool" to "game." (Could be inspired by our logo **Bastet** `docs\prime1-logo.webp`)
+
+**Tier 3** NotebookLM media tools (Experimental)
+- A study guide images from the textbook content
+- Audio explanations per concept that we embed as "hint" audio
+- A slide deck tool could produce per-chapter visual summaries
+`docs\Infograph.jpg`
+
+- Test with one chapter. If the output quality is usable, it's a content pipeline.
+
+#### Track 2: Content Depth (The Solvable One)
+
+**Problem 1: Duplicates → Expand generator pools**
+- Every generator needs a minimum of 15 unique problems per difficulty level to avoid visible repeats in an 8-activity session. Current state:
+
+|Generator|Current Pool|Minimum Needed|
+|---|---|---|
+|ShapeComposer|3 templates|10+|
+|ClockFace|Limited by o'clock + half-past × 12 hours = 24|Fine, just ensure no same-session repeats|
+|WordProblem|Template strings are few, numbers vary|Add 8-10 more story templates|
+|BlockGrouper|Fully random|Fine|
+|NumberLine|Fully random|Fine|
+|Make10|~30 unique problems from math constraints|Fine, but session should sample without replacement|
+
+**Fix:** Add a usedProblems set to the lesson builder. Each generated problem gets a hash. If the hash exists in the set, regenerate. Simple dedup.
+```ts
+// src/utils/lessonBuilder.ts
+function buildLesson(chapterId: string): Activity[] {
+  const used = new Set<string>();
+  const activities: Activity[] = [];
+  
+  while (activities.length < targetCount) {
+    const problem = generator();
+    const hash = JSON.stringify(problem);
+    if (!used.has(hash)) {
+      used.add(hash);
+      activities.push(problem);
+    }
+  }
+  return activities;
+}
+```
+
+**Problem 2: Contextless adapted problems → Fallback to generated**
+
+- When an adapted Flash problem has no visual data and the widget needs visuals, skip it and use a generated problem instead. The adapter should mark problems with a confidence score:
+```ts
+interface AdaptedActivity extends Activity {
+  adaptationConfidence: "full" | "partial" | "text-only";
+}
+
+// In lessonBuilder: prefer "full" adapted problems, 
+// fall back to generated for "text-only" ones
+```
+
+**Problem 3: Session design**
+
+-Right now each chapter is a flat list of activities. Kids need pacing:
+```
+Activity 1-2:  Easy (warmup, build confidence)
+Activity 3-5:  Medium (core concept, varied)
+Activity 6-7:  Hard (challenge, stretch)
+Activity 8:    Reward (ArtCorner or fun variant)
+```
+- The lesson builder should sort by difficulty and append an ArtCorner at the end. This is a lessonBuilder change, not a widget change.
+
+### Roadmap: Three Horizons
+
+#### Horizon 1: Exam-Ready (Next 3 Days)
+
+- Goal: Kids can use this productively for exam review.
+```
+Day 1:
+  - Batch 1 bug fixes (P0-P3, stars, dead file) → deploy
+  - Wire Ch15-17 Flash data + fix Ch14 adapter gaps
+  - Add session dedup to lessonBuilder
+  - Emoji upgrade pass across all widgets
+
+Day 2:
+  - Expand generator pools (ShapeComposer, WordProblem)
+  - Add difficulty curve to lessonBuilder
+  - Wire ArtCorner as reward activity per chapter
+  - Source or generate mascot SVG (1 character, 4 poses)
+  - Deploy and real-device test with an actual child
+
+Day 3:
+  - Fix anything the child-test reveals
+  - Polish exam practice mode with real assessment data
+  - Final deploy
+```
+
+#### Horizon 2: Rich Experience (Next 2 Weeks)
+
+- Goal: The app feels like it belongs next to the textbook.
+```
+- Illustrated SVG asset set for all 3D/2D shapes
+- Chapter-themed backgrounds (colors already in chapter data)
+- Mascot speech bubbles for instructions
+- Sound effects (correct/wrong/celebrate)
+- YouTube playlist integration (help button → relevant video)
+- Progress celebration screens between chapters
+- Parent dashboard (PIN-protected stats view)
+- Adaptive difficulty (track error rate, auto-adjust)
+```
+
+#### Horizon 3: Platform (Post-Exams)
+
+- Goal: Reusable for other terms, other grades, other subjects.
+```
+- CMS: Admin tool to author activities without code
+  (JSON editor with visual preview)
+- Multi-term support: Term 1 content as a second "campaign"
+- Grade 2 expansion: Same widget library, new content
+- Offline PWA: Service worker for classroom use without WiFi
+- Analytics: Which concepts do kids struggle with most?
+- Arabic-medium version: Same engine, Arabic content for 
+  government schools
+- Open-source release: Engine + empty content template
+```
+
+#### Architecture Notes for Future Contributors
+
+- The codebase is well-structured for this. Key decisions that enable the roadmap:
+**What's right:**
+- ActivityRenderer switch pattern makes adding widgets trivial
+- Generator + Flash adapter dual-source means content can come from anywhere
+- Types are strict — new contributors get compiler errors, not runtime bugs
+- Bundle splitting already done — adding assets won't bloat initial load
+
+**What needs attention:**
+- book-terms.ts should become the single source for all display strings (some are still hardcoded in generators)
+- The adapter's adaptProblem function is a growing switch statement — consider a registry pattern if it exceeds 15 types
+- Visual assets need a manifest system: src/assets/manifest.ts mapping contextHint → asset path, so components don't each solve this differently
+- Testing: zero tests currently. For Horizon 2+, add Vitest snapshot tests for generators (ensure they produce valid data) and Playwright for critical user flows
+
+**The asset manifest idea specifically:**
+```ts
+// src/assets/manifest.ts
+export const ASSET_MAP: Record<string, { emoji: string; svg?: string; photo?: string }> = {
+  "apple":       { emoji: "🍎", svg: "/assets/items/apple.svg" },
+  "gift-box":    { emoji: "🎁", svg: "/assets/items/giftbox.svg" },
+  "tennis-ball": { emoji: "🎾" },
+  "cheese-wedge":{ emoji: "🧀" },
+  "juice-box":   { emoji: "🧃" },
+  "cup":         { emoji: "🥤" },
+  "star":        { emoji: "⭐" },
+  "bird":        { emoji: "🐦" },
+  "pencil":      { emoji: "✏️" },
+  "book":        { emoji: "📚" },
+  // 3D shapes
+  "cube":        { emoji: "🧊", svg: "/assets/shapes/cube.svg" },
+  "ball":        { emoji: "⚽", svg: "/assets/shapes/ball.svg" },
+  "cylinder":    { emoji: "🥫", svg: "/assets/shapes/cylinder.svg" },
+  // characters
+  "mascot-happy":     { svg: "/assets/mascot/happy.svg" },
+  "mascot-thinking":  { svg: "/assets/mascot/thinking.svg" },
+  "mascot-celebrate": { svg: "/assets/mascot/celebrate.svg" },
+};
+
+// Usage in any component:
+function AssetIcon({ hint, size }: { hint: string; size: number }) {
+  const asset = ASSET_MAP[hint];
+  if (asset?.svg) return <img src={asset.svg} width={size} />;
+  if (asset?.emoji) return <span style={{ fontSize: size }}>{asset.emoji}</span>;
+  return null;
+}
+```
+
+- Every widget that currently ignores contextHint just wraps its display area with <AssetIcon hint={data.contextHint} />. One pattern, all widgets, progressive enhancement (emoji now, SVG later, photos eventually).
+
+---
+
+## Review Consolidation [2026-04-06]
+
+Second-pass review consolidating findings from deep code audit (Opus) and codebase review (Codex), mapped to the plan above. No new issues — this finalizes status and execution order.
+
+### Issue Status
+
+| # | Issue | Status | Notes |
+|---|-------|--------|-------|
+| 1 | Ch15-17 flash data not wired | **Active — top priority** | `FLASH_CHAPTERS` in lessonBuilder.ts only imports ch10-ch14. The three JSON files exist with rich extracted content. `adaptProblem()` also needs new type handlers. |
+| 2 | Ch14 adapter gap | **Active — pair with #1** | 4 types missing handlers: `matching-to-100`, `grid-fragment-fill`, `math-problems`, `capacity-ordering`. Silently skipped. |
+| 3 | Mobile first-visit block | **Done** | `min-h-dvh` already applied to SplashScreen.tsx and ChapterMap.tsx. |
+| 4 | Clock :15/:45 | **Active — filter, don't expand** | The book only teaches o-clock and half-past. chapter_16.json contains 4:15 which the component can't render. Filter at data layer: skip times where minutes !== 0 and minutes !== 30. |
+| 5 | Teen number silent failure | **Active — group with #7** | Mechanism: buffer "12" → backspace → "1" → "1"+"15" = "115" → length > 2 → silently rejected. Fix: atomic `SET_BUFFER` action that replaces the buffer instead of backspace+append. |
+| 6 | Arabic stories missing | **Deferred** | Target is English-medium language schools. Arabic is optional secondary, not exam-relevant. |
+| 7 | Missing 0 on number pads | **Active — group with #5** | GuidedBoxFill and SplitTreeAdder number pads have `[6,7,8,9,⌫]` with no zero. AreaGrid, CapacityPourer, WordProblem pads do include 0. |
+| 8 | AreaGrid visual hollowness | **Deferred** | count-compare mode works. Flash data lacks grid coordinates so grid-visual mode can't render. Pedagogically adequate for exam review. |
+| 9 | ShapeComposer thin pool | **Deferred** | 3 templates for ch15. Lowest exam-weight chapter. Expand pool if time allows after content pass. |
+| 10 | Stars display / dead file | **Active — cleanup** | `"*".repeat(n)` in ChapterMap.tsx:72 and LessonScreen.tsx:173. LessonScreen.next.tsx is dead. |
+
+### Additional Finding: `adaptFillInBlanks` Routing
+
+`flashDataAdapter.ts:579` assigns `conceptKey: "addition-make-10"` to fill-in-blank equations. In ActivityRenderer, that routes to `toSplitTreeProblem()`, which calls `parseEquation()` on strings like `"9 + 4 = ?"`. The regex splits on `[+-]` producing 3 parts, not 2 — returns null. The activity renders as a PlaceholderCard ("Unsupported activity data").
+
+Currently latent: ch14 lessonBuilder only pulls `place-value-group` activities from flash data, so these never surface. But wiring more ch14 adapted content (#2) will expose it. Fix: either route fill-in-blank to `guided-box-make10`/`guided-box-sub10` instead, or fix `parseEquation` to handle `"= ?"` suffix.
+
+### Execution Order
+
+Content coverage and repetition are bigger trust-breakers than visual polish. The emoji/context layer becomes more valuable after lesson data is actually representative.
+
+**Batch 1 — Content pass:**
+1. Import ch15-ch17 into `FLASH_CHAPTERS`
+2. Add adapter handlers for all mappable types in ch14-ch17 flash data
+3. Fix `adaptFillInBlanks` conceptKey routing before it surfaces
+4. Update `buildChapter15/16/17Activities()` to mix flash data + generators (same pattern as ch11)
+5. Add same-session dedup in lessonBuilder
+
+**Batch 2 — Input/guard fixes:**
+6. Fix number-pad 0 in GuidedBoxFill and SplitTreeAdder
+7. Atomic teen-number entry (`SET_BUFFER` action)
+8. Filter non-:00/:30 clock times at adapter/builder level
+
+**Batch 3 — Presentation cleanup:**
+9. Replace `"*".repeat` with `★`/`☆` rendering
+10. Delete LessonScreen.next.tsx
+11. Add shared EmojiMap + AssetIcon for contextHint rendering across widgets
+
+### Reassessment Confirmation
+
+The three-part content problem diagnosis holds:
+- **Repetition** — generator pools are small, no session dedup. Fix: dedup + expand pools.
+- **Context loss** — adapted Flash problems lose visual context. Fix: contextHint → emoji rendering.
+- **No visual anchors** — components show text and numbers on white. Fix: EmojiMap now, asset manifest later.
+
+The visual/content separation matters because they need different fix paths. Content depth (Track 2) first, visual layer (Track 1) second. The asset manifest pattern (`src/assets/manifest.ts`) is the right eventual architecture for progressive enhancement: emoji now, SVG later, photos eventually.
+
+### Architecture Notes
+
+What enables the plan:
+- ActivityRenderer switch pattern — adding widgets is trivial
+- Generator + adapter dual-source — content can come from anywhere
+- Strict types — new contributors get compiler errors, not runtime bugs
+- Bundle splitting — adding assets won't bloat initial load
+
+What needs attention during the content pass:
+- `adaptProblem()` switch statement will grow. Consider a registry pattern if it exceeds 15 type handlers.
+- `book-terms.ts` should become the single source for display strings (some are hardcoded in generators).
+- Testing: zero tests currently. After Horizon 1, add Vitest snapshot tests for generators and Playwright for critical user flows.

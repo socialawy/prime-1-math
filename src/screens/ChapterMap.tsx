@@ -8,7 +8,7 @@ export function ChapterMap() {
   const { progress, settings, updateSettings } = useApp();
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-dvh p-6">
       <div className="mx-auto mb-8 flex max-w-4xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-4">
           <AppLogo size="md" />
