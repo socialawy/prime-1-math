@@ -872,3 +872,251 @@ Priority 5 (defer): The 5 skipped problem types — we'll map them
 as we build each corresponding component. #TODO
 ```
 
+**Output:** [2026-04-06]
+● **Done.** 3x–4x content expansion confirmed: 19 Flash problems → 48 activities.
+
+**Summary of what changed:**
+
+**P1 — src/types/curriculum.ts**
+- `GuidedBoxProblem` added to the `ActivityData` union — no more `as unknown as Activity["data"]` casts anywhere.
+- `contextHint?: string` added to `Activity` interface with JSDoc.
+
+**P2 — src/lib/adapters/flashDataAdapter.ts**
+- All adapter functions now return `Activity[]` instead of `Activity | null`.
+- `adaptFlashChapter` uses `activities.push(...results)`.
+- Every multi-item type now loops: `adaptMultipleChoiceVisual`, `adaptVisualSelection`, `adaptMatching`, `adaptFillInBlanks`, `adaptTenGrouping`, `adaptPlaceValueCounting`.
+- `adaptAreaGridCounting` emits one activity per adjacent pair of shapes.
+- **Result:** 19 problems → 48 activities across ch10–14.
+
+**P3 — contextHint populated**
+- **Ch10 multiple-choice-visual:** correct option's context (e.g. "cheese-wedge").
+- **Ch10 visual-selection:** the 3D source shape name.
+- **Ch10 matching:** each shape's context (e.g. "brown-box").
+- **Ch11 unit-counting:** comma-joined container contexts (e.g. "green, orange, brown-clay").
+- **Ch11 area-grid-counting:** shape description pair (e.g. "F-like vs Hash-like").
+
+---
+
+### Component #3: `HundredsChart`
+
+- Ch14 is 9 lessons — the biggest chapter. The hundreds chart is its anchor visual. Kids will see it on the exam.
+
+#### What the Child Sees
+
+- A 10×10 grid numbered 1-100. The component supports multiple interaction modes driven by the problem data:
+
+```
+Mode: "fill-missing"
+┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┐
+│  1 │  2 │  3 │  4 │  5 │  6 │  7 │  8 │  9 │ 10 │
+├────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
+│ 11 │ 12 │ 13 │ 14 │ 15 │ 16 │ 17 │ 18 │ 19 │ 20 │
+├────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
+│ 21 │ 22 │[  ]│ 24 │ 25 │ 26 │ 27 │[  ]│ 29 │ 30 │  ← blanks
+├────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
+│ 31 │ 32 │ 33 │ 34 │ 35 │ 36 │ 37 │ 38 │ 39 │ 40 │
+│... │    │    │    │    │    │    │    │    │    │
+└────┴────┴────┴────┴────┴────┴────┴────┴────┴────┘
+```
+```
+Mode: "jump-by-10"    (child taps a cell, +10 row highlights)
+┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┐
+│    │    │  3 │    │    │    │    │    │    │    │  ← highlighted
+├────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
+│    │    │ 13 │    │    │    │    │    │    │    │  ← highlighted
+├────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
+│    │    │[  ]│    │    │    │    │    │    │    │  ← child fills: 23
+├────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
+│    │    │ 33 │    │    │    │    │    │    │    │  ← highlighted
+└────┴────┴────┴────┴────┴────┴────┴────┴────┴────┘
+```
+```
+Mode: "color-row" / "color-column"    (highlight a full row or column)
+Child taps to color all cells in row 5 (41-50) → counter shows "10 colored"
+Used for teaching: "Each row has 10 numbers"
+```
+
+#### Props Interface
+```ts
+interface HundredsChartProps {
+  data: HundredsChartProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface HundredsChartProblem {
+  mode: "fill-missing" | "jump-by-10" | "color-pattern" | "find-number";
+  
+  // For fill-missing: which cells are blank
+  missingCells?: number[];
+  
+  // For jump-by-10: the starting number and direction
+  jumpStart?: number;
+  jumpDirection?: "down" | "up";  // +10 or -10
+  jumpBlanks?: number[];          // which jumps are blank
+  
+  // For color-pattern: which cells to pre-highlight, which to ask
+  preHighlighted?: number[];
+  targetCells?: number[];         // child must color these
+  patternRule?: string;           // "Color all numbers that end in 5"
+  
+  // For find-number: place-value riddle
+  riddle?: string;                // "I have 3 tens and 7 ones. Who am I?"
+  correctCell?: number;           // 37
+}
+```
+
+#### State Machine
+```ts
+interface ChartState {
+  phase: "interactive" | "checking" | "celebrate";
+  filledCells: Record<number, number | null>;  // cellPosition → userValue
+  coloredCells: Set<number>;
+  selectedCell: number | null;
+  currentBlankIndex: number;      // which blank is active
+  mistakes: number;
+  startTime: number;
+}
+
+type ChartAction =
+  | { type: "TAP_CELL"; cellNumber: number }
+  | { type: "SUBMIT_VALUE"; value: number }
+  | { type: "COLOR_CELL"; cellNumber: number }
+  | { type: "CHECK_ANSWERS" }
+  | { type: "WRONG_CELL" }
+  | { type: "CELEBRATE" };
+```
+
+#### Grid Rendering Logic
+```ts
+// The grid is always 10×10. Cells are numbered 1-100.
+// Row index = Math.floor((n - 1) / 10)
+// Col index = (n - 1) % 10
+
+function renderCell(n: number, state: ChartState, problem: HundredsChartProblem) {
+  const isMissing = problem.missingCells?.includes(n);
+  const isHighlighted = problem.preHighlighted?.includes(n);
+  const isColored = state.coloredCells.has(n);
+  const isSelected = state.selectedCell === n;
+  const userValue = state.filledCells[n];
+
+  if (isMissing && userValue === null) {
+    // Empty input cell — tappable, blue border
+    return <BlankCell onTap={() => dispatch({ type: "TAP_CELL", cellNumber: n })} />;
+  }
+  if (isMissing && userValue !== null) {
+    // Filled by student — green if correct, show value
+    return <FilledCell value={userValue} correct={userValue === n} />;
+  }
+  if (isHighlighted || isColored) {
+    // Colored/highlighted — yellow or pattern color
+    return <HighlightedCell value={n} />;
+  }
+  // Normal cell
+  return <NormalCell value={n} />;
+}
+```
+
+#### Teaching the +10/-10 Pattern (Book's Core Concept)
+
+- The book specifically teaches: moving down one row = +10, moving right one cell = +1. The component must make this visually obvious:
+```
+// When a child fills a blank in jump-by-10 mode,
+// draw an animated arrow from the previous number to the new one
+// Label the arrow "+10"
+
+// Example: jumping from 3
+// 3 → [arrow "+10"] → 13 → [arrow "+10"] → [__] → [arrow "+10"] → 33
+
+// The arrows are SVG overlays on the grid, animated with Framer Motion
+```
+
+#### Key Visual Design Rules
+```
+- Cell size: 40px minimum (10 columns must fit on a phone screen)
+- On phones: allow horizontal scroll or pinch-zoom on the grid
+- Active/selected blank: blue-500 border, subtle pulse
+- Correct fill: green-100 bg, green-600 text, checkmark icon
+- Highlighted column for +10: light yellow stripe down the column
+- Number font: monospace or tabular-nums (alignment matters in a grid)
+- The grid should feel like the actual printed 100-chart they see in class
+```
+
+#### Generator Function
+```ts
+// src/lib/generators/hundredsChartGenerator.ts
+
+export function generateFillMissing(
+  count: number = 5, 
+  region?: { rowStart: number; rowEnd: number }
+): HundredsChartProblem {
+  // Pick `count` random cells to blank out
+  const min = region ? (region.rowStart - 1) * 10 + 1 : 1;
+  const max = region ? region.rowEnd * 10 : 100;
+  const missing: number[] = [];
+  while (missing.length < count) {
+    const n = randomInt(min, max);
+    if (!missing.includes(n)) missing.push(n);
+  }
+  return { mode: "fill-missing", missingCells: missing.sort((a, b) => a - b) };
+}
+
+export function generateJumpBy10(startCol?: number): HundredsChartProblem {
+  const col = startCol ?? randomInt(1, 10);
+  // Full column: col, col+10, col+20, ..., col+90
+  const fullJump = Array.from({ length: 10 }, (_, i) => col + i * 10);
+  // Blank out 3-4 of them (not the first)
+  const blanks = pickRandom(fullJump.slice(1), randomInt(3, 4));
+  return {
+    mode: "jump-by-10",
+    jumpStart: col,
+    jumpDirection: "down",
+    preHighlighted: fullJump.filter(n => !blanks.includes(n)),
+    jumpBlanks: blanks.sort((a, b) => a - b),
+  };
+}
+
+export function generateFindNumber(): HundredsChartProblem {
+  const tens = randomInt(1, 9);
+  const ones = randomInt(0, 9);
+  const answer = tens * 10 + ones;
+  return {
+    mode: "find-number",
+    riddle: `I have ${tens} tens and ${ones} ones. Who am I?`,
+    correctCell: answer,
+  };
+}
+```
+
+#### Build Instructions
+```
+Build src/components/interactives/HundredsChart.tsx
+
+Requirements:
+- 10×10 CSS Grid, cells numbered 1-100
+- useReducer with phases: interactive → checking → celebrate
+- Four modes driven by HundredsChartProblem.mode:
+  a) fill-missing: blank cells are tappable, number pad appears 
+     at bottom, child fills value, validate against cell position
+  b) jump-by-10: vertical column highlighted, some cells blank,
+     SVG arrow overlays labeled "+10" between filled cells,
+     animate arrows with Framer Motion
+  c) color-pattern: child taps cells to toggle color, instruction 
+     text at top describes the pattern
+  d) find-number: riddle text at top, child taps the correct cell,
+     wrong taps flash red briefly
+- Number pad: show 0-9 for single digits, but for fill-missing the 
+  input needs to accept 1-100 (two-digit input with confirm button)
+- Cell sizing: min 40px, responsive — on screens < 500px wide, 
+  allow horizontal scroll with snap
+- Reuse sound hooks from AppContext
+- Generator: src/lib/generators/hundredsChartGenerator.ts with 
+  generateFillMissing, generateJumpBy10, generateFindNumber
+- Sample data: src/data/samples/hundredsChart-samples.ts with 
+  one sample per mode
+- Dev route: /dev/hundreds with mode tabs
+
+Test: all four modes functional at /dev/hundreds
+```
+
+**Output**
+

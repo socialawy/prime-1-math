@@ -40,6 +40,9 @@ export interface Activity {
   conceptKey: ConceptKey;
   difficulty: 1 | 2 | 3;
   data: ActivityData;
+  /** Real-world object name from source data (e.g. "cheese-wedge", "tennis-ball").
+   *  Components can use this for flavor text or icon selection. */
+  contextHint?: string;
 }
 
 // Polymorphic activity payloads
@@ -55,7 +58,8 @@ export type ActivityData =
   | NumberLineData
   | ComposeShapesData
   | TellTimeData
-  | MixedWordProblemData;
+  | MixedWordProblemData
+  | GuidedBoxProblem;
 
 // --- Payload types ---
 
