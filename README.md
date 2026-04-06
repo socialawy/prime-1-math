@@ -1,12 +1,28 @@
-<div align="center">
-  <img src="docs/prime1-logo.webp" width="160" height="160" alt="Prime Math Logo">
-  <h1>Prime Math</h1>
-  <p><strong>The interactive bridge from textbook to tablet.</strong></p>
+---
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-  [![React: 19](https://img.shields.io/badge/React-v19-61dafb.svg)](https://react.dev/)
-  [![Vite: 8](https://img.shields.io/badge/Vite-v8-646cff.svg)](https://vitejs.dev/)
-  [![TypeScript: 6](https://img.shields.io/badge/TypeScript-v6-3178c6.svg)](https://www.typescriptlang.org/)
+## 🎨 Visual Tour
+
+Experience the premium interactive curriculum on any modern tablet or desktop:
+
+<div align="center">
+  <h3>Interactive Dashboard</h3>
+  <img src="docs/Chapters.jpeg" width="80%" alt="Prime Math Dashboard">
+  <p><em>Chapter Map with progress tracking and exam practice shortcuts.</em></p>
+  
+  <br/>
+  
+  <table width="100%">
+    <tr>
+      <td width="50%" align="center">
+        <img src="docs/calc.jpeg" alt="Word Problem Widget">
+        <p><strong>Guided Logic</strong><br/>Step-by-step word problem solving.</p>
+      </td>
+      <td width="50%" align="center">
+        <img src="docs/Question.jpeg" alt="Clock Interface">
+        <p><strong>Visual Interaction</strong><br/>Precise analog clock face UI.</p>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ---
@@ -28,14 +44,6 @@ This project acts as an modern engine for legacy educational payloads. It bridge
 To support student and teacher comprehension, we have provided the following supplementary materials:
 - **[Comprehensive Study Guide](docs/STUDY-GUIDE.md):** A structured review of all curriculum concepts (geometry, measurement, and arithmetic).
 - **[Curriculum Infographic](docs/Infograph.jpg):** A visual overview of the learning journey.
-
----
-
-## Screenshot
-
-![Prime Math Screenshot](docs/Chpaters.jpeg)
-![Prime Math Screenshot](docs/Question.jpeg)
-![Prime Math Screenshot](docs/calc.jpeg)
 
 ---
 
