@@ -36,7 +36,6 @@ Experience the premium interactive curriculum on any modern tablet or desktop:
 
 ***
 
-
 ## 🚀 Overview
 
 `Prime Math` is a high-fidelity interactive math application designed for Egyptian Primary 1 students. It transforms legacy textbook-style content (Chapters 10–17) and cumulative assessments into touch-optimized React activities.
