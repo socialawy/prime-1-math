@@ -9,6 +9,7 @@ import { DevHundredsChart } from "./screens/DevHundredsChart";
 import { DevBlockGrouper } from "./screens/DevBlockGrouper";
 import { DevNumberLine } from "./screens/DevNumberLine";
 import { DevAreaGrid } from "./screens/DevAreaGrid";
+import { DevCapacity } from "./screens/DevCapacity";
 
 export function App() {
   return (
@@ -22,6 +23,7 @@ export function App() {
           <Route path="/dev/splittree" element={<DevSplitTree />} />
           <Route path="/dev/hundreds" element={<DevHundredsChart />} />
           <Route path="/dev/areagrid" element={<DevAreaGrid />} />
+          <Route path="/dev/capacity" element={<DevCapacity />} />
           <Route path="/dev/blockgrouper" element={<DevBlockGrouper />} />
           <Route path="/dev/numberline" element={<DevNumberLine />} />
           <Route path="*" element={<Navigate to="/" replace />} />

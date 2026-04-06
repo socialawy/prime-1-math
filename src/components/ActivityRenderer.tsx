@@ -1,5 +1,6 @@
 import { AreaGrid } from "./interactives/AreaGrid";
 import { BlockGrouper } from "./interactives/BlockGrouper";
+import { CapacityPourer } from "./interactives/CapacityPourer";
 import { GuidedBoxFill } from "./interactives/GuidedBoxFill";
 import { HundredsChart } from "./interactives/HundredsChart";
 import { NumberLine } from "./interactives/NumberLine";
@@ -56,6 +57,12 @@ export function ActivityRenderer({
         return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected area-grid data." />;
       }
       return <AreaGrid data={activity.data} onComplete={onComplete} />;
+
+    case "compare-capacity":
+      if (activity.data.type !== "compare-capacity") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected capacity data." />;
+      }
+      return <CapacityPourer data={activity.data} onComplete={onComplete} />;
 
     case "place-value-group":
       if (activity.data.type !== "place-value-group") {

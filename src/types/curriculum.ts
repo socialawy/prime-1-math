@@ -82,12 +82,15 @@ export interface Shape3Dto2DData {
 export interface CapacityData {
   type: "compare-capacity";
   containers: {
+    id?: string;
     label: string;
     imageId: string;
     capacityCups: number;
   }[];
-  question: "order" | "difference" | "which-more";
+  mode?: "count-cups" | "compare-two" | "order-multiple" | "difference";
+  question: "order" | "difference" | "which-more" | "which-less";
   correctAnswer: number | number[];
+  correctOrder?: string[];
 }
 
 export interface AreaGridData {

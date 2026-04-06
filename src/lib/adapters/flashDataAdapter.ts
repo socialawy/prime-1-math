@@ -224,10 +224,12 @@ function adaptUnitCounting(p: FlashProblem): Activity[] {
   const data: CapacityData = {
     type: "compare-capacity",
     containers: items.map((item) => ({
+      id: item.target.context,
       label: item.target.context,
       imageId: item.target.imageType,
       capacityCups: item.cups,
     })),
+    mode: "compare-two",
     question: "which-more",
     correctAnswer: Math.max(...items.map((i) => i.cups)),
   };

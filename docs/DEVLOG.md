@@ -1662,7 +1662,7 @@ function generateConnectedShape(
 
 ---
 
-### Component #6: CapacityPourer (Ch11)
+### Component #6: CapacityPourer (Ch11) — COMPLETED ✅ [2026-04-06]
 
 - What the Book Does
 Compare containers by measuring capacity in cups. "Which has more?", "Arrange from least to most", "How many cups?"
@@ -1822,6 +1822,152 @@ Build two Ch11 components:
 Test: all modes functional on both dev routes.
 ```
 
+
+**Output:** [2026-04-06]
+● **Done.** Implemented `CapacityPourer` and established Chapter 11's core interactive pair (Area + Capacity).
+
+**Summary of what landed:**
+- **Interactive widget:** `CapacityPourer.tsx` with four modes (count-cups, compare-two, order-multiple, difference).
+- **Measurement Visuals:** Stacked cup indicators (🥤) used to visually represent capacity without complex pouring animations.
+- **Generator & Samples:** `capacityGenerator.ts` and `capacity-samples.ts` covering all interaction modes.
+- **Renderer Hookup:** Added `compare-capacity` support to `ActivityRenderer.tsx`.
+- **Data Integration:** Expanded `curriculum.ts` payloads and updated `flashDataAdapter.ts` to transform Chapter 11 Flash content into the new renderer-friendly shape.
+
+**Verification:**
+- `npx tsc -b` passed.
+- `npm run build` passed.
+
+---
+
+### Component #7: ShapeIdentifier + ShapeFootprint (Ch10)
+
+- These two are the simplest interactive widgets in the whole app. Ch10 is pure visual recognition — no math computation.
+
+#### 7A: `ShapeIdentifier`
+
+- Book verb: "Circle the correct shape", "Cross out the shape that does not belong"
+```
+Mode A: "Which is a Cube shape?"
+
+  [🔵sphere]  [🟩cube]  [🟡cylinder]  [🔺prism]
+                 ↑
+          child taps → correct!
+
+Mode B: "Cross out the shape that does not belong."
+
+  [cube] [cube] [cuboid] [cube]
+                   ↑
+            child taps → X mark → correct!
+```
+
+##### Props
+```ts
+interface ShapeIdentifierProps {
+  data: ShapeIdentifyProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface ShapeIdentifyProblem {
+  mode: "find-correct" | "odd-one-out";
+  instruction: string;         // exact book text
+  shapes: {
+    id: string;
+    name: string;              // "Cube shape" — from book-terms.ts
+    type: "cube" | "cuboid" | "cylinder" | "ball" | "prism";
+    isCorrect: boolean;        // true = the answer (find) or the odd one (odd-out)
+  }[];
+}
+```
+
+- State — minimal. Single phase: picking → celebrate. Child taps one shape. Right = green outline + ding. Wrong = red flash + try again. After correct, celebrate + onComplete. No useReducer needed — a simple useState suffices.
+
+Visual: Each shape is a large card (120px+) with an SVG or emoji representation and the name below. Cards arranged in a 2×2 grid for 4 shapes, or horizontal row for 3.
+
+Shape SVGs needed (simple geometric, flat design):
+
+- Ball shape: circle with subtle gradient
+- Cube shape: isometric cube outline
+- Cuboid shape: isometric rectangular box
+- Cylinder shape: cylinder outline
+- Prism shape: triangular prism outline
+
+#### 7B: `ShapeFootprint`
+
+- Book concept: "When you trace around a [cube], what shape do you get?"
+```
+"Trace the face. What 2D shape does it make?"
+
+  ┌─────────────┐           ┌─────────────┐
+  │             │           │             │
+  │  [3D CUBE]  │    →→→    │     ???     │
+  │             │           │             │
+  └─────────────┘           └─────────────┘
+   "Cube shape"              [□] [○] [△] [▭]
+                              ↑ child taps square
+```
+
+##### Props
+```
+interface ShapeFootprintProps {
+  data: ShapeFootprintProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface ShapeFootprintProblem {
+  shape3d: "cube" | "cuboid" | "cylinder" | "ball" | "prism";
+  correctFootprint: "square" | "circle" | "triangle" | "rectangle";
+  distractors: ("square" | "circle" | "triangle" | "rectangle")[];
+  instruction: string;        // "When you trace around a Cube shape..."
+}
+```
+- Interaction: 3D shape on left, 2D answer options on right. Child taps a 2D shape. Correct = the 2D shape animates "stamping" onto the 3D shape's face (Framer Motion scale + opacity), then celebrate. Wrong = red flash, retry.
+
+#### Mapping (from the book):
+
+```ts
+export const FOOTPRINT_MAP: Record<string, string[]> = {
+  cube:     ["square"],
+  cuboid:   ["rectangle", "square"],  // different faces give different prints
+  cylinder: ["circle"],
+  ball:     ["circle"],
+  prism:    ["triangle", "rectangle"],
+};
+```
+
+#### Build Instructions
+```
+Build two Ch10 components:
+
+1. src/components/interactives/ShapeIdentifier.tsx
+   - 2×2 grid of shape cards (120px min), SVG icon + name label
+   - Tap to select. Correct: green ring + ding. Wrong: red flash.
+   - Two modes: find-correct, odd-one-out
+   - Simple useState (no useReducer needed)
+
+2. src/components/interactives/ShapeFootprint.tsx
+   - Left: 3D shape SVG. Right: row of 2D shape options.
+   - Correct tap: 2D shape animates stamping onto 3D face
+   - Wrong: red flash, retry
+
+3. src/components/shared/Shape3DSVG.tsx — reusable 3D shape renderer
+   Takes prop: shape ("cube"|"cuboid"|"cylinder"|"ball"|"prism")
+   Returns inline SVG. Simple isometric flat design, solid fill + darker 
+   stroke. Each shape is a distinct color matching the book's Art Corner 
+   color code: cube=blue, cuboid=red, ball=orange, cylinder=green, prism=purple.
+
+4. src/components/shared/Shape2DSVG.tsx — reusable 2D shape renderer
+   Takes prop: shape ("square"|"circle"|"triangle"|"rectangle")
+
+5. Generators: src/lib/generators/shapeGenerator.ts
+   - generateShapeIdentify(mode) — picks target + 3 distractors
+   - generateShapeFootprint() — picks random 3D shape + correct + 3 wrong 2D
+
+6. Samples + dev routes: /dev/shapes (tabs for identifier and footprint)
+
+7. ActivityRenderer: "shape-3d-identify" → ShapeIdentifier, 
+   "shape-3d-to-2d" → ShapeFootprint
+```
+
 ---
 
 ## Updated scorecard:
@@ -1829,14 +1975,14 @@ Test: all modes functional on both dev routes.
 | # |  Component	| Status	| Chapter
 |---|---|---|---
 | 1	| GuidedBoxFill	| ✅ patched	| Ch12+13
-|2	SplitTreeAdder	| ✅	| Ch12+13
-|3	HundredsChart	| ✅	| Ch14
-|4a	BlockGrouper	| ✅	| Ch14
-|4b	NumberLine	| ✅	| Ch14
-|5	AreaGrid	| → building	| Ch11
-|6	CapacityPourer	| → building	| Ch11
-|7	ShapeFootprint + ShapeIdentifier	| next	| Ch10
-|8	ClockFace	| next	| Ch16
-|9	ShapeComposer	| next	| Ch15
-|10	WordProblem	| next	| Ch17
-|11	ArtCorner	| last	| all
+| 2	| SplitTreeAdder	| ✅	| Ch12+13
+| 3	| HundredsChart	| ✅	| Ch14
+| 4a	| BlockGrouper	| ✅	| Ch14
+| 4b	| NumberLine	| ✅	| Ch14
+| 5	| AreaGrid	| ✅	| Ch11
+| 6	| CapacityPourer	| ✅	| Ch11
+| 7	| ShapeFootprint + ShapeIdentifier	| next	| Ch10
+| 8	| ShapeClockFace	| next	| Ch16
+| 9	| ShapeComposer	| next	| Ch15
+| 10	| WordProblem	| next	| Ch17
+| 11	| ArtCorner	| last	| all
