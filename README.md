@@ -1,4 +1,3 @@
----
 
 ## 🎨 Visual Tour
 
@@ -25,7 +24,8 @@ Experience the premium interactive curriculum on any modern tablet or desktop:
   </table>
 </div>
 
----
+***
+
 
 ## 🚀 Overview
 
