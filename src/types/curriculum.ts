@@ -27,6 +27,8 @@ export type ConceptKey =
   | "compare-area"
   | "addition-make-10"
   | "subtraction-use-10"
+  | "guided-box-make10"
+  | "guided-box-sub10"
   | "place-value-group"
   | "place-value-hundreds-chart"
   | "place-value-number-line"

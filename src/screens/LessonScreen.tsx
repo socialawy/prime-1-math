@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { chapters } from "../data/chapters";
+import { ActivityRenderer } from "../components/ActivityRenderer";
 
 export function LessonScreen() {
   const { chapterId } = useParams<{ chapterId: string }>();
@@ -41,7 +42,7 @@ export function LessonScreen() {
           Coming soon...
         </div>
       ) : (
-        <div className="mx-auto max-w-xl space-y-4">
+        <div className="mx-auto max-w-4xl space-y-6">
           {chapter.lessons.map((lesson) => (
             <div
               key={lesson.id}
@@ -53,6 +54,20 @@ export function LessonScreen() {
               <p className="text-sm opacity-60">
                 {lesson.titleAr}
               </p>
+              {lesson.activities.length > 0 ? (
+                <div className="mt-6 space-y-6">
+                  {lesson.activities.map((activity) => (
+                    <ActivityRenderer
+                      key={activity.id}
+                      activity={activity}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-4 text-sm text-gray-400">
+                  No activities yet.
+                </p>
+              )}
             </div>
           ))}
         </div>

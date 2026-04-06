@@ -1472,7 +1472,8 @@ ArtCorner	| last	| all
 
 ---
 
-### `ActivityRenderer`
+### ActivityRenderer — COMPLETED ✅ [2026-04-06]
+
 ```
 Wire up ActivityRenderer. Create src/components/ActivityRenderer.tsx 
 with the switch statement mapping all conceptKeys built so far:
@@ -1488,4 +1489,179 @@ with the switch statement mapping all conceptKeys built so far:
 Default case: render a "Coming soon" placeholder card with the 
 conceptKey displayed. This lets us test the full lesson flow 
 even before all widgets exist.
+```
+
+**Output:** [2026-04-06]
+● **Done.** Added `ActivityRenderer.tsx` and wired it into `LessonScreen.tsx`. Lesson activities now render through a central switch.
+
+**Integration Details:**
+- Added `guided-box-make10` and `guided-box-sub10` to `curriculum.ts` for explicit routing.
+- Built a thin adapter in `ActivityRenderer` to map legacy payload types to `SplitTreeProblem` props.
+- Added "Coming soon" fallback card for unknown/unbuilt conceptKeys.
+
+**Verification:**
+- `npx tsc -b` passed, and `npm run build` passed.
+
+---
+
+### Component #5: AreaGrid (Ch11)
+
+- What the Book Does
+Two shapes drawn on a square grid. Child counts the colored squares in each shape. Questions: "Which has the larger area?", "How many more squares?"
+
+#### What the Child Sees
+```
+"Count the squares. Which shape has the larger area?"
+
+  ┌───┬───┬───┬───┬───┬───┐
+  │🔵│🔵 │🔵│   │🟠│🟠 │
+  ├───┼───┼───┼───┼───┼───┤
+  │🔵│🔵 │   │   │🟠│🟠 │
+  ├───┼───┼───┼───┼───┼───┤
+  │🔵│   │   │   │🟠 │🟠│
+  ├───┼───┼───┼───┼───┼───┤
+  │   │   │   │   │🟠│   │
+  └───┴───┴───┴───┴───┴───┘
+
+  Blue: [__] squares     Orange: [__] squares
+         5                        7
+
+  Which has the larger area?  [Blue]  [Orange] ← child taps
+  ```
+  - Also used in count-only mode (from Flash's data where we only have unit counts, no cell coordinates):
+```
+"Shape A has 8 square units. Shape B has 5 square units.
+ Which has the larger area?"
+
+  [Shape A]    [Shape B]    ← big tappable buttons
+```
+
+#### Props
+```ts
+interface AreaGridProps {
+  data: AreaGridProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface AreaGridProblem {
+  mode: "grid-visual" | "count-compare";
+  
+  // grid-visual mode: full grid with colored cells
+  gridRows?: number;
+  gridCols?: number;
+  shapes?: {
+    label: string;           // "Blue" / "Orange"
+    color: string;           // tailwind color key
+    cells: [number, number][];  // [row, col] pairs
+  }[];
+  
+  // count-compare mode: just numbers (Flash adapter fallback)
+  shapeCounts?: { label: string; count: number; color: string }[];
+  
+  // question type
+  question: "which-larger" | "which-smaller" | "how-many-more" | "count-each";
+  correctAnswer: number | string;  // number for "how-many-more", label string for "which-X"
+}
+```
+
+#### State
+```ts
+interface AreaGridState {
+  phase: "counting" | "comparing" | "celebrate";
+  userCounts: Record<string, number | null>;  // label → user's count
+  userChoice: string | null;                   // for which-larger/smaller
+  userDifference: number | null;              // for how-many-more
+  mistakes: number;
+  startTime: number;
+}
+
+// Flow:
+// 1. "counting" — if grid-visual: child taps cells to count each shape
+//    (cells flash when tapped to confirm they've been counted)
+//    Then fills count boxes.
+//    If count-compare: counts are pre-filled, skip to comparing.
+//
+// 2. "comparing" — child answers the question (tap a shape button, 
+//    or enter a number for "how-many-more")
+//
+// 3. "celebrate"
+```
+
+#### Counting Interaction (The Clever Part)
+
+- The book says "Count the squares." Kids at this age often miscount by tapping the same cell twice or skipping one. Build a tap-to-mark mechanic:
+
+```ts
+// Child taps a colored cell → it gets a subtle checkmark overlay
+// A running counter for that shape's color increments
+// Tapping an already-marked cell unmarks it (toggle)
+// After marking, the count auto-fills the input box
+// Child can also just type the number directly if they counted mentally
+
+// This teaches systematic counting — a key skill at this age
+```
+
+#### Generator
+```ts
+// src/lib/generators/areaGridGenerator.ts
+
+export function generateAreaGrid(difficulty: 1 | 2 | 3): AreaGridProblem {
+  const gridSize = difficulty === 1 ? 4 : difficulty === 2 ? 5 : 6;
+  
+  // Generate two random connected shapes on the grid
+  const shapeA = generateConnectedShape(gridSize, randomInt(3, 5 + difficulty));
+  const shapeB = generateConnectedShape(gridSize, randomInt(3, 5 + difficulty), shapeA);
+  
+  const countA = shapeA.length;
+  const countB = shapeB.length;
+  
+  return {
+    mode: "grid-visual",
+    gridRows: gridSize,
+    gridCols: gridSize,
+    shapes: [
+      { label: "Blue", color: "blue", cells: shapeA },
+      { label: "Orange", color: "orange", cells: shapeB },
+    ],
+    question: pick(["which-larger", "how-many-more"]),
+    correctAnswer: countA > countB ? "Blue" 
+      : countB > countA ? "Orange" 
+      : Math.abs(countA - countB), // for how-many-more
+  };
+}
+
+// Helper: grow a connected shape by random-walking from a seed cell
+function generateConnectedShape(
+  gridSize: number, 
+  targetSize: number,
+  avoid?: [number, number][]
+): [number, number][] {
+  const cells: [number, number][] = [];
+  const avoidSet = new Set((avoid || []).map(([r,c]) => `${r},${c}`));
+  
+  // Pick a random starting cell not in avoid zone
+  let startR: number, startC: number;
+  do {
+    startR = randomInt(0, gridSize - 1);
+    startC = randomInt(0, gridSize - 1);
+  } while (avoidSet.has(`${startR},${startC}`));
+  
+  cells.push([startR, startC]);
+  
+  while (cells.length < targetSize) {
+    // Pick a random existing cell, grow in a random direction
+    const [r, c] = pick(cells);
+    const dirs = [[0,1],[0,-1],[1,0],[-1,0]];
+    const [dr, dc] = pick(dirs);
+    const nr = r + dr, nc = c + dc;
+    const key = `${nr},${nc}`;
+    if (nr >= 0 && nr < gridSize && nc >= 0 && nc < gridSize 
+        && !cells.some(([cr,cc]) => cr === nr && cc === nc)
+        && !avoidSet.has(key)) {
+      cells.push([nr, nc]);
+      avoidSet.add(key);
+    }
+  }
+  return cells;
+}
 ```
