@@ -26,6 +26,7 @@ interface BoxFillState {
 
 type BoxFillAction =
   | { type: "TAP_NUMBER"; digit: number }
+  | { type: "SET_BUFFER"; value: string }
   | { type: "BACKSPACE" }
   | { type: "SUBMIT" }
   | { type: "ADVANCE_INFO" }
@@ -77,6 +78,11 @@ function reducer(
       // Cap at 2 digits (max answer is 18)
       if (buf.length > 2) return state;
       return { ...state, inputBuffer: buf };
+    }
+
+    case "SET_BUFFER": {
+      if (action.value.length > 2) return state;
+      return { ...state, inputBuffer: action.value };
     }
 
     case "BACKSPACE": {
@@ -341,6 +347,7 @@ export function GuidedBoxFill({ data, onComplete }: GuidedBoxFillProps) {
         (data.steps[state.currentStepIndex]?.blanks.length ?? 0) > 0 && (
         <NumberPad
           onTap={(n) => dispatch({ type: "TAP_NUMBER", digit: n })}
+          onSetBuffer={(v) => dispatch({ type: "SET_BUFFER", value: v })}
           onBackspace={() => dispatch({ type: "BACKSPACE" })}
           onSubmit={() => dispatch({ type: "SUBMIT" })}
           showTeenRow={needsTeenRow}
@@ -515,12 +522,14 @@ function BlankBox({
 
 function NumberPad({
   onTap,
+  onSetBuffer,
   onBackspace,
   onSubmit,
   showTeenRow,
   hasInput,
 }: {
   onTap: (n: number) => void;
+  onSetBuffer: (value: string) => void;
   onBackspace: () => void;
   onSubmit: () => void;
   showTeenRow: boolean;
@@ -534,25 +543,21 @@ function NumberPad({
           <PadButton key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
       </div>
-      {/* Row 2: 6-9 + backspace */}
+      {/* Row 2: 6-0 + backspace */}
       <div className="flex justify-center gap-2">
-        {[6, 7, 8, 9].map((n) => (
+        {[6, 7, 8, 9, 0].map((n) => (
           <PadButton key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
         <PadButton label="⌫" onPress={onBackspace} variant="secondary" />
       </div>
-      {/* Row 3: 10 + teen numbers (conditional) */}
+      {/* Row 3: teen numbers (conditional) */}
       {showTeenRow && (
         <div className="flex justify-center gap-2">
           {[10, 11, 12, 13, 14, 15, 16, 17, 18].map((n) => (
             <PadButton
               key={n}
               label={String(n)}
-              onPress={() => {
-                // For teen numbers, clear buffer and set directly
-                onBackspace();
-                onTap(n);
-              }}
+              onPress={() => onSetBuffer(String(n))}
               size="sm"
             />
           ))}

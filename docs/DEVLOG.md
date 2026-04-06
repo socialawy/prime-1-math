@@ -2286,3 +2286,22 @@ What needs attention during the content pass:
 - `adaptProblem()` switch statement will grow. Consider a registry pattern if it exceeds 15 type handlers.
 - `book-terms.ts` should become the single source for display strings (some are hardcoded in generators).
 - Testing: zero tests currently. After Horizon 1, add Vitest snapshot tests for generators and Playwright for critical user flows.
+
+---
+
+### Fix: Number-pad 0 + atomic teen entry [2026-04-07]
+
+**Issues:** #5 (teen number silent failure) + #7 (missing 0 on number pads)
+
+**Root cause (teen):** Teen buttons did `onBackspace(); onTap(n)` — two separate dispatches. If buffer already had 2 digits, backspace left 1 char, then appending "15" made "115" (length > 2), silently rejected.
+
+**Root cause (zero):** GuidedBoxFill and SplitTreeAdder number pads had `[6,7,8,9,⌫]` in row 2 — no 0 button. Child can't type 10 or 20 digit-by-digit.
+
+**Changes:**
+- Added `SET_BUFFER` action to both GuidedBoxFill and SplitTreeAdder reducers — atomically replaces the input buffer instead of append.
+- Teen number buttons now call `onSetBuffer(String(n))` instead of `onBackspace(); onTap(n)`.
+- Added 0 to row 2 of both number pads: `[6,7,8,9,0,⌫]`.
+
+**Files:** `src/components/interactives/GuidedBoxFill.tsx`, `src/components/interactives/SplitTreeAdder.tsx`
+
+**Verification:** `npm run build` passed (tsc + vite).

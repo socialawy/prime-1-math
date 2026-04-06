@@ -41,6 +41,7 @@ type SplitTreeAction =
   | { type: "CHOOSE_SPLIT"; target: "A" | "B" }
   | { type: "SPLIT_OPEN_DONE" }
   | { type: "TAP_NUMBER"; digit: number }
+  | { type: "SET_BUFFER"; value: string }
   | { type: "BACKSPACE" }
   | { type: "CONFIRM_SPLIT" }
   | { type: "WRONG_SPLIT" }
@@ -118,6 +119,11 @@ function reducer(state: SplitTreeState, action: SplitTreeAction): SplitTreeState
       const buf = state.inputBuffer + String(action.digit);
       if (buf.length > 2) return state;
       return { ...state, inputBuffer: buf };
+    }
+
+    case "SET_BUFFER": {
+      if (action.value.length > 2) return state;
+      return { ...state, inputBuffer: action.value };
     }
 
     case "BACKSPACE":
@@ -450,6 +456,7 @@ export function SplitTreeAdder({ data, onComplete }: SplitTreeAdderProps) {
             inputBuffer={state.inputBuffer}
             showTeenRow={state.phase === "final-answer"}
             onTap={(n) => dispatch({ type: "TAP_NUMBER", digit: n })}
+            onSetBuffer={(v) => dispatch({ type: "SET_BUFFER", value: v })}
             onBackspace={() => dispatch({ type: "BACKSPACE" })}
             onSubmit={
               state.phase === "fill-split" ? handleSubmitSplit : handleSubmitFinal
@@ -671,12 +678,14 @@ function NumberPad({
   inputBuffer,
   showTeenRow,
   onTap,
+  onSetBuffer,
   onBackspace,
   onSubmit,
 }: {
   inputBuffer: string;
   showTeenRow: boolean;
   onTap: (n: number) => void;
+  onSetBuffer: (value: string) => void;
   onBackspace: () => void;
   onSubmit: () => void;
 }) {
@@ -688,7 +697,7 @@ function NumberPad({
         ))}
       </div>
       <div className="flex justify-center gap-2">
-        {[6, 7, 8, 9].map((n) => (
+        {[6, 7, 8, 9, 0].map((n) => (
           <PadBtn key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
         <PadBtn label="⌫" onPress={onBackspace} variant="secondary" />
@@ -699,10 +708,7 @@ function NumberPad({
             <PadBtn
               key={n}
               label={String(n)}
-              onPress={() => {
-                onBackspace();
-                onTap(n);
-              }}
+              onPress={() => onSetBuffer(String(n))}
               size="sm"
             />
           ))}
