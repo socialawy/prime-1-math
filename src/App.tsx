@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
 import { SplashScreen } from "./screens/SplashScreen";
 import { ChapterMap } from "./screens/ChapterMap";
+import { ExamPractice } from "./screens/ExamPractice";
 import { LessonScreen } from "./screens/LessonScreen";
 import { DevGuidedBox } from "./screens/DevGuidedBox";
 import { DevSplitTree } from "./screens/DevSplitTree";
@@ -22,6 +23,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<SplashScreen />} />
           <Route path="/chapters" element={<ChapterMap />} />
+          <Route path="/exam-practice" element={<ExamPractice />} />
           <Route path="/lesson/:chapterId" element={<LessonScreen />} />
           <Route path="/dev/guidedbox" element={<DevGuidedBox />} />
           <Route path="/dev/splittree" element={<DevSplitTree />} />

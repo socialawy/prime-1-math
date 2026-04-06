@@ -2605,7 +2605,7 @@ I've updated `AppContext.tsx` so progress now behaves as expected:
 
 ---
 
-### Task 5: Exam Practice Mode
+### Task 5: Exam Practice Mode - COMPLETED ✅ [2026-04-06]
 
 - This is the killer feature for a 2-week review app. NotebookLM told us there are 10 final assessments, 6 questions each, covering all chapters.
 `docs\queries`
@@ -2633,6 +2633,27 @@ Create src/screens/ExamPractice.tsx
 We have assessments.json with the actual book assessments,
 swap in that data. The generated ones are the fallback.
 ```
+
+**Output:** [2026-04-06]
+
+I've added a real exam-practice path with:
+- **Assessment Building & Caching:** Implemented in `src/utils/examBuilder.ts`.
+- **Persistent Storage:** Added `localStorage` support for cached exam sets in `src/lib/storage.ts`.
+- **Exam Dashboard:** New `ExamPractice.tsx` screen for listing and selecting assessments.
+- **Workflow & Routing:** Wired the new routes in `App.tsx` and added a prominent "📝 Exam Practice" button to `ChapterMap.tsx`.
+
+**Behavior:**
+- **Dynamic Loading:** Loads cached assessments if present; regenerates and re-caches on demand.
+- **Authentic Content:** Prefers supported real assessment items from `data/assessments.json`.
+- **Hybrid Support:** Fills missing or unsupported coverage with balanced, generated 6-activity assessments to ensure all 10 assessments are playable immediately.
+- **User Flow:** Runs each assessment through the same one-activity-at-a-time flow style as the core lessons for consistency.
+
+**Verification:**
+- `npx tsc -p tsconfig.json --pretty false` passed.
+
+**Scope Note:** Not every raw assessment type (from the original Flash data) is adapted yet. Task 5 currently uses a hybrid of real mapped assessment items plus generated fallbacks to keep all 10 assessments usable now.
+
+---
 
 ### Task 6: Bundle Splitting (5-Minute Fix)
 

@@ -12,16 +12,24 @@ export function ChapterMap() {
         <h1 className="text-4xl font-bold text-gray-800">
           Chapters
         </h1>
-        <button
-          onClick={() => updateSettings({ devMode: !settings.devMode })}
-          className={`rounded-xl px-4 py-2 text-sm font-bold shadow-sm ${
-            settings.devMode
-              ? "bg-amber-500 text-white"
-              : "bg-white text-slate-700"
-          }`}
-        >
-          Dev Mode: {settings.devMode ? "On" : "Off"}
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate("/exam-practice")}
+            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-sm"
+          >
+            Exam Practice
+          </button>
+          <button
+            onClick={() => updateSettings({ devMode: !settings.devMode })}
+            className={`rounded-xl px-4 py-2 text-sm font-bold shadow-sm ${
+              settings.devMode
+                ? "bg-amber-500 text-white"
+                : "bg-white text-slate-700"
+            }`}
+          >
+            Dev Mode: {settings.devMode ? "On" : "Off"}
+          </button>
+        </div>
       </div>
 
       <div className="mx-auto grid max-w-2xl grid-cols-2 gap-6">
