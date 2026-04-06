@@ -1,0 +1,79 @@
+{
+  "chapter": 10,
+  "title": "Different Shapes",
+  "verificationPage": "Original PDF 258 / Workbook Thumbnail 5-8",
+  "problems": [
+    {
+      "id": "ch10-s1-q1",
+      "sheet": 1,
+      "page": 188,
+      "type": "multiple-choice-visual",
+      "instruction": "Which shape looks like [Target]?",
+      "items": [
+        {
+          "target": { "imageType": "prism", "imageValue": "triangular-prism" },
+          "options": [
+            { "id": "a", "imageType": "sphere", "context": "tennis-ball" },
+            { "id": "b", "imageType": "cylinder", "context": "blue-glass" },
+            { "id": "c", "imageType": "prism", "context": "cheese-wedge" },
+            { "id": "d", "imageType": "cube", "context": "rubiks-cube" }
+          ],
+          "answer": "c"
+        },
+        {
+          "target": { "imageType": "sphere", "imageValue": "ball" },
+          "options": [
+            { "id": "a", "imageType": "sphere", "context": "basket-ball" },
+            { "id": "b", "imageType": "cylinder", "context": "red-can" },
+            { "id": "c", "imageType": "cuboid", "context": "juice-box" },
+            { "id": "d", "imageType": "cylinder", "context": "blue-drum" }
+          ],
+          "answer": "a"
+        }
+      ]
+    },
+    {
+      "id": "ch10-s1-q2",
+      "sheet": 1,
+      "type": "matching",
+      "instruction": "Join each shape to its name.",
+      "data": {
+        "shapes": [
+          { "id": "1", "imageType": "cuboid", "context": "brown-box" },
+          { "id": "2", "imageType": "prism", "context": "blue-wedge" },
+          { "id": "3", "imageType": "sphere", "context": "green-ball" },
+          { "id": "4", "imageType": "cylinder", "context": "orange-roll" },
+          { "id": "5", "imageType": "cube", "context": "blue-cube" }
+        ],
+        "names": [ "Prism shape", "Cuboid shape", "Cube shape", "Ball shape", "Cylinder shape" ]
+      },
+      "pairs": [ ["1", "Cuboid shape"], ["2", "Prism shape"], ["3", "Ball shape"], ["4", "Cylinder shape"], ["5", "Cube shape"] ]
+    },
+    {
+      "id": "ch10-s2-q1",
+      "sheet": 2,
+      "page": 189,
+      "type": "visual-selection",
+      "instruction": "Trace the following shapes, then circle the shapes you draw.",
+      "data": [
+        { "source": "cylinder", "options": ["circle", "triangle", "rectangle", "square"], "answer": "circle" },
+        { "source": "prism", "options": ["triangle", "square", "circle", "rectangle"], "answer": "triangle" },
+        { "source": "cuboid", "options": ["triangle", "circle", "square", "rectangle"], "answer": "rectangle" },
+        { "source": "cube", "options": ["circle", "triangle", "square", "rectangle"], "answer": "square" }
+      ]
+    },
+    {
+      "id": "ch10-a-q5",
+      "assessment": "Chapter 10",
+      "page": 191,
+      "type": "counting-composite",
+      "instruction": "How many?",
+      "items": [
+        {
+          "composite": { "description": "A tower made of orange cubes and pillars with a yellow cylinder in the middle" },
+          "counts": { "cube": 6, "cuboid": 2, "cylinder": 1, "ball": 0 }
+        }
+      ]
+    }
+  ]
+}
