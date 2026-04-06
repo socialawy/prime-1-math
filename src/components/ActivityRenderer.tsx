@@ -1,16 +1,4 @@
-import { ArtCorner } from "./interactives/ArtCorner";
-import { AreaGrid } from "./interactives/AreaGrid";
-import { BlockGrouper } from "./interactives/BlockGrouper";
-import { CapacityPourer } from "./interactives/CapacityPourer";
-import { ClockFace } from "./interactives/ClockFace";
-import { GuidedBoxFill } from "./interactives/GuidedBoxFill";
-import { HundredsChart } from "./interactives/HundredsChart";
-import { NumberLine } from "./interactives/NumberLine";
-import { ShapeComposer } from "./interactives/ShapeComposer";
-import { ShapeFootprint } from "./interactives/ShapeFootprint";
-import { ShapeIdentifier } from "./interactives/ShapeIdentifier";
-import { SplitTreeAdder } from "./interactives/SplitTreeAdder";
-import { WordProblem } from "./interactives/WordProblem";
+import { lazy, Suspense, type ReactNode } from "react";
 import type {
   Activity,
   ActivityResult,
@@ -19,6 +7,46 @@ import type {
   SplitTreeProblem,
   Use10SubtractData,
 } from "../types/curriculum";
+
+const ArtCorner = lazy(() =>
+  import("./interactives/ArtCorner").then((module) => ({ default: module.ArtCorner })),
+);
+const AreaGrid = lazy(() =>
+  import("./interactives/AreaGrid").then((module) => ({ default: module.AreaGrid })),
+);
+const BlockGrouper = lazy(() =>
+  import("./interactives/BlockGrouper").then((module) => ({ default: module.BlockGrouper })),
+);
+const CapacityPourer = lazy(() =>
+  import("./interactives/CapacityPourer").then((module) => ({ default: module.CapacityPourer })),
+);
+const ClockFace = lazy(() =>
+  import("./interactives/ClockFace").then((module) => ({ default: module.ClockFace })),
+);
+const GuidedBoxFill = lazy(() =>
+  import("./interactives/GuidedBoxFill").then((module) => ({ default: module.GuidedBoxFill })),
+);
+const HundredsChart = lazy(() =>
+  import("./interactives/HundredsChart").then((module) => ({ default: module.HundredsChart })),
+);
+const NumberLine = lazy(() =>
+  import("./interactives/NumberLine").then((module) => ({ default: module.NumberLine })),
+);
+const ShapeComposer = lazy(() =>
+  import("./interactives/ShapeComposer").then((module) => ({ default: module.ShapeComposer })),
+);
+const ShapeFootprint = lazy(() =>
+  import("./interactives/ShapeFootprint").then((module) => ({ default: module.ShapeFootprint })),
+);
+const ShapeIdentifier = lazy(() =>
+  import("./interactives/ShapeIdentifier").then((module) => ({ default: module.ShapeIdentifier })),
+);
+const SplitTreeAdder = lazy(() =>
+  import("./interactives/SplitTreeAdder").then((module) => ({ default: module.SplitTreeAdder })),
+);
+const WordProblem = lazy(() =>
+  import("./interactives/WordProblem").then((module) => ({ default: module.WordProblem })),
+);
 
 interface ActivityRendererProps {
   activity: Activity;
@@ -29,98 +57,123 @@ export function ActivityRenderer({
   activity,
   onComplete = () => {},
 }: ActivityRendererProps) {
+  let content: ReactNode;
+
   switch (activity.conceptKey) {
     case "addition-make-10":
     case "subtraction-use-10": {
       const splitTreeProblem = toSplitTreeProblem(activity);
       if (!splitTreeProblem) {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Unsupported activity data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Unsupported activity data." />;
+        break;
       }
-      return (
-        <SplitTreeAdder
-          data={splitTreeProblem}
-          onComplete={onComplete}
-        />
-      );
+      content = <SplitTreeAdder data={splitTreeProblem} onComplete={onComplete} />;
+      break;
     }
 
     case "guided-box-make10":
-    case "guided-box-sub10": {
+    case "guided-box-sub10":
       if (!isGuidedBoxProblem(activity.data)) {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected guided-box data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected guided-box data." />;
+        break;
       }
-      return <GuidedBoxFill data={activity.data} onComplete={onComplete} />;
-    }
+      content = <GuidedBoxFill data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "place-value-hundreds-chart":
       if (activity.data.type !== "place-value-hundreds-chart") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected hundreds-chart data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected hundreds-chart data." />;
+        break;
       }
-      return <HundredsChart data={activity.data} onComplete={onComplete} />;
+      content = <HundredsChart data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "art-corner":
       if (activity.data.type !== "art-corner") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected art-corner data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected art-corner data." />;
+        break;
       }
-      return <ArtCorner data={activity.data} onComplete={onComplete} />;
+      content = <ArtCorner data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "compare-area":
       if (activity.data.type !== "compare-area") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected area-grid data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected area-grid data." />;
+        break;
       }
-      return <AreaGrid data={activity.data} onComplete={onComplete} />;
+      content = <AreaGrid data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "compare-capacity":
       if (activity.data.type !== "compare-capacity") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected capacity data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected capacity data." />;
+        break;
       }
-      return <CapacityPourer data={activity.data} onComplete={onComplete} />;
+      content = <CapacityPourer data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "shape-3d-identify":
       if (activity.data.type !== "shape-3d-identify") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-identify data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-identify data." />;
+        break;
       }
-      return <ShapeIdentifier data={activity.data} onComplete={onComplete} />;
+      content = <ShapeIdentifier data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "shape-3d-to-2d":
       if (activity.data.type !== "shape-3d-to-2d") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-footprint data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-footprint data." />;
+        break;
       }
-      return <ShapeFootprint data={activity.data} onComplete={onComplete} />;
+      content = <ShapeFootprint data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "compose-shapes":
       if (activity.data.type !== "compose-shapes") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-composer data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-composer data." />;
+        break;
       }
-      return <ShapeComposer data={activity.data} onComplete={onComplete} />;
+      content = <ShapeComposer data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "tell-time":
       if (activity.data.type !== "tell-time") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected tell-time data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected tell-time data." />;
+        break;
       }
-      return <ClockFace data={activity.data} onComplete={onComplete} />;
+      content = <ClockFace data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "add-sub-mixed":
       if (activity.data.type !== "add-sub-mixed") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected word-problem data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected word-problem data." />;
+        break;
       }
-      return <WordProblem data={activity.data} onComplete={onComplete} />;
+      content = <WordProblem data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "place-value-group":
       if (activity.data.type !== "place-value-group") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected place-value group data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected place-value group data." />;
+        break;
       }
-      return <BlockGrouper data={activity.data} onComplete={onComplete} />;
+      content = <BlockGrouper data={activity.data} onComplete={onComplete} />;
+      break;
 
     case "place-value-number-line":
       if (activity.data.type !== "place-value-number-line") {
-        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected number-line data." />;
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected number-line data." />;
+        break;
       }
-      return <NumberLine data={activity.data} onComplete={onComplete} />;
+      content = <NumberLine data={activity.data} onComplete={onComplete} />;
+      break;
 
     default:
-      return <PlaceholderCard conceptKey={activity.conceptKey} />;
+      content = <PlaceholderCard conceptKey={activity.conceptKey} />;
+      break;
   }
+
+  return <Suspense fallback={<LoadingCard />}>{content}</Suspense>;
 }
 
 function toSplitTreeProblem(activity: Activity): SplitTreeProblem | null {
@@ -194,6 +247,15 @@ function parseEquation(equation: string): { left: number; right: number } | null
     return null;
   }
   return { left: parts[0]!, right: parts[1]! };
+}
+
+function LoadingCard() {
+  return (
+    <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-center text-slate-500 shadow-sm">
+      <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-blue-500" />
+      <p className="mt-3 text-sm font-medium">Loading activity...</p>
+    </div>
+  );
 }
 
 function PlaceholderCard({

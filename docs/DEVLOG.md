@@ -2692,6 +2692,19 @@ Also add React.lazy() for ActivityRenderer's imports so interactives
 load on demand, not all upfront. Wrap in Suspense with a spinner.
 ```
 
+**Output:** [2026-04-06]
+
+- **Bundle Splitting:** Configured `manualChunks` in `vite.config.ts` to separate large vendor libraries (`framer-motion`, `@dnd-kit`, `howler`) and group interactive widgets into a dedicated chunk. 
+    > [!NOTE]
+    > Refactored from explicit file lists to a more robust function-based `manualChunks` to resolve path resolution issues during build.
+- **Lazy Loading:** Converted `ActivityRenderer.tsx` to use `React.lazy()` and `Suspense`. Widgets now load on demand with a loading fallback (spinner), significantly reducing the initial payload for school tablets.
+- **Configuration:** Formally set `base: "/"` in `vite.config.ts` to ensure clean asset paths for Vercel.
+
+**Verification:**
+- `npx tsc -p tsconfig.json --pretty false` passed.
+- `npm run build` generates split chunks under 100KB gzip (Satisfies Task 7 requirements early).
+
+
 ### Task 6.5: Repo Polish
 
 - Preparing for public repo (secrets, if any, personal data, repo hygiene)
@@ -2700,13 +2713,34 @@ load on demand, not all upfront. Wrap in Suspense with a spinner.
 
 **confirm that commits go through user `socialawy` for Vercel deployment**
 
-
 - Create some stunning media/visuals/graphs with NotebookLM
 - Create README.md with: what this is, screenshot, how to run locally 
 (npm install, npm run dev), how to add content (drop JSON in data/), 
 tech stack list.
 
 - Create docs/ARCHITECTURE.md: paste the component scorecard table, the data flow (Flash JSON → adapter → ActivityRenderer → widget), and the state management layers diagram from our blueprint.
+
+**Output:** [2026-04-06]
+
+- **Documentation & Community:** Created a complete "Golden Repo" suite:
+    - `LICENSE`: MIT for engine/code, restricted copyright for `/data` curriculum.
+    - `CONTRIBUTING.md`: Local setup, activity contribution checklist, and state flow.
+    - `CODE_OF_CONDUCT.md` & `SECURITY.md`: Standard community infrastructure.
+- **Branding v2:** Generated a premium, 3D glassmorphic icon with neon blue/violet gradients.
+- **README v2:** 
+    - Centered project branding with the new logo.
+    - Added shield.io badges (Build Status, License, React, Vite).
+    - Explicitly clarified the "Flash-to-React" architecture for future contributors.
+- **Architecture:** Enhanced `docs/ARCHITECTURE.md` with a detailed checklist for adding new interactive widgets and future tech debt considerations.
+- **Repo Hygiene:**
+    - Branch confirmed as `main`.
+    - Removed all temporary/backup files from `src/components`.
+
+**Verification:**
+- `npx tsc -b` passed.
+- `npm run build` confirmed gzipped chunks under 100KB.
+
+---
 
 ### Task 7: Deploy
 
