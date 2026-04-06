@@ -170,7 +170,9 @@ export function LessonScreen() {
               Average score: {averageScore}%
             </p>
             <div className="mt-6 text-5xl">
-              {stars > 0 ? "*".repeat(stars) : "-"}
+              {Array.from({ length: 3 }, (_, i) => (
+                <span key={i} className={i < stars ? "text-yellow-400" : "text-gray-300"}>★</span>
+              ))}
             </div>
             <p className="mt-4 text-sm text-slate-500">
               1 star for 50%+, 2 stars for 75%+, 3 stars for 90%+

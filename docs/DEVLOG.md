@@ -2317,3 +2317,15 @@ What needs attention during the content pass:
 **File:** `src/lib/examBuilder.ts`
 
 **Verification:** `npm run build` passed.
+
+---
+
+### Fix: Stars display + delete dead file [2026-04-07]
+
+**Issue:** #10 — `"*".repeat(n)` rendered literal asterisks for stars. LessonScreen.next.tsx was an unused duplicate.
+
+**Changes:**
+- ChapterMap.tsx and LessonScreen.tsx: replaced `"*".repeat()` with `★` characters — filled (yellow) for earned, outline (gray) for unearned, always showing 3 slots.
+- Deleted `src/screens/LessonScreen.next.tsx`.
+
+**Verification:** `npm run build` passed.

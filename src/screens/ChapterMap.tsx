@@ -68,7 +68,9 @@ export function ChapterMap() {
               </span>
               {chapterProgress && chapterProgress.starsEarned > 0 && (
                 <span className="text-xl">
-                  {"*".repeat(chapterProgress.starsEarned)}
+                  {Array.from({ length: 3 }, (_, i) => (
+                    <span key={i} className={i < chapterProgress.starsEarned ? "text-yellow-400" : "text-gray-300"}>★</span>
+                  ))}
                 </span>
               )}
             </button>
