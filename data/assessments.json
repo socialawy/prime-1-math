@@ -1,0 +1,213 @@
+[
+  {
+    "id": "final_2",
+    "title": "Accumulative Assessment Till Chapter 17",
+    "problems": [
+      {
+        "id": "f2_p1",
+        "type": "analog-clock-read-multiple",
+        "instruction": "What time is it?",
+        "items": [
+          { "id": "f2_c1", "time": "1:15", "details": "Hour hand past 1, minute hand at 3" },
+          { "id": "f2_c2", "time": "6:30", "details": "Hour hand between 6-7, minute hand at 6" },
+          { "id": "f2_c3", "time": "2:45", "details": "Hour hand near 3, minute hand at 9" }
+        ]
+      },
+      {
+        "id": "f2_p2",
+        "type": "number-ordering",
+        "instruction": "Order from least to greatest.",
+        "numbers": [13, 31, 10, 30],
+        "answer": [10, 13, 30, 31]
+      },
+      {
+        "id": "f2_p3",
+        "type": "shape-footprint-match",
+        "instruction": "Match the 3D shape to its face footprint.",
+        "pairs": [
+          { "3d": "cube", "face": "square" },
+          { "3d": "cuboid", "face": "rectangle" },
+          { "3d": "cylinder", "face": "circle" }
+        ]
+      },
+      {
+        "id": "f2_p4",
+        "type": "money-counting",
+        "instruction": "How much money? (L.E.)",
+        "items": [
+          { "id": "f2_m1", "composition": "one 10 LE note + five 1 LE coins", "answer": 15 },
+          { "id": "f2_m2", "composition": "two 20 LE notes", "answer": 40 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "final_3",
+    "title": "Final Assessment 3",
+    "problems": [
+      {
+        "id": "f3_p1",
+        "type": "composite-shape-analysis",
+        "instruction": "A parallelogram is made of 2 __?",
+        "options": ["circles", "triangles", "squares"],
+        "answer": "triangles"
+      },
+      {
+        "id": "f3_p2",
+        "type": "grid-navigation",
+        "instruction": "On the 100-chart, what is the number above 55?",
+        "answer": 45
+      },
+      {
+        "id": "f3_p3",
+        "type": "area-comparison",
+        "instruction": "Which color shape has the largest area?",
+        "imageType": "area_grid_colored",
+        "items": [ { "color": "Yellow", "units": 8 }, { "color": "Blue", "units": 6 } ],
+        "answer": "Yellow"
+      }
+    ]
+  },
+  {
+    "id": "final_4",
+    "title": "Final Assessment 4",
+    "problems": [
+      {
+        "id": "f4_p1",
+        "type": "word-to-number",
+        "instruction": "Which number is 'one hundred'?",
+        "answer": 100
+      },
+      {
+        "id": "f4_p2",
+        "type": "make-a-ten-strategy",
+        "instruction": "To subtract 17 - 8, we can decompose 8 into 7 and 1. 17 - 7 = 10. 10 - 1 = __?",
+        "answer": 9
+      },
+      {
+        "id": "f4_p3",
+        "type": "clock-hands-drawing",
+        "instruction": "Draw the minute hand for 5:20. Where should it point?",
+        "options": [4, 5, 20],
+        "answer": 4
+      }
+    ]
+  },
+  {
+    "id": "final_5",
+    "title": "Final Assessment 5",
+    "problems": [
+      {
+        "id": "f5_p1",
+        "type": "dot-grid-copy",
+        "instruction": "Copy the 'M' shape onto the dot grid.",
+        "imageType": "dot_grid_m_shape"
+      },
+      {
+        "id": "f5_p2",
+        "type": "ordinal-logic",
+        "instruction": "Ibrahim is 5th from the back. There are 8 people in front of him. How many people in total?",
+        "answer": 13
+      }
+    ]
+  },
+  {
+    "id": "final_6",
+    "title": "Final Assessment 6",
+    "problems": [
+      {
+        "id": "f6_p1",
+        "type": "3d-shape-identification",
+        "instruction": "Which shape is a cylinder?",
+        "options": ["soup can", "dice", "pencil box"],
+        "answer": "soup can"
+      },
+      {
+        "id": "f6_p2",
+        "type": "clock-hands-drawing",
+        "instruction": "Draw hands for 7:15. Minute hand should be at __?",
+        "answer": 3
+      }
+    ]
+  },
+  {
+    "id": "final_7",
+    "title": "Final Assessment 7",
+    "problems": [
+      {
+        "id": "f7_p1",
+        "type": "dot-grid-copy",
+        "instruction": "Copy the mushroom shape onto the dot grid.",
+        "imageType": "dot_grid_mushroom"
+      },
+      {
+        "id": "f7_p2",
+        "type": "subtraction-word-problem",
+        "instruction": "There are 17 children. There are 9 fewer teachers than children. How many teachers are there?",
+        "answer": 8
+      }
+    ]
+  },
+  {
+    "id": "final_8",
+    "title": "Final Assessment 8",
+    "problems": [
+      {
+        "id": "f8_p1",
+        "type": "stick-counting",
+        "instruction": "How many sticks are used to make the hourglass shape?",
+        "imageType": "stick_hourglass",
+        "answer": 6
+      },
+      {
+        "id": "f8_p2",
+        "type": "area-unit-comparison",
+        "instruction": "Heba's shape has 19 units. Gamal's has 17 units. Who has the larger area?",
+        "answer": "Heba"
+      }
+    ]
+  },
+  {
+    "id": "final_9",
+    "title": "Final Assessment 9",
+    "problems": [
+      {
+        "id": "f9_p1",
+        "type": "3d-face-tracing",
+        "instruction": "Tracing a face of a __ gives a square.",
+        "answer": "cube"
+      },
+      {
+        "id": "f9_p2",
+        "type": "capacity-math",
+        "instruction": "Container B holds 10 cups. Container A holds 8 cups. How many more cups does B hold than A?",
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "final_10",
+    "title": "Final Assessment 10",
+    "problems": [
+      {
+        "id": "f10_p1",
+        "type": "object-category-match",
+        "instruction": "Which object is a sphere?",
+        "answer": "tennis ball"
+      },
+      {
+        "id": "f10_p2",
+        "type": "ordinal-reasoning",
+        "instruction": "There are 20 books on a shelf. The food book is 10th from the left. How many books are to its right?",
+        "answer": 10
+      },
+      {
+        "id": "f10_p3",
+        "type": "analog-clock-read-mixed",
+        "instruction": "Read the following times.",
+        "items": ["8:00", "7:15", "9:45"],
+        "answer": ["8:00", "7:15", "9:45"]
+      }
+    ]
+  }
+]

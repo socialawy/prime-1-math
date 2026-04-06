@@ -1,0 +1,123 @@
+[
+  {
+    "assessment": "chapter_17_assessment_1",
+    "chapter": 17,
+    "problems": [
+      {
+        "id": "ass17_p1",
+        "type": "number_comparison",
+        "instruction": "Compare using >, <, or =.",
+        "items": [
+          { "left": 45, "right": 27, "answer": ">" },
+          { "left": "8 tens", "right": "11 ones", "answer": ">" },
+          { "left": 79, "right": 82, "answer": "<" }
+        ]
+      },
+      {
+        "id": "ass17_p2",
+        "type": "fill_missing_numbers",
+        "instruction": "Write the missing numbers.",
+        "sequences": [
+          { "data": [21, 22, null, 24], "answer": [23] },
+          { "data": [62, 63, 64, null, null], "answer": [65, 66] }
+        ]
+      },
+      {
+        "id": "ass17_p3",
+        "type": "visual_pattern_completion",
+        "instruction": "Continue the pattern.",
+        "patterns": [
+          { "sequence": ["Orange Square", "Green Triangle", "Orange Square", "Green Triangle"], "answer": "Orange Square, Green Triangle" },
+          { "sequence": ["Yellow Circle", "Red Square", "Red Square", "Yellow Circle"], "answer": "Red Square, Red Square" }
+        ]
+      },
+      {
+        "id": "ass17_p4",
+        "type": "counting_to_100",
+        "instruction": "Count the total number of objects. (Bundles of 10 and ones)",
+        "imageType": "ten_bundles_and_singles",
+        "items": [
+          { "bundles": 4, "singles": 5, "answer": 45 },
+          { "bundles": 2, "singles": 0, "answer": 20 }
+        ]
+      }
+    ]
+  },
+  {
+    "sheet": 21,
+    "chapter": 17,
+    "problems": [
+      {
+        "id": "ch17-s21-q1",
+        "type": "place-value-composition",
+        "instruction": "20 and 3 make __",
+        "answer": 23
+      },
+      {
+        "id": "ch17-s21-q4",
+        "type": "ordinal-word-problem",
+        "instruction": "If you are the 4th person in a line, how many people are in front of you?",
+        "answer": 3
+      },
+      {
+        "id": "ch17-s21-q5",
+        "type": "number-comparison",
+        "instruction": "Which is greater: 5 tens or 48 ones?",
+        "answer": "5 tens"
+      }
+    ]
+  },
+  {
+    "sheet": 22,
+    "chapter": 17,
+    "problems": [
+      {
+        "id": "ch17-s22-q1",
+        "type": "analog-clock-read",
+        "instruction": "Write the time shown on the clock.",
+        "imageType": "analog_clock",
+        "time": "3:30",
+        "answer": "3:30"
+      },
+      {
+        "id": "ch17-s22-q3",
+        "type": "shape-logic-counting",
+        "instruction": "How many green triangle papers do you need to cover a 2x2 square area if each small square uses 2 triangles?",
+        "answer": 8
+      },
+      {
+        "id": "ch17-s22-q5",
+        "type": "subtraction-word-problem",
+        "instruction": "There were 12 cakes. 4 were eaten. How many are left?",
+        "answer": 8
+      }
+    ]
+  },
+  {
+    "sheet": 23,
+    "chapter": 17,
+    "problems": [
+      {
+        "id": "ch17-s23-q1",
+        "type": "shape-tracing-match",
+        "instruction": "Which shape do you get when tracing these objects?",
+        "pairs": [
+          { "object": "Tissue box", "shape": "Rectangle" },
+          { "object": "Tent", "shape": "Triangle" },
+          { "object": "Ball", "shape": "Circle" }
+        ]
+      },
+      {
+        "id": "ch17-s23-q4",
+        "type": "stick-construction-analysis",
+        "instruction": "Look at the shape made of sticks [cross shape]. Answer the questions.",
+        "imageType": "stick_cross",
+        "questions": [
+          { "text": "How many sticks were used?", "answer": 16 },
+          { "text": "How many triangles are there?", "answer": 0 },
+          { "text": "How many squares are there?", "answer": 5 }
+        ]
+      }
+    ]
+  }
+]

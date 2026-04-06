@@ -38,6 +38,61 @@
         "item": "pencils"
       },
       "answer": 4
-    }
-  ]
-}
+      },
+      {
+        "id": "ch14-s11-q1",
+        "sheet": 11,
+        "type": "matching-to-100",
+        "instruction": "Match the pairs that make 100.",
+        "pairs": [
+          { "left": 30, "right": 70 },
+          { "left": 40, "right": 60 },
+          { "left": 50, "right": 50 },
+          { "left": 80, "right": 20 }
+        ]
+      },
+      {
+        "id": "ch14-s12-q1",
+        "sheet": 12,
+        "type": "grid-fragment-fill",
+        "instruction": "Fill in the missing numbers in the 100-chart fragments.",
+        "fragments": [
+          { "center": 47, "top": 37, "bottom": 57, "left": 46, "right": 48 },
+          { "center": 82, "top": 72, "bottom": 92, "left": 81, "right": 83 }
+        ]
+      },
+      {
+        "id": "ch14-s15-q1",
+        "sheet": 15,
+        "type": "math-problems",
+        "instruction": "Solve the addition and subtraction problems.",
+        "items": [
+          { "problem": "74 - 1", "answer": 73 },
+          { "problem": "30 + 70", "answer": 100 },
+          { "problem": "50 - 10", "answer": 40 },
+          { "problem": "86 + 10", "answer": 96 }
+        ]
+      },
+      {
+        "id": "ch14-s16-q1",
+        "sheet": 16,
+        "type": "capacity-ordering",
+        "instruction": "Order the beakers from the least capacity to the greatest capacity.",
+        "imageType": "beakers_blue_liquid",
+        "items": [
+          { "label": "A", "level": "low", "order": 1 },
+          { "label": "B", "level": "full", "order": 3 },
+          { "label": "C", "level": "medium", "order": 2 }
+        ],
+        "answer": "A, C, B"
+      },
+      {
+        "id": "ch14-s16-q3",
+        "sheet": 16,
+        "type": "word-problem",
+        "instruction": "Mariam had 80 candies. She gave 40 to her brother. How many does she have left?",
+        "data": { "initial": 80, "given": 40 },
+        "answer": 40
+      }
+    ]
+  }

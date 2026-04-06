@@ -1,0 +1,114 @@
+[
+  {
+    "sheet": 20,
+    "chapter": 16,
+    "problems": [
+      {
+        "id": "s20_p1",
+        "type": "number_ordering",
+        "instruction": "Arrange the following numbers from least to greatest.",
+        "data": [63, "5 and 80", "ten 10s", "ninety-four", 19],
+        "normalized": [63, 85, 100, 94, 19],
+        "answer": [19, 63, 85, 94, 100]
+      },
+      {
+        "id": "s20_p2",
+        "type": "analog_clock_read",
+        "instruction": "Let's read the clocks.",
+        "items": [
+          { "id": "clock_1", "time": "10:30", "details": "Hour hand between 10-11, minute hand at 6" },
+          { "id": "clock_2", "time": "7:00", "details": "Hour hand at 7, minute hand at 12" },
+          { "id": "clock_3", "time": "4:15", "details": "Hour hand past 4, minute hand at 3" }
+        ]
+      },
+      {
+        "id": "s20_p3",
+        "type": "stick_construction",
+        "instruction": "We made a shape using sticks (—) as follow. Answer the questions.",
+        "imageType": "stick_star_square_core",
+        "questions": [
+          { "text": "How many triangle shapes are there?", "answer": 4 },
+          { "text": "How many square shapes are there?", "answer": 1 },
+          { "text": "How many sticks did you use?", "answer": 16 }
+        ]
+      },
+      {
+        "id": "s20_p4",
+        "type": "multiple_choice",
+        "instruction": "Choose the correct answer.",
+        "questions": [
+          { "text": "70 - 10 = __", "options": [60, 70, 80], "answer": 60 },
+          { "text": "8 tens and 5 ones make __", "options": [80, 85, 58], "answer": 85 },
+          { "text": "__ is 5 more than 41", "options": [36, 54, 46], "answer": 46 },
+          { "text": "The name of the shape [blue cube] is __ shape", "options": ["cube", "cuboid", "cylinder"], "answer": "cube" }
+        ]
+      }
+    ]
+  },
+  {
+    "assessment": "accumulative_till_16",
+    "chapter": 16,
+    "problems": [
+      {
+        "id": "ass16_p1",
+        "type": "trace_source_identification",
+        "instruction": "We traced a shape onto paper, and it looks like a red circle. Which shape did we trace?",
+        "options": ["cuboid", "triangular_prism", "cube", "cylinder"],
+        "answer": "cylinder",
+        "visualContext": "3D shapes: Yellow, Blue, Blue, Green"
+      },
+      {
+        "id": "ass16_p2",
+        "type": "capacity_matching",
+        "instruction": "Match the equal amounts (number of cups).",
+        "pairs": [
+          { "item1": "Patterned vase", "item2": "Yellow pitcher", "cups": 3 },
+          { "item1": "Red gas can", "item2": "Red vase", "cups": 4 },
+          { "item1": "Orange juice box", "item2": "Green bucket", "cups": 5 },
+          { "item1": "Red teapot", "item2": "Pink water bottle", "cups": 6 }
+        ]
+      },
+      {
+        "id": "ass16_p3",
+        "type": "odd_one_out_3d",
+        "instruction": "Cross out the shape that does not belong in each group.",
+        "groups": [
+          { "items": ["sphere", "cylinder", "cylinder", "cylinder"], "answer": "sphere" },
+          { "items": ["cube", "prism", "prism", "prism"], "answer": "cube" }
+        ]
+      },
+      {
+        "id": "ass16_p4",
+        "type": "shape_decomposition",
+        "instruction": "Which shapes were used to make the opposite structure? Choose all that apply.",
+        "imageType": "castle_structure",
+        "options": ["cube", "cylinder", "cuboid", "sphere"],
+        "answer": ["cube", "cylinder", "cuboid"]
+      },
+      {
+        "id": "ass16_p5",
+        "type": "area_ordering_grid",
+        "instruction": "Arrange from the largest area to the smallest area.",
+        "items": [
+          { "id": "A", "units": 4, "rank": 1 },
+          { "id": "B", "units": 3, "rank": 3 },
+          { "id": "C", "units": 2, "rank": 4 },
+          { "id": "D", "units": 4, "rank": 2 }
+        ],
+        "answer": "A, D, B, C"
+      },
+      {
+        "id": "ass16_p6",
+        "type": "object_part_counting",
+        "instruction": "How many of each shape were used to make the toy cart?",
+        "imageType": "toy_cart",
+        "questions": [
+          { "shape": "cube", "answer": 2 },
+          { "shape": "cuboid", "answer": 1 },
+          { "shape": "cylinder", "answer": 4 },
+          { "shape": "ball", "answer": 0 }
+        ]
+      }
+    ]
+  }
+]

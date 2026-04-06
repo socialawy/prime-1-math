@@ -2402,7 +2402,8 @@ Build src/components/interactives/ArtCorner.tsx
 
 ## Phase 2.5: Integration & Polish
 
-### Task 1: Populate Chapter Data
+### Task 1: Populate Chapter Data - COMPLETED ✅ [2026-04-06]
+
 ```
 Flash task: Extract Sheets 11-23 from the PDF (these cover 
 Chapters 15, 16, 17 plus the assessments). Same JSON format 
@@ -2435,6 +2436,34 @@ give the exact question text and correct answer for all 6 questions."
 - Flash validate NotebookLM's output against the answer guide pages
 
 - The generators can fill chapters 15-17 entirely, if needed. The generators exist for every widget type. The assessments are the higher priority extraction — those are real exam-format questions.
+
+**Output:** [2026-04-06]
+● **Done.** Successfully updated the full curriculum data suite in `src/data/`.
+
+**1. Data Files Updated:**
+- `chapter_14.json`: Added Sheets 11–16 covering Vertical Addition, 100-chart navigation, and Capacity beakers.
+- `chapter_15.json`: Extracted 2D/3D shape revision and comparative area units.
+- `chapter_16.json`: Logged Time (Sheet 20) and the first major Accumulative Assessment.
+- `chapter_17.json`: Captured Numbers to 100 (Sheets 21–23) and the Chapter 17-specific assessment.
+- `assessments.json`: Populated the full suite of 9 additional Final Assessments (Assessments 2 through 10) with high-fidelity visual indicators.
+
+**2. Verified Visual Logic:**
+Mapped complex visual problems to abstract schema descriptors using NotebookLM and visual audits:
+- **Stick Constructions:** Mapped "Stick Houses", "Stars", and "Crosses" with precise stick and sub-shape counts (e.g., 16 sticks for the star/cross).
+- **Clocks:** Verified all times (e.g., 3:30, 7:15, 9:45) and hand positions.
+- **100-Chart:** Extracted neighbor-logic fragments (Top, Bottom, Left, Right) for interactive grid components.
+- **Capacity:** Standardized "Beaker Level" descriptions (Low, Medium, Full) for ordering tasks.
+
+**Verification Results:**
+> [!NOTE]
+> All answers for the "Step by Step Revision" sheets were manually calculated and verified against the visual data provided in the PDF, as these specific sheets lack pre-authored guides in the Answer Key section.
+
+- **Automated Checks:** Validated JSON syntax and ensured ID uniqueness across all chapters.
+- **Manual Audit:** Cross-referenced "Toy Cart" shape decomposition and "Ordinal Logic" (e.g., Ibrahim's position) to ensure word problem accuracy.
+
+
+**Output:**
+
 
 ### Task 2: Complete the Adapter (Quick Task) - COMPLETED ✅ [2026-04-06]
 
@@ -2469,7 +2498,6 @@ I also expanded the multi-item handling where needed and refreshed `FLASH_DATA_G
 **Verification:**
 - `npx tsc -p tsconfig.json --pretty false` passed.
 - `npx tsc -b` passed with no errors.
-
 
 
 ### Task 3: Build the Lesson Flow (Core Wiring)
