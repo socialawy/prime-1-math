@@ -212,26 +212,77 @@ function buildChapter14Activities(): Activity[] {
 }
 
 function buildChapter15Activities(): Activity[] {
-  return Array.from({ length: 5 }, (_, index) =>
-    createActivity(`ch15-compose-${index + 1}`, "compose-shapes", generateShapeComposer()),
-  );
+  const flash = getAdaptedActivities("ch15");
+  const shapes = flash.filter((a) => a.conceptKey === "compose-shapes" || a.conceptKey === "shape-3d-to-2d");
+  const math = flash.filter((a) => a.conceptKey === "guided-box-make10" || a.conceptKey === "guided-box-sub10");
+  const area = flash.filter((a) => a.conceptKey === "compare-area");
+  const capacity = flash.filter((a) => a.conceptKey === "compare-capacity");
+
+  return [
+    ...takeOrGenerate(shapes, 2, (index) =>
+      createActivity(`ch15-compose-${index + 1}`, "compose-shapes", generateShapeComposer()),
+    ),
+    ...takeOrGenerate(math, 2, (index) =>
+      createActivity(`ch15-math-${index + 1}`, "guided-box-make10",
+        generateAllMake10Problems()[index % generateAllMake10Problems().length]!, "quiz"),
+    ),
+    ...takeOrGenerate(area, 1, (index) =>
+      createActivity(`ch15-area-${index + 1}`, "compare-area", generateAreaGrid(2)),
+    ),
+    ...takeOrGenerate(capacity, 1, (index) =>
+      createActivity(`ch15-capacity-${index + 1}`, "compare-capacity", generateCapacity("order-multiple", 2)),
+    ),
+    ...takeOrGenerate(flash.filter((a) => !shapes.includes(a) && !math.includes(a) && !area.includes(a) && !capacity.includes(a)), 2, (index) =>
+      createActivity(`ch15-compose-extra-${index + 1}`, "compose-shapes", generateShapeComposer()),
+    ),
+  ];
 }
 
 function buildChapter16Activities(): Activity[] {
+  const flash = getAdaptedActivities("ch16");
+  const clock = flash.filter((a) => a.conceptKey === "tell-time");
+  const shapes = flash.filter((a) => a.conceptKey === "shape-3d-identify" || a.conceptKey === "shape-3d-to-2d");
+  const math = flash.filter((a) => a.conceptKey === "guided-box-make10" || a.conceptKey === "guided-box-sub10");
+  const capacity = flash.filter((a) => a.conceptKey === "compare-capacity");
+
   return [
-    ...Array.from({ length: 3 }, (_, index) =>
+    ...takeOrGenerate(clock, 3, (index) =>
       createActivity(`ch16-read-${index + 1}`, "tell-time", generateClockProblem("read-time")),
     ),
-    ...Array.from({ length: 3 }, (_, index) =>
-      createActivity(`ch16-set-${index + 1}`, "tell-time", generateClockProblem("set-time")),
+    ...takeOrGenerate(shapes, 2, (index) =>
+      createActivity(`ch16-shape-${index + 1}`, "shape-3d-identify", generateShapeIdentify(), "quiz"),
+    ),
+    ...takeOrGenerate(math, 2, (index) =>
+      createActivity(`ch16-math-${index + 1}`, "guided-box-make10",
+        generateAllMake10Problems()[index % generateAllMake10Problems().length]!, "quiz"),
+    ),
+    ...takeOrGenerate(capacity, 1, (index) =>
+      createActivity(`ch16-capacity-${index + 1}`, "compare-capacity", generateCapacity("compare-two", 1)),
     ),
   ];
 }
 
 function buildChapter17Activities(): Activity[] {
-  return Array.from({ length: 6 }, (_, index) =>
-    createActivity(`ch17-word-${index + 1}`, "add-sub-mixed", generateWordProblem(index < 3 ? 1 : 2)),
-  );
+  const flash = getAdaptedActivities("ch17");
+  const wordProblems = flash.filter((a) => a.conceptKey === "add-sub-mixed");
+  const placeValue = flash.filter((a) => a.conceptKey === "place-value-group" || a.conceptKey === "place-value-hundreds-chart");
+  const math = flash.filter((a) => a.conceptKey === "guided-box-make10" || a.conceptKey === "guided-box-sub10");
+
+  return [
+    ...takeOrGenerate(wordProblems, 3, (index) =>
+      createActivity(`ch17-word-${index + 1}`, "add-sub-mixed", generateWordProblem(index < 2 ? 1 : 2)),
+    ),
+    ...takeOrGenerate(placeValue, 2, (index) =>
+      createActivity(`ch17-pv-${index + 1}`, "place-value-group", generateBlockGrouper(index === 0 ? 1 : 2)),
+    ),
+    ...takeOrGenerate(math, 2, (index) =>
+      createActivity(`ch17-math-${index + 1}`, "guided-box-make10",
+        generateAllMake10Problems()[index % generateAllMake10Problems().length]!, "quiz"),
+    ),
+    ...takeOrGenerate(flash.filter((a) => !wordProblems.includes(a) && !placeValue.includes(a) && !math.includes(a)), 1, (index) =>
+      createActivity(`ch17-extra-${index + 1}`, "add-sub-mixed", generateWordProblem(2)),
+    ),
+  ];
 }
 
 function getAdaptedActivities(chapterId: string): Activity[] {

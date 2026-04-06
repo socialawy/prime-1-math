@@ -2292,3 +2292,17 @@ What needs attention during the content pass:
 All remaining skips are visual/drawing/logic types with no matching interactive widget.
 
 **Verification:** `npm run build` passed. Runtime adapter test confirmed totals.
+
+---
+
+### Task 7: Mix flash data + generators in ch15-17 build functions [2026-04-07]
+
+**Issue:** `buildChapter15/16/17Activities()` used only generators — flash-adapted activities were imported but never consumed.
+
+**Changes (lessonBuilder.ts):**
+- `buildChapter15Activities()`: pulls shapes, math, area, capacity from flash; fills gaps with generators. 8 activities total.
+- `buildChapter16Activities()`: pulls clock, shapes, math, capacity from flash; fills with generators. 8 activities.
+- `buildChapter17Activities()`: pulls word problems, place-value, math from flash; fills with generators. 8 activities.
+- All use `takeOrGenerate()` pattern consistent with ch11/ch14.
+
+**Verification:** `npm run build` passed.
