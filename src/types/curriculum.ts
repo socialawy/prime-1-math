@@ -132,9 +132,21 @@ export interface PlaceValueData {
 
 export interface HundredsChartData {
   type: "place-value-hundreds-chart";
-  highlightedCells: number[];
-  missingCells: number[];
-  question: "fill-missing" | "find-pattern" | "jump-by-10";
+  mode: "fill-missing" | "jump-by-10" | "color-pattern" | "find-number";
+  // fill-missing: which cells are hidden
+  missingCells?: number[];
+  // jump-by-10: the column root and which cells in the column are blank
+  jumpStart?: number;
+  jumpDirection?: "down" | "up";
+  jumpBlanks?: number[];
+  // color-pattern & jump-by-10: pre-colored cells
+  preHighlighted?: number[];
+  // color-pattern: cells the child must color
+  targetCells?: number[];
+  patternRule?: string;
+  // find-number: place-value riddle
+  riddle?: string;
+  correctCell?: number;
 }
 
 export interface NumberLineData {

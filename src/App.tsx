@@ -5,6 +5,7 @@ import { ChapterMap } from "./screens/ChapterMap";
 import { LessonScreen } from "./screens/LessonScreen";
 import { DevGuidedBox } from "./screens/DevGuidedBox";
 import { DevSplitTree } from "./screens/DevSplitTree";
+import { DevHundredsChart } from "./screens/DevHundredsChart";
 
 export function App() {
   return (
@@ -16,6 +17,7 @@ export function App() {
           <Route path="/lesson/:chapterId" element={<LessonScreen />} />
           <Route path="/dev/guidedbox" element={<DevGuidedBox />} />
           <Route path="/dev/splittree" element={<DevSplitTree />} />
+          <Route path="/dev/hundreds" element={<DevHundredsChart />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AppProvider>
