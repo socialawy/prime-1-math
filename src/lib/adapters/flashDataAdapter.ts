@@ -11,6 +11,7 @@ import type {
   CapacityData,
   ConceptKey,
   GuidedBoxProblem,
+  HundredsChartData,
   MixedWordProblemData,
   PlaceValueData,
   Shape3Dto2DData,
@@ -98,6 +99,14 @@ function adaptProblem(p: FlashProblem): Activity[] {
       return adaptTenGrouping(p);
     case "place-value-counting":
       return adaptPlaceValueCounting(p);
+    case "matching-to-100":
+      return adaptMatchingTo100(p);
+    case "grid-fragment-fill":
+      return adaptGridFragmentFill(p);
+    case "math-problems":
+      return adaptMathProblems(p);
+    case "capacity-ordering":
+      return adaptCapacityOrdering(p);
     default:
       return [];
   }
@@ -610,6 +619,7 @@ interface FlashWordProblemData {
   initial?: number;
   added?: number;
   removed?: number;
+  given?: number;
   item?: string;
   unit?: string;
   youssefUnits?: number;
@@ -637,15 +647,16 @@ function adaptWordProblem(p: FlashProblem): Activity[] {
     })];
   }
 
-  if (typeof raw.initial === "number" && typeof raw.removed === "number") {
+  const removed = raw.removed ?? raw.given;
+  if (typeof raw.initial === "number" && typeof removed === "number") {
     const unit = raw.item ?? raw.unit ?? "items";
     return [createWordProblemActivity({
       id: p.id,
       storyAr: p.instruction,
       storyEn: p.instruction,
       operation: "-",
-      operands: [raw.initial, raw.removed],
-      correctAnswer: typeof p.answer === "number" ? p.answer : raw.initial - raw.removed,
+      operands: [raw.initial, removed],
+      correctAnswer: typeof p.answer === "number" ? p.answer : raw.initial - removed,
       imageId: unit,
       contextHint: unit,
     })];
@@ -781,6 +792,134 @@ function adaptPlaceValueCounting(p: FlashProblem): Activity[] {
       data,
     };
   });
+}
+
+// --- Ch14 adapters ---
+
+interface FlashMatchingTo100Pair {
+  left: number;
+  right: number;
+}
+
+function adaptMatchingTo100(p: FlashProblem): Activity[] {
+  const pairs = p.pairs as FlashMatchingTo100Pair[] | undefined;
+  if (!pairs?.length) return [];
+
+  return pairs.map((pair, index) => {
+    const data: GuidedBoxProblem = {
+      type: "addition",
+      equation: `${pair.left} + ? = 100`,
+      steps: [
+        {
+          id: `${p.id}-${index}-s1`,
+          template: `${pair.left} + {0} = 100`,
+          blanks: [{ index: 0, correctValue: pair.right }],
+          revealAfterPrevious: false,
+        },
+      ],
+      finalAnswer: 100,
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "quiz" as const,
+      conceptKey: "guided-box-make10" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+    };
+  });
+}
+
+interface FlashGridFragment {
+  center: number;
+  top?: number | null;
+  bottom?: number | null;
+  left?: number | null;
+  right?: number | null;
+}
+
+function adaptGridFragmentFill(p: FlashProblem): Activity[] {
+  const fragments = (p as unknown as { fragments: FlashGridFragment[] }).fragments;
+  if (!Array.isArray(fragments) || !fragments.length) return [];
+
+  return fragments.map((frag, index) => {
+    const neighbors = [frag.top, frag.bottom, frag.left, frag.right].filter(
+      (v): v is number => typeof v === "number",
+    );
+    // Hide the center — child must deduce it from neighbors
+    const missingCells = [frag.center];
+
+    const data: HundredsChartData = {
+      type: "place-value-hundreds-chart",
+      mode: "fill-missing",
+      missingCells,
+      preHighlighted: neighbors,
+      correctCell: frag.center,
+    };
+
+    return {
+      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
+      type: "interactive" as const,
+      conceptKey: "place-value-hundreds-chart" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+    };
+  });
+}
+
+interface FlashMathProblemItem {
+  problem: string;
+  answer: number;
+}
+
+function adaptMathProblems(p: FlashProblem): Activity[] {
+  const items = p.items as FlashMathProblemItem[] | undefined;
+  if (!items?.length) return [];
+
+  return items.flatMap((item, index) => {
+    const activity = createEquationActivity(
+      item.problem,
+      item.answer,
+      index === 0 ? p.id : `${p.id}-${index + 1}`,
+    );
+    return activity ? [activity] : [];
+  });
+}
+
+interface FlashCapacityOrderItem {
+  label: string;
+  level: string;
+  order: number;
+}
+
+function adaptCapacityOrdering(p: FlashProblem): Activity[] {
+  const items = p.items as FlashCapacityOrderItem[] | undefined;
+  const imageType = (p as unknown as { imageType?: string }).imageType;
+  if (!items?.length) return [];
+
+  const sorted = [...items].sort((a, b) => a.order - b.order);
+
+  const data: CapacityData = {
+    type: "compare-capacity",
+    containers: items.map((item) => ({
+      id: item.label,
+      label: item.label,
+      imageId: imageType ?? "beaker",
+      capacityCups: getRelativeCapacity(item.level),
+    })),
+    mode: "order-multiple",
+    question: "order",
+    correctAnswer: items.map((item) => getRelativeCapacity(item.level)),
+    correctOrder: sorted.map((item) => item.label),
+  };
+
+  return [{
+    id: p.id,
+    type: "interactive",
+    conceptKey: "compare-capacity",
+    difficulty: 1,
+    data,
+  }];
 }
 
 function createWordProblemActivity({

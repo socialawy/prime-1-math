@@ -2341,3 +2341,22 @@ What needs attention during the content pass:
 - Deleted `src/screens/LessonScreen.next.tsx`.
 
 **Verification:** `npm run build` passed.
+
+---
+
+### Task 5: Add missing ch14 adapter handlers [2026-04-07]
+
+**Issue:** Ch14 had 4 unhandled Flash problem types — `matching-to-100`, `grid-fragment-fill`, `math-problems`, `capacity-ordering` — silently dropped by `adaptProblem()`. Also `word-problem` with `given` field (instead of `removed`) was skipped.
+
+**Changes (flashDataAdapter.ts):**
+- Added `HundredsChartData` to imports.
+- Added 4 new cases to `adaptProblem()` switch.
+- `adaptMatchingTo100`: each pair → GuidedBoxFill equation `"{left} + {0} = 100"`.
+- `adaptGridFragmentFill`: each fragment → HundredsChart fill-missing, center hidden, neighbors highlighted.
+- `adaptMathProblems`: each item → `createEquationActivity()` (reuses existing helper).
+- `adaptCapacityOrdering`: items → CapacityPourer order-multiple, sorted by `order` field.
+- `adaptWordProblem`: now falls back to `raw.given` when `raw.removed` is undefined.
+
+**Result:** Ch14 adapted activities: 19 (was 12), skipped: 0 (was 7).
+
+**Verification:** `npm run build` passed. Runtime adapter test confirmed 0 skips.
