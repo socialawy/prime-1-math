@@ -33,7 +33,11 @@ To support student and teacher comprehension, we have provided the following sup
 
 ## Screenshot
 
-No repository screenshot is checked in yet. Add one later and link it here if you want the README to stay visual for the first public push.
+![Prime Math Screenshot](docs/Chpaters.jpeg)
+![Prime Math Screenshot](docs/Question.jpeg)
+![Prime Math Screenshot](docs/calc.jpeg)
+
+---
 
 ## Run Locally
 
