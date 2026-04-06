@@ -1449,27 +1449,6 @@ What landed:
 - `npx tsc -b` passed
 - `npm run build` passed after running outside the sandbox
 
-One note: there is no `ActivityRenderer` switch yet.
-
----
-
-## Status so far:
-
-Component	| Status	| Chapter
----	| ---	| ---
-GuidedBoxFill	| ✅	| Ch12+13
-SplitTreeAdder	| ✅	| Ch12+13
-HundredsChart	| ✅	| Ch14
-Ch13 both-methods | ✅	| Ch12+13
-BlockGrouper	| ✅	| Ch14
-NumberLine	| ✅	| Ch14
-AreaGrid + CapacityPourer	| next	| Ch11
-ShapeFootprint + ShapeIdentifier	| next	| Ch10
-ClockFace	| next	| Ch16
-ShapeComposer	| next	| Ch15
-WordProblem	| next	| Ch17
-ArtCorner	| last	| all
-
 ---
 
 ### ActivityRenderer — COMPLETED ✅ [2026-04-06]
@@ -1504,7 +1483,7 @@ even before all widgets exist.
 
 ---
 
-### Component #5: AreaGrid (Ch11)
+### Component #5: AreaGrid (Ch11) — COMPLETED ✅ [2026-04-06]
 
 - What the Book Does
 Two shapes drawn on a square grid. Child counts the colored squares in each shape. Questions: "Which has the larger area?", "How many more squares?"
@@ -1665,3 +1644,199 @@ function generateConnectedShape(
   return cells;
 }
 ```
+
+**Output:** [2026-04-06]
+● **Done.** Implemented `AreaGrid` with full visual counting support and content fallback for Chapter 11.
+
+**Summary of what changed:**
+- **Interactive widget:** `AreaGrid.tsx` with tap-to-count grid mechanics.
+- **Generator:** `areaGridGenerator.ts` with autonomous connected-shape generation.
+- **Samples:** `areaGrid-samples.ts` covering multiple difficulty levels.
+- **Dev screen/route:** `DevAreaGrid.tsx` and `/dev/areagrid` for UI verification.
+- **Renderer hookup:** Added `compare-area` support to `ActivityRenderer.tsx` switch.
+- **Data Integration:** Extended `curriculum.ts` and `flashDataAdapter.ts` to support both visual grid counting and count-only fallback modes for Chapter 11.
+
+**Verification:**
+- `npx tsc -b` passed.
+- `npm run build` passed.
+
+---
+
+### Component #6: CapacityPourer (Ch11)
+
+- What the Book Does
+Compare containers by measuring capacity in cups. "Which has more?", "Arrange from least to most", "How many cups?"
+
+The book verbs: "Circle the container that has more water", "Write how many cups", "Arrange the containers in order from least to most water."
+
+#### Visual Design Decision
+
+- Full liquid-pouring animation is expensive and fragile. Instead, represent capacity with stacked cup icons — a visual bar chart that 7-year-olds instantly understand:
+```
+"Write how many cups each container holds."
+
+  Container A          Container B          Container C
+  ┌─────────┐         ┌──────────────┐         ┌─────────┐
+  │  🥤🥤🥤│         │ 🥤🥤🥤🥤🥤│         │  🥤🥤  │
+  │  [__]   │         │  [__]        │         │  [__]   │
+  └─────────┘         └──────────────┘         └─────────┘
+     cups                cups                cups
+
+  "Arrange from least to most:"
+  [__] → [__] → [__]                    ← drag to reorder
+```
+
+#### Props
+```
+interface CapacityPourerProps {
+  data: CapacityProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface CapacityProblem {
+  mode: "count-cups" | "compare-two" | "order-multiple" | "difference";
+  
+  containers: {
+    id: string;
+    label: string;               // "Container A" or contextHint like "Red jug"
+    capacityCups: number;        // the answer
+    imageType?: string;          // "jug" | "bottle" | "box" — for icon selection
+  }[];
+  
+  // For compare-two
+  compareQuestion?: "which-more" | "which-less";
+  
+  // For difference
+  differenceAnswer?: number;     // |A - B|
+  
+  // For order-multiple  
+  correctOrder?: string[];       // container ids in correct sequence
+}
+```
+
+#### State
+```
+interface CapacityState {
+  phase: "measuring" | "answering" | "celebrate";
+  
+  // count-cups: child fills in cup count per container
+  userCounts: Record<string, number | null>;
+  
+  // compare-two: child taps one container
+  userChoice: string | null;
+  
+  // order-multiple: child drags containers into order
+  userOrder: string[];
+  
+  // difference: child enters a number
+  userDifference: number | null;
+  
+  mistakes: number;
+  startTime: number;
+}
+```
+
+#### Interaction Modes
+
+- count-cups: Each container shows a visual stack of cup icons (the answer, but kid needs to count them). Below each stack is an input box. Child counts cups, enters number. All must be correct.
+
+compare-two: Two containers shown with cup stacks. Child taps the one matching the question ("Which has more?"). Simple tap → validate → celebrate.
+
+order-multiple: 3-4 containers shown. Child drags them left-to-right into order slots. Use @dnd-kit/sortable. Validate entire sequence on submit.
+
+difference: Two containers with cup stacks. "How many more cups does A have than B?" Child enters the number.
+
+#### Generator
+```ts
+export function generateCapacity(
+  mode: CapacityProblem["mode"],
+  difficulty: 1 | 2 | 3
+): CapacityProblem {
+  const maxCups = difficulty === 1 ? 5 : difficulty === 2 ? 8 : 10;
+  const containerCount = mode === "compare-two" || mode === "difference" ? 2
+    : mode === "order-multiple" ? randomInt(3, 4) : randomInt(2, 3);
+  
+  const containers = Array.from({ length: containerCount }, (_, i) => ({
+    id: `c${i}`,
+    label: `Container ${String.fromCharCode(65 + i)}`,
+    capacityCups: randomInt(1, maxCups),
+    imageType: pick(["jug", "bottle", "box"]),
+  }));
+  
+  // Ensure no ties for compare/order questions
+  const caps = new Set(containers.map(c => c.capacityCups));
+  if (caps.size < containers.length) {
+    containers[containers.length - 1].capacityCups += 1;
+  }
+  
+  const sorted = [...containers].sort((a, b) => a.capacityCups - b.capacityCups);
+  
+  return {
+    mode,
+    containers,
+    compareQuestion: mode === "compare-two" ? pick(["which-more", "which-less"]) : undefined,
+    correctOrder: mode === "order-multiple" ? sorted.map(c => c.id) : undefined,
+    differenceAnswer: mode === "difference" 
+      ? Math.abs(containers[0].capacityCups - containers[1].capacityCups) 
+      : undefined,
+  };
+}
+```
+
+#### Build Instructions
+```
+Build two Ch11 components:
+
+1. src/components/interactives/AreaGrid.tsx
+   - CSS Grid matching gridRows × gridCols
+   - Colored cells with tap-to-mark (toggle checkmark overlay)
+   - Running count per shape color, auto-fills input boxes
+   - count-compare fallback mode: no grid, just labeled counts with 
+     tap-to-choose buttons
+   - Questions: which-larger (tap shape label), how-many-more (number input)
+   - useReducer: counting → comparing → celebrate
+   - Cell size: 44px minimum
+
+2. src/components/interactives/CapacityPourer.tsx
+   - Cup icons (🥤 or small SVG cup) stacked vertically per container
+   - Four modes: count-cups, compare-two, order-multiple, difference
+   - order-multiple: @dnd-kit/sortable horizontal reorder
+   - Number pad for count/difference inputs
+   - useReducer: measuring → answering → celebrate
+
+3. Generators:
+   - src/lib/generators/areaGridGenerator.ts 
+     (include generateConnectedShape helper)
+   - src/lib/generators/capacityGenerator.ts
+
+4. Samples:
+   - src/data/samples/areaGrid-samples.ts (one grid-visual, one count-compare)
+   - src/data/samples/capacity-samples.ts (one per mode)
+
+5. Dev routes: /dev/areagrid and /dev/capacity
+
+6. Update ActivityRenderer:
+   "compare-area" → AreaGrid
+   "compare-capacity" → CapacityPourer
+
+Test: all modes functional on both dev routes.
+```
+
+---
+
+## Updated scorecard:
+
+| # |  Component	| Status	| Chapter
+|---|---|---|---
+| 1	| GuidedBoxFill	| ✅ patched	| Ch12+13
+|2	SplitTreeAdder	| ✅	| Ch12+13
+|3	HundredsChart	| ✅	| Ch14
+|4a	BlockGrouper	| ✅	| Ch14
+|4b	NumberLine	| ✅	| Ch14
+|5	AreaGrid	| → building	| Ch11
+|6	CapacityPourer	| → building	| Ch11
+|7	ShapeFootprint + ShapeIdentifier	| next	| Ch10
+|8	ClockFace	| next	| Ch16
+|9	ShapeComposer	| next	| Ch15
+|10	WordProblem	| next	| Ch17
+|11	ArtCorner	| last	| all

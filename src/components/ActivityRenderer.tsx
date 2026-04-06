@@ -1,3 +1,4 @@
+import { AreaGrid } from "./interactives/AreaGrid";
 import { BlockGrouper } from "./interactives/BlockGrouper";
 import { GuidedBoxFill } from "./interactives/GuidedBoxFill";
 import { HundredsChart } from "./interactives/HundredsChart";
@@ -49,6 +50,12 @@ export function ActivityRenderer({
         return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected hundreds-chart data." />;
       }
       return <HundredsChart data={activity.data} onComplete={onComplete} />;
+
+    case "compare-area":
+      if (activity.data.type !== "compare-area") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected area-grid data." />;
+      }
+      return <AreaGrid data={activity.data} onComplete={onComplete} />;
 
     case "place-value-group":
       if (activity.data.type !== "place-value-group") {

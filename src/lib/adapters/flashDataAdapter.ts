@@ -266,12 +266,19 @@ function adaptAreaGridCounting(p: FlashProblem): Activity[] {
 
     const data: AreaGridData = {
       type: "compare-area",
+      mode: "count-compare",
       gridRows: 0,  // GAP — no coordinate data in Flash JSON
       gridCols: 0,
       shapeA: [],
       shapeB: [],
+      shapeLabels: ["Shape A", "Shape B"],
+      shapeColors: ["blue", "orange"],
+      shapeCounts: [
+        { label: "Shape A", count: a.units, color: "blue" },
+        { label: "Shape B", count: b.units, color: "orange" },
+      ],
       question: "which-larger",
-      correctAnswer: a.units > b.units ? a.units : b.units,
+      correctAnswer: a.units >= b.units ? "Shape A" : "Shape B",
     };
 
     results.push({

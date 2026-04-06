@@ -92,12 +92,19 @@ export interface CapacityData {
 
 export interface AreaGridData {
   type: "compare-area";
+  mode?: "grid-visual" | "count-compare";
   gridRows: number;
   gridCols: number;
   shapeA: GridCell[];
   shapeB: GridCell[];
-  question: "which-larger" | "how-many-more";
-  correctAnswer: number;
+  shapeLabels?: [string, string];
+  shapeColors?: [string, string];
+  shapeCounts?: [
+    { label: string; count: number; color: string },
+    { label: string; count: number; color: string },
+  ];
+  question: "which-larger" | "which-smaller" | "how-many-more" | "count-each";
+  correctAnswer: number | string;
 }
 
 export interface GridCell {
