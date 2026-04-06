@@ -2462,9 +2462,6 @@ Mapped complex visual problems to abstract schema descriptors using NotebookLM a
 - **Manual Audit:** Cross-referenced "Toy Cart" shape decomposition and "Ordinal Logic" (e.g., Ibrahim's position) to ensure word problem accuracy.
 
 
-**Output:**
-
-
 ### Task 2: Complete the Adapter (Quick Task) - COMPLETED ✅ [2026-04-06]
 
 ```
@@ -2500,7 +2497,7 @@ I also expanded the multi-item handling where needed and refreshed `FLASH_DATA_G
 - `npx tsc -b` passed with no errors.
 
 
-### Task 3: Build the Lesson Flow (Core Wiring)
+### Task 3: Build the Lesson Flow (Core Wiring) - COMPLETED ✅ [2026-04-06]
 
 **This is the most important task.**
 - Right now: ChapterMap → LessonScreen → "Coming soon". After this: ChapterMap → LessonScreen → real activities.
@@ -2546,6 +2543,24 @@ Wire the full lesson flow in src/screens/LessonScreen.tsx:
    If Flash data covers some, use that first. Fill remainder 
    with generators. Total 6-10 activities per lesson.
 ```
+
+**Output:**
+I've added a runtime lesson builder in `src/utils/lessonBuilder.ts` that:
+1. Uses adapted Flash content first for Chapters 10-14.
+2. Pads with generator fallback to match the devlog lesson shapes.
+3. Uses generator-first lessons for Chapters 15-17 so the full route is playable now.
+
+I replaced the placeholder `LessonScreen.tsx` with a real activity lesson flow:
+1. Per-chapter lesson assembly on load.
+2. Progress bar and one-at-a-time activity rendering.
+3. Completion dispatch for each activity and the lesson.
+4. Lesson-complete state with score, star tier, retry, and back-to-chapters.
+
+**Verification:**
+- `npx tsc -p tsconfig.json --pretty false` passed.
+
+![alt text](image.png)
+![alt text](image-1.png)
 
 ### Task 4: Chapter Unlock Logic
 ```
@@ -2636,6 +2651,14 @@ load on demand, not all upfront. Wrap in Suspense with a spinner.
 ```
 
 ### Task 6.5: Repo Polish
+
+- Preparing for public repo (secrets, if any, personal data, repo hygiene)
+- Public empty remote repo
+`https://github.com/socialawy/prime-1-math`
+
+**confirm that commits go through user `socialawy` for Vercel deployment**
+
+
 ```
 - Create README.md with: what this is, screenshot, how to run locally 
 (npm install, npm run dev), how to add content (drop JSON in data/), 
