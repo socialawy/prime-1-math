@@ -1,4 +1,5 @@
 import { lazy, Suspense, type ReactNode } from "react";
+import { AssetIcon, ContextHintBadge } from "./shared/EmojiMap";
 import type {
   Activity,
   ActivityResult,
@@ -173,7 +174,21 @@ export function ActivityRenderer({
       break;
   }
 
-  return <Suspense fallback={<LoadingCard />}>{content}</Suspense>;
+  return (
+    <Suspense fallback={<LoadingCard />}>
+      <div className="rounded-3xl bg-white p-4 md:p-5">
+        {activity.contextHint && (
+          <>
+            <div className="mb-4 flex items-center justify-center">
+              <AssetIcon hint={activity.contextHint} size="lg" />
+            </div>
+            <ContextHintBadge hint={activity.contextHint} />
+          </>
+        )}
+        {content}
+      </div>
+    </Suspense>
+  );
 }
 
 function toSplitTreeProblem(activity: Activity): SplitTreeProblem | null {

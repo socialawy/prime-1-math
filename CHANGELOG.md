@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-04-07
+
+### Added
+- **Curriculum Completion:** Fully integrated Flash data for Chapters 15, 16, and 17 (Batches 5-6).
+- **New Activity Adapters:** Handlers for `ClockRead`, `NumberComparison`, `MatchingTo100`, `GridFragmentFill`, and `CapacityOrdering` (Batch 7).
+
+### Changed
+- **Mobile UX Optimization:** Successfully refactored `SplashScreen.tsx` and `ChapterMap.tsx` to use `min-h-dvh` to prevent layout clipping (Batch 1).
+- **Header Layout:** Fixed `ChapterMap.tsx` header to wrap on mobile devices, preventing button overlap.
+- **Visual Standards:** Transitioned all star rendering to Unicode character glyphs across the map and lesson screens.
+
+### Fixed
+- **Content Integrity:** Resolved issues with empty/duplicated questions in Chapter 10 via generated set standardization (Batch 4).
+- **Session Logic:** Implemented same-session activity deduplication in `lessonBuilder.ts` (Batch 8).
+- **Navigation:** Forced scroll-to-top (`window.scrollTo(0,0)`) on lesson/exam transitions to ensure completion cards are visible.
+- **Clock Filtering:** Automatically filtered non-standard times (:15/:45) from Chapter 16 data.
+
+### Removed
+- Removed legacy/dead file `LessonScreen.next.tsx`.
+
 ## [1.2.0] - 2026-04-06
 
 ### Added
@@ -36,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Initial Data:** Extracted curriculum JSON for early chapters.
 
 ---
+[1.3.0]: https://github.com/socialawy/prime-1-math/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/socialawy/prime-1-math/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/socialawy/prime-1-math/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/socialawy/prime-1-math/releases/tag/v1.0.0
