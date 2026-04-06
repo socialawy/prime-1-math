@@ -1,3 +1,4 @@
+import { ArtCorner } from "./interactives/ArtCorner";
 import { AreaGrid } from "./interactives/AreaGrid";
 import { BlockGrouper } from "./interactives/BlockGrouper";
 import { CapacityPourer } from "./interactives/CapacityPourer";
@@ -56,6 +57,12 @@ export function ActivityRenderer({
         return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected hundreds-chart data." />;
       }
       return <HundredsChart data={activity.data} onComplete={onComplete} />;
+
+    case "art-corner":
+      if (activity.data.type !== "art-corner") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected art-corner data." />;
+      }
+      return <ArtCorner data={activity.data} onComplete={onComplete} />;
 
     case "compare-area":
       if (activity.data.type !== "compare-area") {

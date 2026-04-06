@@ -13,6 +13,7 @@ import { DevCapacity } from "./screens/DevCapacity";
 import { DevShapes } from "./screens/DevShapes";
 import { DevClock } from "./screens/DevClock";
 import { DevWordProblem } from "./screens/DevWordProblem";
+import { DevArtCorner } from "./screens/DevArtCorner";
 
 export function App() {
   return (
@@ -30,6 +31,7 @@ export function App() {
           <Route path="/dev/shapes" element={<DevShapes />} />
           <Route path="/dev/clock" element={<DevClock />} />
           <Route path="/dev/wordproblem" element={<DevWordProblem />} />
+          <Route path="/dev/artcorner" element={<DevArtCorner />} />
           <Route path="/dev/blockgrouper" element={<DevBlockGrouper />} />
           <Route path="/dev/numberline" element={<DevNumberLine />} />
           <Route path="*" element={<Navigate to="/" replace />} />

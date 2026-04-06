@@ -23,6 +23,7 @@ export interface Lesson {
 export type ConceptKey =
   | "shape-3d-identify"
   | "shape-3d-to-2d"
+  | "art-corner"
   | "compare-capacity"
   | "compare-area"
   | "addition-make-10"
@@ -51,6 +52,7 @@ export interface Activity {
 export type ActivityData =
   | ShapeIdentifyData
   | Shape3Dto2DData
+  | ArtCornerData
   | CapacityData
   | AreaGridData
   | Make10Data
@@ -77,6 +79,21 @@ export interface Shape3Dto2DData {
   shape3d: "cube" | "cylinder" | "sphere" | "prism" | "cuboid";
   correctFootprint: "square" | "circle" | "triangle" | "rectangle";
   distractors: string[];
+}
+
+export interface ArtCornerData {
+  type: "art-corner";
+  regions: {
+    id: string;
+    equation: string;
+    correctResult: number;
+    correctColor: string;
+  }[];
+  colorCode: {
+    rule: string;
+    color: string;
+  }[];
+  instruction: string;
 }
 
 export interface CapacityData {
