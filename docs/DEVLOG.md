@@ -1839,7 +1839,7 @@ Test: all modes functional on both dev routes.
 
 ---
 
-### Component #7: ShapeIdentifier + ShapeFootprint (Ch10)
+### Component #7: ShapeIdentifier + ShapeFootprint (Ch10) — COMPLETED ✅ [2026-04-06]
 
 - These two are the simplest interactive widgets in the whole app. Ch10 is pure visual recognition — no math computation.
 
@@ -1968,6 +1968,150 @@ Build two Ch10 components:
    "shape-3d-to-2d" → ShapeFootprint
 ```
 
+**Output:** [2026-04-06]
+● **Done.** Implemented ShapeIdentifier and ShapeFootprint with shared SVG geometry assets.
+
+**Summary of what landed:**
+- **Shared Renderers:** `Shape3DSVG.tsx` and `Shape2DSVG.tsx` (reusable geometry components used by both widgets).
+- **Interactive Widgets:** `ShapeIdentifier.tsx` (visual odd-one-out and correct-shape identification) and `ShapeFootprint.tsx` (3D-to-2D face mapping).
+- **Generator & Samples:** `shapeGenerator.ts` and `shape-samples.ts`.
+- **Dev Screen:** New route `/dev/shapes` for testing both Ch10 interactives.
+- **Renderer Hookup:** Added `shape-3d-identify` and `shape-3d-to-2d` support to `ActivityRenderer.tsx`.
+
+**Verification:**
+- `npx tsc -b` passed.
+- `npm run build` passed.
+
+
+### Component #8: ClockFace (Ch16)
+
+- The book teaches o'clock and half past only — no quarter past, no minutes. This is deliberately simple.
+```
+"What time is it?"
+
+      12
+   11    1
+  10      2
+  9    ●──3    ← hour hand points to 3, minute hand points to 12
+  8       4
+   7     5
+      6
+
+  [ 3 o'clock ]  [ 3 half past ]  [ 6 o'clock ]
+        ↑ correct
+```
+- Alternate mode — set the time:
+```
+"Show 7 half past."
+
+  [drag hour hand to 7, minute hand to 6]
+```
+
+#### Props
+```ts
+interface ClockFaceProps {
+  data: ClockProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface ClockProblem {
+  mode: "read-time" | "set-time";
+  
+  // read-time: clock is preset, child picks answer
+  hour?: number;                   // 1-12
+  minuteType?: "o-clock" | "half-past";
+  options?: string[];              // ["3 o'clock", "3 half past", "6 o'clock"]
+  correctOption?: string;
+  
+  // set-time: target given, child drags hands
+  targetHour?: number;
+  targetMinuteType?: "o-clock" | "half-past";
+}
+```
+- Clock rendering: SVG circle with 12 number labels around the rim. Two hands (lines from center):
+  - Hour hand: short, thick
+  - Minute hand: long, thin
+  - For o'clock: minute hand at 12 (0°), hour hand at the hour
+  - For half-past: minute hand at 6 (180°), hour hand between the hour and next hour (hour × 30° + 15°)
+- read-time: Static clock + 3 text options below (large tap targets). Tap correct = celebrate.
+- set-time: Clock hands are draggable (rotate around center). Snap to nearest valid position:
+  - Minute hand snaps to 12 or 6 only (o'clock or half-past)
+  - Hour hand snaps to nearest hour position
+  - When both are correct, auto-celebrate
+
+- For dragging, compute angle from touch position to center, snap to nearest valid angle. Don't use dnd-kit for this — use direct pointer events with atan2:
+```ts
+function handlePointerMove(e: PointerEvent, hand: "hour" | "minute") {
+  const rect = svgRef.current.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI) + 90;
+  
+  if (hand === "minute") {
+    // Snap to 0° (12) or 180° (6)
+    const snapped = Math.abs(angle) < 90 ? 0 : 180;
+    setMinuteAngle(snapped);
+  } else {
+    // Snap to nearest 30° increment
+    const snapped = Math.round(angle / 30) * 30;
+    setHourAngle(snapped);
+  }
+}
+```
+
+#### Generator:
+```ts
+export function generateClockProblem(mode: "read-time" | "set-time"): ClockProblem {
+  const hour = randomInt(1, 12);
+  const minuteType = pick(["o-clock", "half-past"]);
+  const correctLabel = minuteType === "o-clock" 
+    ? `${hour} o'clock` 
+    : `${hour} half past`;
+  
+  if (mode === "read-time") {
+    // Generate 2 wrong options
+    const wrongs = generateWrongTimes(hour, minuteType, 2);
+    const options = shuffle([correctLabel, ...wrongs]);
+    return { mode, hour, minuteType, options, correctOption: correctLabel };
+  }
+  return { mode, targetHour: hour, targetMinuteType: minuteType };
+}
+```
+
+#### Build Instructions
+```
+Build src/components/interactives/ClockFace.tsx
+
+- SVG analog clock: 200px diameter, numbers 1-12 around rim
+- Two hands rendered as SVG lines from center
+- read-time mode: static hands + 3 option buttons below
+- set-time mode: hands draggable via onPointerDown/Move/Up
+  Snap minute to 0° or 180° only
+  Snap hour to nearest 30° increment
+  Check button validates both hands match target
+- Generator: src/lib/generators/clockGenerator.ts
+- Samples: one read-time, one set-time
+- Dev route: /dev/clock
+- ActivityRenderer: "tell-time" → ClockFace
+```
+
+### Component #9: ShapeComposer (Ch15)
+
+- Book concept: combine simple 2D shapes to make bigger shapes. Simplified tangram.
+```
+"Use the shapes to fill the outline."
+
+  Target:              Available pieces:
+  ┌──────────┐        [△] [△] [□]
+  │          │
+  │  ??????  │         drag pieces into the target area
+  │          │
+  └──────────┘
+```
+- This is the hardest remaining UX problem but the lowest exam priority. For v1, simplify:
+
+**Planning**
+
 ---
 
 ## Updated scorecard:
@@ -1981,8 +2125,8 @@ Build two Ch10 components:
 | 4b	| NumberLine	| ✅	| Ch14
 | 5	| AreaGrid	| ✅	| Ch11
 | 6	| CapacityPourer	| ✅	| Ch11
-| 7	| ShapeFootprint + ShapeIdentifier	| next	| Ch10
-| 8	| ShapeClockFace	| next	| Ch16
+| 7	| ShapeFootprint + ShapeIdentifier	| ✅	| Ch10
+| 8	| ClockFace	| next	| Ch16
 | 9	| ShapeComposer	| next	| Ch15
 | 10	| WordProblem	| next	| Ch17
 | 11	| ArtCorner	| last	| all

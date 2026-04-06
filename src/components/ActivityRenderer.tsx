@@ -4,6 +4,8 @@ import { CapacityPourer } from "./interactives/CapacityPourer";
 import { GuidedBoxFill } from "./interactives/GuidedBoxFill";
 import { HundredsChart } from "./interactives/HundredsChart";
 import { NumberLine } from "./interactives/NumberLine";
+import { ShapeFootprint } from "./interactives/ShapeFootprint";
+import { ShapeIdentifier } from "./interactives/ShapeIdentifier";
 import { SplitTreeAdder } from "./interactives/SplitTreeAdder";
 import type {
   Activity,
@@ -63,6 +65,18 @@ export function ActivityRenderer({
         return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected capacity data." />;
       }
       return <CapacityPourer data={activity.data} onComplete={onComplete} />;
+
+    case "shape-3d-identify":
+      if (activity.data.type !== "shape-3d-identify") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-identify data." />;
+      }
+      return <ShapeIdentifier data={activity.data} onComplete={onComplete} />;
+
+    case "shape-3d-to-2d":
+      if (activity.data.type !== "shape-3d-to-2d") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-footprint data." />;
+      }
+      return <ShapeFootprint data={activity.data} onComplete={onComplete} />;
 
     case "place-value-group":
       if (activity.data.type !== "place-value-group") {
