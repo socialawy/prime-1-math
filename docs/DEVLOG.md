@@ -1195,7 +1195,7 @@ phase now asks: "Which number do you want to split?"
   - `StepRow`: renders "info" status with 💡 icon, amber background, plain template text (no blanks).
   - Number pad: hidden when current step has `blanks.length === 0`.
 
-The `SAMPLE_SUB_14_6_METHOD_A` flow will now correctly: show "You cannot subtract 6 from 4." as an amber info card → auto-advance after 1.5s → proceed to step 2.
+- The `SAMPLE_SUB_14_6_METHOD_A` flow will now correctly: show "You cannot subtract 6 from 4." as an amber info card → auto-advance after 1.5s → proceed to step 2.
 ---
 
 ### Component #4: BlockGrouper + NumberLine
@@ -2112,11 +2112,10 @@ Build src/components/interactives/ClockFace.tsx
 - `npm run build` passed.
 - *Note:* JS bundle size (500 kB) warning noted; performance optimization/splitting reserved for future phases.
 
-
-
 ---
 
-### Component #9: ShapeComposer (Ch15)
+### Component #9: ShapeComposer (Ch15) - COMPLETED ✅ [2026-04-06]
+
 
 - Book concept: combine simple 2D shapes to make bigger shapes. Simplified tangram.
 ```
@@ -2168,6 +2167,112 @@ Build src/components/interactives/ShapeComposer.tsx — V1 ONLY
 - ActivityRenderer: "compose-shapes" → ShapeComposer
 ```
 
+**Output:** [2026-04-06]
+● **Done.** Implemented ShapeComposer widget in `select-pieces` mode (v1).
+
+**Summary of what landed:**
+- **Interactive Widget:** `ShapeComposer.tsx` (replaces complex drag-and-snap with higher-priority multiple choice mapping).
+- **Generator & Samples:** `shapeComposerGenerator.ts` and `shapeComposer-samples.ts` (mapping complex shapes like rectangles to their component triangles/squares).
+- **Dev Integration:** Added as a new tab in the consolidated `/dev/shapes` dev page.
+- **Renderer Hookup:** Added `compose-shapes` support to `ActivityRenderer.tsx`.
+- **Optimization:** Reused `Shape2DSVG.tsx` for visual consistency across all geometry widgets.
+- **Payload Extension:** Updated `curriculum.ts` to accommodate the selection-based composition mode.
+
+**Verification:**
+- `npx tsc -b` passed.
+- `npm run build` passed.
+- *Note:* Bundle size remains slightly above the warning threshold (500 KB+), no regression.
+
+---
+
+### Component #10: WordProblem (Ch17)
+
+- The book: short story → write the "mathematical sentence" → write the answer.
+```
+"Hani has 12 apples. He gave 5 to his friend. 
+ How many apples does Hani have now?"
+
+  Mathematical sentence: [__] ○ [__] = [__]
+                          12   -    5  =  7
+                               ↑
+                          child picks + or -
+
+  Answer: [__] apples
+            7
+```
+
+#### Props
+```ts
+interface WordProblemProps {
+  data: WordProblemData;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface WordProblemData {
+  story: string;                  // English text
+  imageHint?: string;             // "apples" | "birds" | "books" — for emoji/icon
+  operation: "+" | "-";
+  operandA: number;
+  operandB: number;
+  correctAnswer: number;
+  unit?: string;                  // "apples", "books" — for answer label
+}
+```
+- State — three sequential inputs:
+  - Child enters first operand (or it's pre-filled from story)
+  - Child picks operation (+ or −) by tapping one of two buttons
+  - Child enters second operand
+  - Child enters answer
+  - Validate entire sentence → celebrate
+- Actually, for 7-year-olds, pre-fill the operands from the story and just ask for operation + answer:
+```
+  12  [+][-]  5  =  [__]
+       ↑              ↑
+   child picks    child enters
+```
+
+#### Generator
+```ts
+export function generateWordProblem(difficulty: 1 | 2 | 3): WordProblemData {
+  const op = pick(["+", "-"]);
+  const items = pick(["apples", "books", "birds", "pencils", "stars"]);
+  const names = pick(["Hani", "Sara", "Omar", "Nour"]);
+  
+  let a: number, b: number;
+  if (op === "+") {
+    a = randomInt(3, 9 * difficulty);
+    b = randomInt(1, a);
+  } else {
+    a = randomInt(5, 10 * difficulty);
+    b = randomInt(1, a - 1);
+  }
+  
+  const answer = op === "+" ? a + b : a - b;
+  
+  const story = op === "+"
+    ? `${names} has ${a} ${items}. He got ${b} more. How many ${items} does ${names} have now?`
+    : `${names} has ${a} ${items}. He gave ${b} to his friend. How many ${items} does ${names} have now?`;
+  
+  return { story, imageHint: items, operation: op, operandA: a, operandB: b, correctAnswer: answer, unit: items };
+}
+```
+
+#### Build Instructions
+```
+Build src/components/interactives/WordProblem.tsx
+
+- Story text at top (large font, 20px+)
+- Emoji/icon for the item type next to the story
+- Equation builder row: [operandA] [+/-toggle] [operandB] = [answer input]
+  - Operands pre-filled and read-only
+  - +/- are two large toggle buttons, child picks one
+  - Answer is number pad input
+- Validate: operation must match AND answer must be correct
+- Wrong operation → hint: "Read the story again. Did he get more or give away?"
+- Generator: src/lib/generators/wordProblemGenerator.ts
+- Dev route: /dev/wordproblem
+- ActivityRenderer: "add-sub-mixed" → WordProblem
+```
 
 ---
 
@@ -2184,6 +2289,6 @@ Build src/components/interactives/ShapeComposer.tsx — V1 ONLY
 | 6	| CapacityPourer	| ✅	| Ch11
 | 7	| ShapeFootprint + ShapeIdentifier	| ✅	| Ch10
 | 8	| ClockFace	| ✅	| Ch16
-| 9	| ShapeComposer	| next	| Ch15
+| 9	| ShapeComposer	| ✅	| Ch15
 | 10	| WordProblem	| next	| Ch17
 | 11	| ArtCorner	| last	| all

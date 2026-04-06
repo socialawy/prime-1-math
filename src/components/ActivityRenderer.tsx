@@ -5,6 +5,7 @@ import { ClockFace } from "./interactives/ClockFace";
 import { GuidedBoxFill } from "./interactives/GuidedBoxFill";
 import { HundredsChart } from "./interactives/HundredsChart";
 import { NumberLine } from "./interactives/NumberLine";
+import { ShapeComposer } from "./interactives/ShapeComposer";
 import { ShapeFootprint } from "./interactives/ShapeFootprint";
 import { ShapeIdentifier } from "./interactives/ShapeIdentifier";
 import { SplitTreeAdder } from "./interactives/SplitTreeAdder";
@@ -78,6 +79,12 @@ export function ActivityRenderer({
         return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-footprint data." />;
       }
       return <ShapeFootprint data={activity.data} onComplete={onComplete} />;
+
+    case "compose-shapes":
+      if (activity.data.type !== "compose-shapes") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-composer data." />;
+      }
+      return <ShapeComposer data={activity.data} onComplete={onComplete} />;
 
     case "tell-time":
       if (activity.data.type !== "tell-time") {

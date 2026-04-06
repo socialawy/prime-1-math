@@ -175,8 +175,16 @@ export interface NumberLineData {
 export interface ComposeShapesData {
   type: "compose-shapes";
   targetShape: string;
+  mode?: "select-pieces" | "drag-compose";
+  targetDescription?: string;
   availablePieces: ShapePiece[];
   correctCombination: string[];
+  options?: {
+    id: string;
+    pieces: ShapePiece["shape"][];
+    label: string;
+  }[];
+  correctOptionId?: string;
 }
 
 export interface ShapePiece {

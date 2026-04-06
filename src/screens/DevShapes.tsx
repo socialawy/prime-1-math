@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { ShapeComposer } from "../components/interactives/ShapeComposer";
 import { ShapeFootprint } from "../components/interactives/ShapeFootprint";
 import { ShapeIdentifier } from "../components/interactives/ShapeIdentifier";
+import {
+  RANDOM_SHAPE_COMPOSER,
+  SAMPLE_SHAPE_COMPOSER,
+} from "../data/samples/shapeComposer-samples";
 import {
   RANDOM_SHAPE_FOOTPRINT,
   RANDOM_SHAPE_IDENTIFIER_FIND,
@@ -9,7 +14,12 @@ import {
   SAMPLE_SHAPE_IDENTIFIER_FIND,
   SAMPLE_SHAPE_IDENTIFIER_ODD,
 } from "../data/samples/shape-samples";
-import type { ActivityResult, Shape3Dto2DData, ShapeIdentifyData } from "../types/curriculum";
+import type {
+  ActivityResult,
+  ComposeShapesData,
+  Shape3Dto2DData,
+  ShapeIdentifyData,
+} from "../types/curriculum";
 
 const IDENTIFIER_SAMPLES: { label: string; data: ShapeIdentifyData }[] = [
   { label: "Find Correct", data: SAMPLE_SHAPE_IDENTIFIER_FIND },
@@ -23,14 +33,24 @@ const FOOTPRINT_SAMPLES: { label: string; data: Shape3Dto2DData }[] = [
   { label: "Random", data: RANDOM_SHAPE_FOOTPRINT },
 ];
 
+const COMPOSER_SAMPLES: { label: string; data: ComposeShapesData }[] = [
+  { label: "Sample", data: SAMPLE_SHAPE_COMPOSER },
+  { label: "Random", data: RANDOM_SHAPE_COMPOSER },
+];
+
 export function DevShapes() {
-  const [tab, setTab] = useState<"identifier" | "footprint">("identifier");
+  const [tab, setTab] = useState<"identifier" | "footprint" | "composer">("identifier");
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [key, setKey] = useState(0);
   const [lastResult, setLastResult] = useState<ActivityResult | null>(null);
 
   const isIdentifier = tab === "identifier";
-  const samples = isIdentifier ? IDENTIFIER_SAMPLES : FOOTPRINT_SAMPLES;
+  const isFootprint = tab === "footprint";
+  const samples = isIdentifier
+    ? IDENTIFIER_SAMPLES
+    : isFootprint
+      ? FOOTPRINT_SAMPLES
+      : COMPOSER_SAMPLES;
 
   return (
     <div className="min-h-screen bg-sky-50 p-4">
@@ -65,6 +85,19 @@ export function DevShapes() {
             }`}
           >
             Shape Footprint
+          </button>
+          <button
+            onClick={() => {
+              setTab("composer");
+              setSelectedIdx(0);
+              setKey((value) => value + 1);
+              setLastResult(null);
+            }}
+            className={`rounded-lg px-3 py-2 text-sm font-medium ${
+              tab === "composer" ? "bg-blue-600 text-white" : "bg-white text-gray-600"
+            }`}
+          >
+            Shape Composer
           </button>
         </div>
 
@@ -101,10 +134,16 @@ export function DevShapes() {
             data={IDENTIFIER_SAMPLES[selectedIdx]!.data}
             onComplete={(result) => setLastResult(result)}
           />
-        ) : (
+        ) : isFootprint ? (
           <ShapeFootprint
             key={key}
             data={FOOTPRINT_SAMPLES[selectedIdx]!.data}
+            onComplete={(result) => setLastResult(result)}
+          />
+        ) : (
+          <ShapeComposer
+            key={key}
+            data={COMPOSER_SAMPLES[selectedIdx]!.data}
             onComplete={(result) => setLastResult(result)}
           />
         )}
