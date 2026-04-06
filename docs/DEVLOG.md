@@ -1433,3 +1433,59 @@ Build two components that complete Chapter 14:
 
 Test: both dev routes functional, all modes working.
 ```
+
+**Output:** [2026-04-06]
+● **Done**
+Implemented BlockGrouper + NumberLine.
+
+What landed:
+- New Chapter 14 interactives: `BlockGrouper.tsx` and `NumberLine.tsx`
+- New generators: `blockGrouperGenerator.ts` and `numberLineGenerator.ts`
+- New sample data: `blockGrouper-samples.ts` and `numberLine-samples.ts`
+- New dev screens/routes: `DevBlockGrouper.tsx`, `DevNumberLine.tsx`, plus route wiring in `App.tsx`
+- Small type extensions in `curriculum.ts` so `place-value-group` can express mode and `place-value-number-line` can express arrow visibility
+
+**Verification:**
+- `npx tsc -b` passed
+- `npm run build` passed after running outside the sandbox
+
+One note: there is no `ActivityRenderer` switch yet.
+
+---
+
+## Status so far:
+
+Component	| Status	| Chapter
+---	| ---	| ---
+GuidedBoxFill	| ✅	| Ch12+13
+SplitTreeAdder	| ✅	| Ch12+13
+HundredsChart	| ✅	| Ch14
+Ch13 both-methods | ✅	| Ch12+13
+BlockGrouper	| ✅	| Ch14
+NumberLine	| ✅	| Ch14
+AreaGrid + CapacityPourer	| next	| Ch11
+ShapeFootprint + ShapeIdentifier	| next	| Ch10
+ClockFace	| next	| Ch16
+ShapeComposer	| next	| Ch15
+WordProblem	| next	| Ch17
+ArtCorner	| last	| all
+
+---
+
+### `ActivityRenderer`
+```
+Wire up ActivityRenderer. Create src/components/ActivityRenderer.tsx 
+with the switch statement mapping all conceptKeys built so far:
+
+  "addition-make-10" → SplitTreeAdder
+  "subtraction-use-10" → SplitTreeAdder  
+  "guided-box-make10" → GuidedBoxFill
+  "guided-box-sub10" → GuidedBoxFill
+  "place-value-hundreds-chart" → HundredsChart
+  "place-value-group" → BlockGrouper
+  "place-value-number-line" → NumberLine
+
+Default case: render a "Coming soon" placeholder card with the 
+conceptKey displayed. This lets us test the full lesson flow 
+even before all widgets exist.
+```

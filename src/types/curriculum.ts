@@ -128,6 +128,7 @@ export interface PlaceValueData {
   expectedTens: number;
   expectedOnes: number;
   visualType: "blocks" | "sticks" | "stars";
+  mode?: "group-then-count" | "count-only";
 }
 
 export interface HundredsChartData {
@@ -156,6 +157,7 @@ export interface NumberLineData {
   markedPoints: number[];
   missingPoints: number[];
   jumpSize: 1 | 2 | 5 | 10;
+  showJumpArrows?: boolean;
 }
 
 export interface ComposeShapesData {
