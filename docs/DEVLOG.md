@@ -2414,9 +2414,30 @@ as chapters 10-14. Output:
   data/assessments.json  (all 10 final assessments + chapter assessments)
 ```
 
+#### A better approach
+
+1. NotebookLM: 
+```
+"For Sheets 17 through 23, list every problem with:
+1. The exact instruction text
+2. The numbers/shapes involved  
+3. The correct answer from the answer guide
+Group by chapter (15, 16, 17)."
+```
+`docs\queries\Q5.md`
+
+```
+"List all 10 Final Assessment problems. For each assessment, 
+give the exact question text and correct answer for all 6 questions."
+```
+`docs\queries\Q6.md`
+
+- Flash validate NotebookLM's output against the answer guide pages
+
 - The generators can fill chapters 15-17 entirely, if needed. The generators exist for every widget type. The assessments are the higher priority extraction — those are real exam-format questions.
 
-### Task 2: Complete the Adapter (Quick Task)
+### Task 2: Complete the Adapter (Quick Task) - COMPLETED ✅ [2026-04-06]
+
 ```
 In src/lib/adapters/flashDataAdapter.ts, map the 5 skipped types:
 
@@ -2433,6 +2454,23 @@ as the P2 fix that went from 19→48 activities).
 Output: updated adapter + updated FLASH_DATA_GAPS.md showing 
 all types now mapped.
 ```
+
+**Output:** [2026-04-06]
+● **Done.** Updated `flashDataAdapter.ts` so the five previously skipped Flash types now map into the built widgets:
+
+- `counting-composite` → `place-value-group` (BlockGrouper)
+- `ordering` → `compare-capacity` with mode: `"order-multiple"` (CapacityPourer)
+- `area-comparison-visual` → `compare-area` with mode: `"count-compare"` (AreaGrid)
+- `word-problem` → `add-sub-mixed` (WordProblem)
+- `result-finding` → mixed expansion, with equations to `guided-box` and visual recall to `shape-footprint` style recall.
+
+I also expanded the multi-item handling where needed and refreshed `FLASH_DATA_GAPS.md` so it now describes remaining approximations instead of “unmapped types”.
+
+**Verification:**
+- `npx tsc -p tsconfig.json --pretty false` passed.
+- `npx tsc -b` passed with no errors.
+
+
 
 ### Task 3: Build the Lesson Flow (Core Wiring)
 
@@ -2569,6 +2607,14 @@ Also add React.lazy() for ActivityRenderer's imports so interactives
 load on demand, not all upfront. Wrap in Suspense with a spinner.
 ```
 
+### Task 6.5: Repo Polish
+```
+- Create README.md with: what this is, screenshot, how to run locally 
+(npm install, npm run dev), how to add content (drop JSON in data/), 
+tech stack list.
+
+- Create docs/ARCHITECTURE.md: paste the component scorecard table, the data flow (Flash JSON → adapter → ActivityRenderer → widget), and the state management layers diagram from our blueprint.
+```
 ### Task 7: Deploy
 ```
 1. npm run build
@@ -2577,6 +2623,12 @@ load on demand, not all upfront. Wrap in Suspense with a spinner.
    OR Netlify: npx netlify deploy --prod --dir=dist
 4. Test on a real tablet (iPad or Android) with touch
 5. Share the URL
+```
+
+- Vercel is the right call. Zero config for Vite, free tier is generous, preview deploys on every push. One thing: add to vite.config.ts:
+
+```typescript
+base: '/'  // or '/math-review/' if deploying to a subpath
 ```
 
 - T3 is the critical path. Everything else can happen in parallel or after. Once T3 lands, it's a usable app. T5 makes it an exam-prep app. T7 puts it in kids' hands.

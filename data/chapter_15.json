@@ -1,0 +1,153 @@
+[
+  {
+    "sheet": 17,
+    "chapter": 15,
+    "problems": [
+      {
+        "id": "s17_p1",
+        "type": "shape_composition",
+        "instruction": "How many pieces of colored paper A do you need to make each shape below?",
+        "items": [
+          { "shapeType": "plus_sign", "color": "yellow", "answer": 10, "context": "covers 5 full squares" },
+          { "shapeType": "composite_geometric", "color": "yellow", "answer": 8, "context": "8 internal triangles" },
+          { "shapeType": "square", "color": "yellow", "answer": 8, "context": "8 internal triangles" }
+        ]
+      },
+      {
+        "id": "s17_p2",
+        "type": "mixed_arithmetic",
+        "instruction": "Complete the following.",
+        "subProblems": [
+          { "sentence": "60 - 20 = __", "answer": 40 },
+          { "sentence": "4 groups of 10 make __", "answer": 40 },
+          { "sentence": "71 + 8 = __", "answer": 79 },
+          { "sentence": "52 - 2 = __", "answer": 50 }
+        ],
+        "sequence": {
+          "pattern": "descending_1",
+          "values": [50, 49, 48, 47, 46, 45, 44, 43],
+          "blanks": [1, 5, 6, 7]
+        }
+      },
+      {
+        "id": "s17_p3",
+        "type": "comparison_circle",
+        "instruction": "Circle the bigger number.",
+        "pairs": [
+          { "options": [62, 69], "answer": 69 },
+          { "options": [19, 91], "answer": 91 },
+          { "options": [120, 112], "answer": 120 },
+          { "options": [54, 47], "answer": 54 }
+        ]
+      },
+      {
+        "id": "s17_p4",
+        "type": "capacity_ordering",
+        "instruction": "Arrange the containers in order from most to least amount.",
+        "items": [
+          { "label": "A", "level": "full", "rank": 1 },
+          { "label": "B", "level": "half", "rank": 3 },
+          { "label": "C", "level": "quarter", "rank": 4 },
+          { "label": "D", "level": "three-quarters", "rank": 2 }
+        ],
+        "answer": "A, D, B, C"
+      }
+    ]
+  },
+  {
+    "sheet": 18,
+    "chapter": 15,
+    "problems": [
+      {
+        "id": "s18_p1",
+        "type": "stick_construction",
+        "instruction": "We made a shape using sticks (—) as follow. Answer the questions.",
+        "imageType": "stick_house",
+        "questions": [
+          { "text": "How many triangle shapes are there?", "answer": 2 },
+          { "text": "How many square shapes are there?", "answer": 4 },
+          { "text": "How many sticks did you use?", "answer": 15 }
+        ]
+      },
+      {
+        "id": "s18_p2",
+        "type": "multiple_choice",
+        "instruction": "Choose the correct answer.",
+        "questions": [
+          { "text": "__ 10s make 70", "options": [7, 17, 70], "answer": 7 },
+          { "text": "10 and __ make 12", "options": [2, 12, 20], "answer": 2 },
+          { "text": "Pieces of colored green triangle paper needed to make a larger triangle (4 internal pieces)", "options": [2, 4, 6], "answer": 4 },
+          { "text": "5 less than 90 is __", "options": [40, 85, 95], "answer": 85 }
+        ]
+      },
+      {
+        "id": "s18_p3",
+        "type": "grid_fragment",
+        "instruction": "Write the number in [blank square]",
+        "fragments": [
+          { "name": "a", "base": 55, "neighbors": { "left": 54, "right": 56, "above": 45 }, "answer": [45, 54, 55, 56] },
+          { "name": "b", "base": 76, "neighbors": { "left": 75, "right": 77, "above": 66 }, "answer": [66, 75, 76, 77] }
+        ]
+      },
+      {
+        "id": "s18_p4",
+        "type": "word_problem",
+        "instruction": "There are 40 people on the bus, 20 people got off. How many people are on the bus now?",
+        "data": { "total": 40, "removed": 20 },
+        "sentence": "40 - 20 = 20",
+        "answer": 20
+      }
+    ]
+  },
+  {
+    "sheet": 19,
+    "chapter": 15,
+    "problems": [
+      {
+        "id": "s19_p1",
+        "type": "dot_grid_copy",
+        "instruction": "Draw the same shape.",
+        "imageType": "boat",
+        "gridSize": "8x7",
+        "details": "Green lines, trapezoid hull (base 3, top 5), small cabin (1x2)"
+      },
+      {
+        "id": "s19_p2",
+        "type": "matching",
+        "instruction": "Match to make 100.",
+        "pairs": [
+          [70, 30], [80, 20], [40, 60], [10, 90], [50, 50], [100, 0]
+        ]
+      },
+      {
+        "id": "s19_p3",
+        "type": "area_ordering",
+        "instruction": "Arrange the following shapes from the greatest area to the least area.",
+        "items": [
+          { "id": "A", "type": "rect_2x4", "units": 8, "rank": 2 },
+          { "id": "B", "type": "square_3x3", "units": 9, "rank": 1 },
+          { "id": "C", "type": "cross", "units": 5, "rank": 3 },
+          { "id": "D", "type": "l_shape", "units": 4, "rank": 4 }
+        ],
+        "answer": "B, A, C, D"
+      },
+      {
+        "id": "s19_p4",
+        "type": "make_ten_addition",
+        "instruction": "Make a ten to add 8 + 5",
+        "imageType": "ten_frames",
+        "data": { "start": 8, "add": 5 },
+        "logic": "8 + 2 = 10, 10 + 3 = 13",
+        "answer": 13
+      },
+      {
+        "id": "s19_p5",
+        "type": "stick_construction",
+        "instruction": "How many sticks (—) were used to make the opposite shape?",
+        "imageType": "stick_hexagon_spoked",
+        "answer": 12,
+        "details": "6 outer, 6 spokes"
+      }
+    ]
+  }
+]
