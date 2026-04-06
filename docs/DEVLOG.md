@@ -1983,7 +1983,8 @@ Build two Ch10 components:
 - `npm run build` passed.
 
 
-### Component #8: ClockFace (Ch16)
+### Component #8: ClockFace (Ch16) - COMPLETED ✅ [2026-04-06]
+
 
 - The book teaches o'clock and half past only — no quarter past, no minutes. This is deliberately simple.
 ```
@@ -2095,6 +2096,26 @@ Build src/components/interactives/ClockFace.tsx
 - ActivityRenderer: "tell-time" → ClockFace
 ```
 
+**Output:** [2026-04-06]
+● **Done.** Implemented an interactive SVG analog clock for telling time (o'clock and half-past).
+
+**Summary of what landed:**
+- **Interactive Widget:** `ClockFace.tsx` (supports both `read-time` static mode and `set-time` interactive dragging mode).
+- **Control Logic:** Handcrafted rotation logic using `onPointerMove` + `Math.atan2` for precise 360° hand dragging and snapping (no external DnD library needed for this).
+- **Generator & Samples:** `clockGenerator.ts` and `clock-samples.ts` covering the full range of o'clock/half-past problems.
+- **Dev Screen:** New route `/dev/clock` for testing both interaction modes.
+- **Renderer Hookup:** Added `tell-time` support to `ActivityRenderer.tsx`.
+- **Infrastructure:** Extended `curriculum.ts` payloads to accommodate both reading and setting modes.
+
+**Verification:**
+- `npx tsc -b` passed.
+- `npm run build` passed.
+- *Note:* JS bundle size (500 kB) warning noted; performance optimization/splitting reserved for future phases.
+
+
+
+---
+
 ### Component #9: ShapeComposer (Ch15)
 
 - Book concept: combine simple 2D shapes to make bigger shapes. Simplified tangram.
@@ -2110,7 +2131,43 @@ Build src/components/interactives/ClockFace.tsx
 ```
 - This is the hardest remaining UX problem but the lowest exam priority. For v1, simplify:
 
-**Planning**
+#### Props
+```ts
+interface ShapeComposerProps {
+  data: ShapeComposerProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface ShapeComposerProblem {
+  // For v1: simplified to "which combination makes this shape?"
+  mode: "select-pieces" | "drag-compose";
+  
+  targetDescription: string;    // "a rectangle"
+  correctPieces: string[];      // ["triangle", "triangle"] 
+  
+  // select-pieces mode: multiple choice
+  options: { id: string; pieces: string[]; label: string }[];
+  correctOptionId: string;
+  
+  // drag-compose mode: deferred to v2
+}
+```
+- **V1 Vision:** Build select-pieces mode only. Show the target shape, show 3 options (each is a visual combination of 2D shapes), child taps the correct combination. This covers the exam question format without implementing full drag-and-snap geometry.
+
+#### Build Instructions
+```
+Build src/components/interactives/ShapeComposer.tsx — V1 ONLY
+
+- Display target shape name + SVG at top
+- 3 option cards below, each showing a visual arrangement of 2D shapes
+  (rendered using Shape2DSVG from the shared components)
+- Tap correct option → celebrate, wrong → red flash
+- Simple useState, no useReducer needed
+- Generator: picks target shape, generates correct combination + 2 wrong
+- Dev route: /dev/shapes (add as third tab alongside identifier/footprint)
+- ActivityRenderer: "compose-shapes" → ShapeComposer
+```
+
 
 ---
 
@@ -2126,7 +2183,7 @@ Build src/components/interactives/ClockFace.tsx
 | 5	| AreaGrid	| ✅	| Ch11
 | 6	| CapacityPourer	| ✅	| Ch11
 | 7	| ShapeFootprint + ShapeIdentifier	| ✅	| Ch10
-| 8	| ClockFace	| next	| Ch16
+| 8	| ClockFace	| ✅	| Ch16
 | 9	| ShapeComposer	| next	| Ch15
 | 10	| WordProblem	| next	| Ch17
 | 11	| ArtCorner	| last	| all

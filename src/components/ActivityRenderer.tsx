@@ -1,6 +1,7 @@
 import { AreaGrid } from "./interactives/AreaGrid";
 import { BlockGrouper } from "./interactives/BlockGrouper";
 import { CapacityPourer } from "./interactives/CapacityPourer";
+import { ClockFace } from "./interactives/ClockFace";
 import { GuidedBoxFill } from "./interactives/GuidedBoxFill";
 import { HundredsChart } from "./interactives/HundredsChart";
 import { NumberLine } from "./interactives/NumberLine";
@@ -77,6 +78,12 @@ export function ActivityRenderer({
         return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected shape-footprint data." />;
       }
       return <ShapeFootprint data={activity.data} onComplete={onComplete} />;
+
+    case "tell-time":
+      if (activity.data.type !== "tell-time") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected tell-time data." />;
+      }
+      return <ClockFace data={activity.data} onComplete={onComplete} />;
 
     case "place-value-group":
       if (activity.data.type !== "place-value-group") {

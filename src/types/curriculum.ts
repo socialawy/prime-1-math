@@ -187,10 +187,13 @@ export interface ShapePiece {
 
 export interface TellTimeData {
   type: "tell-time";
+  mode?: "read-time" | "set-time";
   hourHandAngle: number;
   minuteHandAngle: number;
   correctHour: number;
   correctMinuteLabel: "o-clock" | "half-past";
+  options?: string[];
+  correctOption?: string;
 }
 
 export interface MixedWordProblemData {
