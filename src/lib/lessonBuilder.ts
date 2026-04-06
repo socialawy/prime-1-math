@@ -110,23 +110,14 @@ export function buildLessonForChapter(chapterId: string): BuiltLesson {
 }
 
 function buildChapter10Activities(): Activity[] {
-  const flash = getAdaptedActivities("ch10");
-  const identifiers = flash.filter((activity) => activity.conceptKey === "shape-3d-identify");
-  const footprints = flash.filter((activity) => activity.conceptKey === "shape-3d-to-2d");
-  const mixed = flash.filter(
-    (activity) =>
-      activity.conceptKey === "shape-3d-identify" ||
-      activity.conceptKey === "shape-3d-to-2d",
-  );
-
   return [
-    ...takeOrGenerate(identifiers, 2, (index) =>
+    ...Array.from({ length: 2 }, (_, index) =>
       createActivity(`ch10-identify-${index + 1}`, "shape-3d-identify", generateShapeIdentify(), "quiz"),
     ),
-    ...takeOrGenerate(footprints, 2, (index) =>
+    ...Array.from({ length: 2 }, (_, index) =>
       createActivity(`ch10-footprint-${index + 1}`, "shape-3d-to-2d", generateShapeFootprint()),
     ),
-    ...takeOrGenerate(mixed.slice(4), 4, (index) =>
+    ...Array.from({ length: 4 }, (_, index) =>
       index % 2 === 0
         ? createActivity(`ch10-mixed-identify-${index + 1}`, "shape-3d-identify", generateShapeIdentify(), "quiz")
         : createActivity(`ch10-mixed-footprint-${index + 1}`, "shape-3d-to-2d", generateShapeFootprint()),

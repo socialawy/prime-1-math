@@ -9,14 +9,14 @@ export function ChapterMap() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="mx-auto mb-8 flex max-w-4xl items-center justify-between gap-4">
+      <div className="mx-auto mb-8 flex max-w-4xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-4">
           <AppLogo size="md" />
           <h1 className="text-4xl font-bold text-gray-800">
             Chapters
           </h1>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => navigate("/exam-practice")}
             className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-sm"

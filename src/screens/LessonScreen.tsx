@@ -27,6 +27,10 @@ export function LessonScreen() {
     setResults([]);
   }, [chapterId, runSeed]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentIndex, chapterId, runSeed]);
+
   if (!chapter || !lesson) {
     return (
       <div className="flex min-h-screen items-center justify-center text-2xl text-red-500">

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ActivityRenderer } from "../components/ActivityRenderer";
@@ -29,6 +29,10 @@ export function ExamPractice() {
     results.length === 0
       ? 0
       : Math.round(results.reduce((sum, result) => sum + result.score, 0) / results.length);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeAssessmentId, currentIndex]);
 
   const beginAssessment = (assessment: BuiltAssessment) => {
     setActiveAssessmentId(assessment.id);

@@ -118,138 +118,9 @@ Step 4:  10 and [___] make [___]
 
 #### Props Interface
 
-```typescript
-// src/components/interactives/GuidedBoxFill.tsx
-
-interface GuidedBoxFillProps {
-  data: GuidedBoxProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface GuidedBoxProblem {
-  type: "addition" | "subtraction";
-  equation: string;            // "5 + 8" or "14 - 6" — displayed at top
-  steps: GuidedStep[];
-  finalAnswer: number;
-}
-
-interface GuidedStep {
-  id: string;
-  template: string;            // "5 needs {0} more to make 10."
-  blanks: BlankSlot[];         // one or more blanks per step
-  revealAfterPrevious: boolean;// true for steps 2+ (progressive disclosure)
-}
-
-interface BlankSlot {
-  index: number;               // position in template ({0}, {1})
-  correctValue: number;
-  hint?: string;               // shown after 2 wrong attempts
-}
-
-interface ActivityResult {
-  correct: boolean;
-  attempts: number;
-  timeMs: number;
-  mistakesPerStep: Record<string, number>;
-}
-```
-
 #### Sample Data (Hardcoded for Development)
 
-```typescript
-// src/data/samples/make10-samples.ts
-
-export const SAMPLE_ADD_5_8: GuidedBoxProblem = {
-  type: "addition",
-  equation: "5 + 8",
-  steps: [
-    {
-      id: "s1",
-      template: "5 needs {0} more to make 10.",
-      blanks: [{ index: 0, correctValue: 5, hint: "What plus 5 equals 10?" }],
-      revealAfterPrevious: false,
-    },
-    {
-      id: "s2",
-      template: "Split 8 into {0} and {1}",
-      blanks: [
-        { index: 0, correctValue: 5 },
-        { index: 1, correctValue: 3 },
-      ],
-      revealAfterPrevious: true,
-    },
-    {
-      id: "s3",
-      template: "Add {0} to 5 to make 10.",
-      blanks: [{ index: 0, correctValue: 5 }],
-      revealAfterPrevious: true,
-    },
-    {
-      id: "s4",
-      template: "10 and {0} make {1}",
-      blanks: [
-        { index: 0, correctValue: 3 },
-        { index: 1, correctValue: 13 },
-      ],
-      revealAfterPrevious: true,
-    },
-  ],
-  finalAnswer: 13,
-};
-
-export const SAMPLE_SUB_14_6: GuidedBoxProblem = {
-  type: "subtraction",
-  equation: "14 - 6",
-  steps: [
-    {
-      id: "s1",
-      template: "14 needs to go down to 10. Split 6 into {0} and {1}.",
-      blanks: [
-        { index: 0, correctValue: 4, hint: "14 minus what equals 10?" },
-        { index: 1, correctValue: 2 },
-      ],
-      revealAfterPrevious: false,
-    },
-    {
-      id: "s2",
-      template: "14 - {0} = 10",
-      blanks: [{ index: 0, correctValue: 4 }],
-      revealAfterPrevious: true,
-    },
-    {
-      id: "s3",
-      template: "10 - {0} = {1}",
-      blanks: [
-        { index: 0, correctValue: 2 },
-        { index: 1, correctValue: 8 },
-      ],
-      revealAfterPrevious: true,
-    },
-  ],
-  finalAnswer: 8,
-};
-```
 #### State Machine
-```typescript
-// Inside GuidedBoxFill.tsx
-
-interface BoxFillState {
-  currentStepIndex: number;
-  filledValues: Record<string, Record<number, number | null>>;
-  // e.g., { "s1": { 0: 5 }, "s2": { 0: null, 1: null } }
-  stepStatus: Record<string, "locked" | "active" | "correct" | "wrong">;
-  attemptsPerStep: Record<string, number>;
-  showHint: Record<string, boolean>;
-  phase: "working" | "all-correct" | "celebrate";
-  startTime: number;
-}
-
-type BoxFillAction =
-  | { type: "SUBMIT_BLANK"; stepId: string; blankIndex: number; value: number }
-  | { type: "CLEAR_WRONG" }
-  | { type: "ADVANCE_STEP" }
-  | { type: "CELEBRATE" };
-```
 
 #### Interaction Flow
 
@@ -298,94 +169,7 @@ type BoxFillAction =
 
 #### Number Pad Design Rules
 
-```typescript
-// The number pad should be CONTEXTUAL — only show numbers
-// that could plausibly be correct, to reduce cognitive load
-// for 7-year-olds while still requiring thought.
-
-function getNumberPadRange(problem: GuidedBoxProblem): number[] {
-  // For addition making-10: numbers 0-10 are sufficient
-  // For subtraction using-10: numbers 0-18 at most
-  if (problem.type === "addition") return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  if (problem.type === "subtraction") return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-}
-
-// For Step 4's second blank (the final answer, e.g., 13),
-// extend to include teen numbers: 11-18
-// Detect this by checking if blank.correctValue > 10
-```
-
 #### Generator Function
-
-```typescript
-// src/lib/generators/guidedBoxGenerator.ts
-
-export function generateMake10Addition(
-  addendA: number,
-  addendB: number,
-  splitTarget: "A" | "B" = "B"
-): GuidedBoxProblem {
-  const target = splitTarget === "B" ? addendB : addendA;
-  const other = splitTarget === "B" ? addendA : addendB;
-  const give = 10 - other;
-  const keep = target - give;
-  const sum = addendA + addendB;
-
-  return {
-    type: "addition",
-    equation: `${addendA} + ${addendB}`,
-    steps: [
-      {
-        id: "s1",
-        template: `${other} needs {0} more to make 10.`,
-        blanks: [{ index: 0, correctValue: give }],
-        revealAfterPrevious: false,
-      },
-      {
-        id: "s2",
-        template: `Split ${target} into {0} and {1}`,
-        blanks: [
-          { index: 0, correctValue: give },
-          { index: 1, correctValue: keep },
-        ],
-        revealAfterPrevious: true,
-      },
-      {
-        id: "s3",
-        template: `Add {0} to ${other} to make 10.`,
-        blanks: [{ index: 0, correctValue: give }],
-        revealAfterPrevious: true,
-      },
-      {
-        id: "s4",
-        template: `10 and {0} make {1}`,
-        blanks: [
-          { index: 0, correctValue: keep },
-          { index: 1, correctValue: sum },
-        ],
-        revealAfterPrevious: true,
-      },
-    ],
-    finalAnswer: sum,
-  };
-}
-
-// Generate all valid Making-10 problems for drilling
-export function generateAllMake10Problems(): GuidedBoxProblem[] {
-  const problems: GuidedBoxProblem[] = [];
-  for (let a = 2; a <= 9; a++) {
-    for (let b = 2; b <= 9; b++) {
-      if (a + b > 10 && a + b <= 18) {
-        // Split the smaller number (book's "First Way")
-        if (b <= a) problems.push(generateMake10Addition(a, b, "B"));
-        else problems.push(generateMake10Addition(a, b, "A"));
-      }
-    }
-  }
-  return problems; // ~30 unique problems
-}
-```
 
 #### Build Instructions
 
@@ -411,7 +195,7 @@ Requirements:
 
 ---
 
-### Status Update: [2026-04-06]
+**Output:** [2026-04-06]
 #### Component #1: GuidedBoxFill — COMPLETED ✅
 
 **What was built:**
@@ -530,59 +314,8 @@ GuidedBoxFill is the exam trainer — sequential boxes, text-heavy, mirrors the 
 ```
 
 #### Props Interface
-```ts
-// src/components/interactives/SplitTreeAdder.tsx
-
-interface SplitTreeAdderProps {
-  data: SplitTreeProblem;
-  onComplete: (result: ActivityResult) => void;
-}
-
-interface SplitTreeProblem {
-  mode: "addition" | "subtraction";
-  numberA: number;               // left number (e.g., 9)
-  numberB: number;               // right number (e.g., 4)
-  allowSplitChoice: boolean;     // true = child picks, false = preset
-  presetSplit?: "A" | "B";      // used when allowSplitChoice is false
-  expectedAnswer: number;        // 13
-}
-
-// Reuse ActivityResult from GuidedBoxFill — same shape
-```
 
 #### State Machine
-```ts
-interface SplitTreeState {
-  phase:
-    | "show-problem"          // equation + ten-frame + loose dots appear
-    | "choose-split"          // both number cards pulse, child taps one
-    | "split-open"            // tree animates open, two empty nodes appear
-    | "fill-split"            // child fills split values (tap or drag)
-    | "drag-to-ten"           // child drags dots from split to ten-frame
-    | "ten-complete"          // "10!" animation plays
-    | "final-answer"          // child sees 10 + remainder, taps answer
-    | "celebrate";            // confetti, star, onComplete
-
-  splitTarget: "A" | "B" | null;
-  splitValues: [number | null, number | null]; // what child entered
-  correctSplit: [number, number] | null;       // computed after choice
-  tenFrameCount: number;                       // animated 0 → A → 10
-  remainderCount: number;                      // dots left after drag
-  userFinalAnswer: number | null;
-  mistakes: number;
-  startTime: number;
-}
-
-type SplitTreeAction =
-  | { type: "CHOOSE_SPLIT"; target: "A" | "B" }
-  | { type: "SET_SPLIT_VALUE"; index: 0 | 1; value: number }
-  | { type: "CONFIRM_SPLIT" }
-  | { type: "DRAG_DOT_TO_FRAME" }     // called per dot dragged
-  | { type: "TEN_FRAME_FULL" }         // triggered when count hits 10
-  | { type: "SUBMIT_FINAL"; answer: number }
-  | { type: "WRONG_ANSWER" }
-  | { type: "CELEBRATE" };
-```
 
 #### Phase-by-Phase Logic
 - `show-problem` (1.5s auto-advance)
@@ -2766,3 +2499,40 @@ base: '/'  // or '/math-review/' if deploying to a subpath
 - T3 is the critical path. Everything else can happen in parallel or after. Once T3 lands, it's a usable app. T5 makes it an exam-prep app. T7 puts it in kids' hands.
 ### Quick Polish Note: [2026-04-06]
 - Added the bundled project logo to the Splash, Chapter Map, Lesson, and Exam Practice screens through a shared AppLogo component.
+
+---
+
+### Live Testing [2026-04-06]
+
+**Manual Testing Observations:**
+- **Mobile Layout**: Top navigation buttons (Dev Mode and Exam Practice) overlap with page content on small screens.
+- **Chapter 10 (First Unit)**: Activities Q5–Q7 were found to be empty or duplicated. The chapter concluded with a "nice tracing" prompt but lacked a clear "Next" action or navigation guide.
+- **Progression Logic**: The next chapter fails to unlock automatically upon completion of the current one.
+- **Visual Assets**: Several questions are missing their associated shape components/icons.
+
+---
+
+**Applied Fixes (v1.2.1-cleanup):**
+
+- **ChapterMap.tsx**: Refactored the header to use responsive flex-wrapping, preventing button overlap on mobile.
+- **lessonBuilder.ts**: Standardized Chapter 10 to use a cleanly generated 8-activity shape set, resolving the empty/duplicate slot issues.
+- **LessonScreen.tsx**: Implemented a scroll-to-top reset on activity transitions and completion to ensure the completion summary is visible.
+- **ExamPractice.tsx**: Applied the same scroll-to-top reset for assessment transitions to maintain UX consistency.
+
+**Status:**
+- [x] Type check passed (`npx tsc`).
+- [x] Live deployment verified at: [https://prime-1-math.vercel.app/](https://prime-1-math.vercel.app/)
+
+---
+
+### Repository & Identity Transition [2026-04-06]
+
+**Identity Migration:**
+- **Objective**: Consolidate deployment under the `socialawy` GitHub organization to resolve Vercel deployment constraints and attribution issues.
+- **Action**: Performed a global commit rebase to migrate author attribution from `socailawy-dev` to `socialawy`
+- **Result**: All 1,200+ commits are now correctly attributed, ensuring clean Vercel integration and contribution tracking.
+
+**Technical Chores (v1.2.1):**
+- **Metadata**: Added `homepage` and project metadata to `package.json`.
+- **Local Dev**: Enabled `--host` in the Vite `dev` script to allow school-tablet testing over the local network.
+- **Docs**: Resolved YAML frontmatter errors in `README.md` that were causing parsing issues in the deployment pipeline.
