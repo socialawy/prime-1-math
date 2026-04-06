@@ -2305,3 +2305,15 @@ What needs attention during the content pass:
 **Files:** `src/components/interactives/GuidedBoxFill.tsx`, `src/components/interactives/SplitTreeAdder.tsx`
 
 **Verification:** `npm run build` passed (tsc + vite).
+
+---
+
+### Fix: Filter unsupported clock times [2026-04-07]
+
+**Issue:** #4 — chapter_16.json contains `4:15` which ClockFace can't render (only teaches o-clock and half-past). `createReadTimeData()` in examBuilder was force-mapping unsupported minutes to the wrong label.
+
+**Change:** `createReadTimeData()` now returns `null` for times where minutes !== 0 and !== 30, with a `console.warn`. Callers already handle null (skip the activity). Also simplified the minuteLabel ternary — no more dead branches.
+
+**File:** `src/lib/examBuilder.ts`
+
+**Verification:** `npm run build` passed.

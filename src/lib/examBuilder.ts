@@ -278,8 +278,14 @@ function createReadTimeData(time: string): TellTimeData | null {
 
   const hour = parseInt(match[1] ?? "", 10);
   const minute = parseInt(match[2] ?? "", 10);
-  const minuteLabel =
-    minute === 0 ? "o-clock" : minute === 30 ? "half-past" : minute < 30 ? "o-clock" : "half-past";
+
+  // Curriculum only teaches o-clock and half-past — skip unsupported times
+  if (minute !== 0 && minute !== 30) {
+    console.warn(`[examBuilder] Skipping unsupported clock time: ${time}`);
+    return null;
+  }
+
+  const minuteLabel = minute === 0 ? "o-clock" : "half-past";
 
   return {
     type: "tell-time",
