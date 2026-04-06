@@ -408,3 +408,50 @@ Requirements:
 - Create src/data/samples/make10-samples.ts with the 2 sample problems
 - Add a temporary dev route "/dev/guidedbox" that renders the component
   with sample data so we can test immediately
+
+---
+
+### Status Update: [2026-04-06]
+#### Component #1: GuidedBoxFill — COMPLETED ✅
+
+**What was built:**
+
+- **Types** — `GuidedBoxProblem`, `GuidedStep`, `BlankSlot` added to `src/types/curriculum.ts`
+- **Sample data** — `src/data/samples/make10-samples.ts` with the 5+8 addition and 14-6 subtraction examples from the DEVLOG
+- **Generator** — `src/lib/generators/guidedBoxGenerator.ts` with:
+  - `generateMake10Addition()` — any a+b pair
+  - `generateUse10Subtraction()` — any minuend-subtrahend pair
+  - `generateAllMake10Problems()` / `generateAllUse10Problems()` — exhaustive sets
+- **Component** — `src/components/interactives/GuidedBoxFill.tsx`:
+  - `useReducer` state machine with phases: `working` → `all-correct` → `celebrate`
+  - Progressive step reveal with Framer Motion `AnimatePresence` + `layout`
+  - 56px+ touch targets on number pad (1-9, backspace, conditional teen row 10-18)
+  - Wrong answer: red shake animation, hint after 2 failures
+  - Correct answer: green lock, auto-advance to next blank/step
+  - Sound hooks via `useApp().audio`
+  - Fires `onComplete` with score/attempts/time after celebration
+- **Dev route** — `/dev/guidedbox` with problem picker and reset button
+
+**System Health:**
+- TypeScript clean, Vite builds in 2s. 
+- **Test:** Run `npm run dev` and navigate to `/dev/guidedbox`.
+
+---
+
+### JSON — Quick Integration Note
+
+- Before Component #2
+```
+Read the 5 JSON files Flash created in data/chapter_10.json through 
+data/chapter_14.json. Compare their shape to our GuidedBoxProblem 
+interface in src/types/curriculum.ts. 
+
+Create src/lib/adapters/flashDataAdapter.ts that maps Flash's format 
+into our app's types. Don't refactor Flash's files — write a thin 
+translation layer. Log any fields that don't map cleanly to a 
+FLASH_DATA_GAPS.md file so we know what to fix later.
+```
+
+### Component #2: SplitTreeAdder
+
+-

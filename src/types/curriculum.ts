@@ -251,3 +251,27 @@ export type SoundEffect =
   | "correct"
   | "try-again"
   | "stars-earned";
+
+// ============================================
+// GUIDED BOX FILL (Ch12 + Ch13 exam format)
+// ============================================
+
+export interface GuidedBoxProblem {
+  type: "addition" | "subtraction";
+  equation: string;
+  steps: GuidedStep[];
+  finalAnswer: number;
+}
+
+export interface GuidedStep {
+  id: string;
+  template: string;
+  blanks: BlankSlot[];
+  revealAfterPrevious: boolean;
+}
+
+export interface BlankSlot {
+  index: number;
+  correctValue: number;
+  hint?: string;
+}
