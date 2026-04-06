@@ -1,0 +1,43 @@
+{
+  "chapter": 14,
+  "title": "Ones, Tens, and Hundreds",
+  "verificationPage": "Original PDF 279-281 / Workbook Thumbnail 23-30",
+  "problems": [
+    {
+      "id": "ch14-s9-q1",
+      "sheet": 9,
+      "page": 206,
+      "type": "ten-grouping",
+      "instruction": "Count the groups of 10, then write the numerals.",
+      "items": [
+        { "stacksOfTen": 4, "total": 40 },
+        { "stacksOfTen": 6, "total": 60 },
+        { "stacksOfTen": 8, "total": 80 }
+      ]
+    },
+    {
+      "id": "ch14-s10-q1",
+      "sheet": 10,
+      "page": 207,
+      "type": "place-value-counting",
+      "instruction": "Count how many 10s and 1s. Write the number.",
+      "items": [
+        { "tens": 3, "ones": 6, "total": 36 },
+        { "tens": 1, "ones": 8, "total": 18 },
+        { "tens": 9, "ones": 0, "total": 90 }
+      ]
+    },
+    {
+      "id": "ch14-s10-q4",
+      "sheet": 10,
+      "type": "word-problem",
+      "instruction": "Ahmed had 13 pencils. He gave away 9 of them. How many pencils does he have now?",
+      "data": {
+        "initial": 13,
+        "removed": 9,
+        "item": "pencils"
+      },
+      "answer": 4
+    }
+  ]
+}

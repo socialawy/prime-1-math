@@ -1,0 +1,76 @@
+{
+  "chapter": 11,
+  "title": "How to Compare?",
+  "verificationPage": "Original PDF 259-261 / Workbook Thumbnail 9-16",
+  "problems": [
+    {
+      "id": "ch11-s3-q1",
+      "sheet": 3,
+      "page": 192,
+      "type": "ordering",
+      "instruction": "Arrange the containers in order from most to least amount.",
+      "items": [
+        { "id": "A", "imageType": "teapot", "context": "brown", "fill": "high" },
+        { "id": "B", "imageType": "jug", "context": "blue", "fill": "medium" },
+        { "id": "C", "imageType": "watering-can", "context": "red", "fill": "low" }
+      ],
+      "answer": ["A", "B", "C"]
+    },
+    {
+      "id": "ch11-s4-q1",
+      "sheet": 4,
+      "page": 193,
+      "type": "unit-counting",
+      "instruction": "Notice the amount of water in each container. Write how many cups.",
+      "items": [
+        { "target": { "imageType": "bucket", "context": "green" }, "cups": 5 },
+        { "target": { "imageType": "juice-box", "context": "orange" }, "cups": 7 },
+        { "target": { "imageType": "vase", "context": "brown-clay" }, "cups": 3 }
+      ],
+      "verification": "Solution on Guide Page 260 Thumbnail"
+    },
+    {
+      "id": "ch11-s5-q1",
+      "sheet": 5,
+      "page": 194,
+      "type": "area-comparison-visual",
+      "instruction": "Arrange from the smallest area to the largest area.",
+      "items": [
+        { "id": "A", "shape": "triangle", "color": "pink", "size": "small" },
+        { "id": "B", "shape": "pentagon", "color": "yellow", "size": "medium" },
+        { "id": "C", "shape": "rectangle", "color": "green", "size": "large" },
+        { "id": "D", "shape": "circle", "color": "red", "size": "extra-small" }
+      ],
+      "answer": ["D", "A", "B", "C"]
+    },
+    {
+      "id": "ch11-s6-q1",
+      "sheet": 6,
+      "page": 195,
+      "type": "area-grid-counting",
+      "instruction": "Count the squares of the colored area, and write how many units.",
+      "items": [
+        { "id": "1", "shape": "F-like", "units": 16 },
+        { "id": "2", "shape": "Hash-like", "units": 8 },
+        { "id": "3", "shape": "Cross-like", "units": 20 },
+        { "id": "4", "shape": "Z-like", "units": 10 }
+      ]
+    },
+    {
+      "id": "ch11-s6-q3",
+      "sheet": 6,
+      "type": "word-problem",
+      "characters": [
+        { "name": "Youssef", "role": "boy", "action": "color" },
+        { "name": "Omar", "role": "boy", "action": "color" }
+      ],
+      "instruction": "Youssef and Omar colored the shape, and this is what it looked like on the right.",
+      "data": {
+        "youssefUnits": 7,
+        "omarUnits": 12,
+        "question": "Which one wins?"
+      },
+      "answer": "Omar"
+    }
+  ]
+}

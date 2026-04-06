@@ -1,0 +1,47 @@
+{
+  "chapter": 13,
+  "title": "Subtraction by using 10",
+  "verificationPage": "Original PDF 267 / Workbook Thumbnail 18-22",
+  "problems": [
+    {
+      "id": "ch13-s8-q1",
+      "sheet": 8,
+      "page": 201,
+      "type": "split-tree-subtraction",
+      "instruction": "Let's look at how to calculate 14 - 8. Tell us what numbers go in the [Box].",
+      "data": {
+        "equation": "14 - 8",
+        "steps": [
+          { "description": "You cannot subtract 8 from 4.", "logic": "split-ten" },
+          { "description": "Split 14 into 10 and 4", "parts": [10, 4] },
+          { "description": "Subtract 8 from 10 to get 2.", "calculation": [10, 8, 2] },
+          { "description": "2 and 4 make 6.", "calculation": [2, 4, 6] }
+        ]
+      },
+      "answer": 6
+    },
+    {
+      "id": "ch13-s8-q3",
+      "sheet": 8,
+      "type": "fill-in-the-blanks",
+      "instruction": "Complete the following.",
+      "items": [
+        { "equation": "10 + 5 = __", "answer": 15 },
+        { "equation": "18 - 9 = __", "answer": 9 },
+        { "equation": "14 - 7 = __", "answer": 7 },
+        { "equation": "12 - 4 = __", "answer": 8 }
+      ]
+    },
+    {
+      "id": "ch13-a-q1",
+      "assessment": "Till Chapter 13",
+      "page": 204,
+      "type": "result-finding",
+      "instruction": "Find the result.",
+      "items": [
+        { "equation": "15 - 8", "answer": 7 },
+        { "id": "shapes-recall", "type": "visual-recall", "text": "We traced a shape onto paper, and it looks like the opposite shape. Which shape did we trace?", "target": "triangle", "answer": "prism" }
+      ]
+    }
+  ]
+}

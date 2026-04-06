@@ -1,0 +1,63 @@
+{
+  "chapter": 12,
+  "title": "Addition by making 10",
+  "verificationPage": "Original PDF 265 / Workbook Thumbnail 17",
+  "problems": [
+    {
+      "id": "ch12-s7-q1",
+      "sheet": 7,
+      "page": 200,
+      "type": "split-tree-addition",
+      "instruction": "Let's do addition. Make a 10.",
+      "data": {
+        "equation": "9 + 3",
+        "steps": [
+          { "description": "9 needs 1 more to make 10", "value": 1 },
+          { "description": "Split 3 into 1 and 2", "parts": [1, 2] },
+          { "description": "10 + 2 =", "sum": 12 }
+        ]
+      },
+      "answer": 12
+    },
+    {
+      "id": "ch12-s7-q1-2",
+      "sheet": 7,
+      "type": "split-tree-addition",
+      "instruction": "Make a 10 to add.",
+      "data": {
+        "equation": "5 + 8",
+        "steps": [
+          { "description": "8 needs 2 more to make 10", "value": 2 },
+          { "description": "Split 5 into 3 and 2", "parts": [3, 2] },
+          { "description": "3 + 10 =", "sum": 13 }
+        ]
+      },
+      "answer": 13
+    },
+    {
+      "id": "ch12-s7-q3",
+      "sheet": 7,
+      "type": "word-problem",
+      "instruction": "There are 8 dogs. 7 more dogs come. How many dogs are there in total?",
+      "data": {
+        "initial": 8,
+        "added": 7,
+        "unit": "dogs"
+      },
+      "answer": 15
+    },
+    {
+      "id": "ch12-a-q1",
+      "assessment": "Chapter 12 & 13",
+      "page": 202,
+      "type": "fill-in-the-blanks",
+      "instruction": "Complete the following.",
+      "items": [
+        { "equation": "7 + __ = 10", "answer": 3 },
+        { "equation": "__ + 9 = 10", "answer": 1 },
+        { "equation": "10 + 8 = __", "answer": 18 },
+        { "equation": "9 + 7 = __", "answer": 16 }
+      ]
+    }
+  ]
+}
