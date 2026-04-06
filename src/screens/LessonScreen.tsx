@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { ActivityRenderer } from "../components/ActivityRenderer";
+import { AppLogo } from "../components/AppLogo";
 import { chapters } from "../data/chapters";
 import { useApp } from "../context/AppContext";
 import { buildLessonForChapter } from "../lib/lessonBuilder";
@@ -105,6 +106,7 @@ export function LessonScreen() {
           style={{ backgroundColor: chapter.color }}
         >
           <div className="flex items-center gap-4">
+            <AppLogo size="md" className="bg-white/90 p-1" />
             <div className="text-5xl">{chapter.icon}</div>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">

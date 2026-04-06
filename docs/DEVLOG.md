@@ -2751,6 +2751,11 @@ tech stack list.
 4. Test on a real tablet (iPad or Android) with touch
 5. Share the URL
 
+#### What's been done (6.5 REPO POLISH):
+- safer build script in package.json
+- SPA deploy configs in vercel.json and netlify.toml
+- repo docs in README.md and ARCHITECTURE.md
+- **🚀 LIVE DEPLOYMENT**: [https://prime-1-math.vercel.app/](https://prime-1-math.vercel.app/)
 
 - Vercel is the right call. Zero config for Vite, free tier is generous, preview deploys on every push. One thing: add to vite.config.ts:
 
@@ -2759,3 +2764,5 @@ base: '/'  // or '/math-review/' if deploying to a subpath
 ```
 
 - T3 is the critical path. Everything else can happen in parallel or after. Once T3 lands, it's a usable app. T5 makes it an exam-prep app. T7 puts it in kids' hands.
+### Quick Polish Note: [2026-04-06]
+- Added the bundled project logo to the Splash, Chapter Map, Lesson, and Exam Practice screens through a shared AppLogo component.

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ActivityRenderer } from "../components/ActivityRenderer";
+import { AppLogo } from "../components/AppLogo";
 import { useApp } from "../context/AppContext";
 import {
   loadOrCreateExamSet,
@@ -93,9 +94,12 @@ export function ExamPractice() {
           </div>
 
           <div className="rounded-3xl bg-white p-8 shadow-lg">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-              Exam Practice
-            </p>
+            <div className="flex items-center gap-4">
+              <AppLogo size="md" />
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Exam Practice
+              </p>
+            </div>
             <h1 className="mt-3 text-4xl font-black text-slate-900">
               Practice the final assessments
             </h1>

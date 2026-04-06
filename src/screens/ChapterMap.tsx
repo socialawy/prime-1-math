@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { AppLogo } from "../components/AppLogo";
 import { chapters } from "../data/chapters";
 import { useApp } from "../context/AppContext";
 
@@ -9,9 +10,12 @@ export function ChapterMap() {
   return (
     <div className="min-h-screen p-6">
       <div className="mx-auto mb-8 flex max-w-4xl items-center justify-between gap-4">
-        <h1 className="text-4xl font-bold text-gray-800">
-          Chapters
-        </h1>
+        <div className="flex items-center gap-4">
+          <AppLogo size="md" />
+          <h1 className="text-4xl font-bold text-gray-800">
+            Chapters
+          </h1>
+        </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/exam-practice")}

@@ -1,4 +1,24 @@
 
+<div align="center">
+  <h1>📐 Primary 1 Math</h1>
+  <p><strong>Interactive Educational Framework for Egyptian Curriculum</strong></p>
+  <a href="https://prime-1-math.vercel.app/">
+    <img src="https://img.shields.io/badge/Live%20Demo-Vercel-blue?style=for-the-badge&logo=vercel" alt="Live Demo">
+  </a>
+</div>
+
+***
+
+<div align="center">
+  <h1>📐 Primary 1 Math</h1>
+  <p><strong>Interactive Educational Framework for Egyptian Curriculum</strong></p>
+  <a href="https://prime-1-math.vercel.app/">
+    <img src="https://img.shields.io/badge/Live%20Demo-Vercel-blue?style=for-the-badge&logo=vercel" alt="Live Demo">
+  </a>
+</div>
+
+***
+
 ## 🎨 Visual Tour
 
 Experience the premium interactive curriculum on any modern tablet or desktop:
@@ -33,6 +53,7 @@ Experience the premium interactive curriculum on any modern tablet or desktop:
 
 ### Core Concept: The "Flash-to-React" Bridge
 This project acts as an modern engine for legacy educational payloads. It bridges static curriculum data (extracted via NotebookLM and visual audits) into a fluid, animated learning experience using:
+- **🚀 LIVE DEPLOYMENT**: [https://prime-1-math.vercel.app/](https://prime-1-math.vercel.app/)
 - **Guided Workflows:** Step-by-step interactive solvers for addition and subtraction.
 - **Visual Manipulatives:** Digital clocks, base-10 block groupers, and geometric composers.
 - **Persistent Progress:** Star-tier scoring and lesson unlocking persisted via `localStorage`.

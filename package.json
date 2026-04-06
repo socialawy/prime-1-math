@@ -2,6 +2,7 @@
   "name": "prim-1-math",
   "private": true,
   "version": "0.1.0",
+  "homepage": "https://prime-1-math.vercel.app/",
   "type": "module",
   "scripts": {
     "dev": "vite",
