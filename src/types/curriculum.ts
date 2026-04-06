@@ -275,3 +275,16 @@ export interface BlankSlot {
   correctValue: number;
   hint?: string;
 }
+
+// ============================================
+// SPLIT TREE (Ch12 + Ch13 learn mode)
+// ============================================
+
+export interface SplitTreeProblem {
+  mode: "addition" | "subtraction";
+  numberA: number;
+  numberB: number;
+  allowSplitChoice: boolean;
+  presetSplit?: "A" | "B";
+  expectedAnswer: number;
+}

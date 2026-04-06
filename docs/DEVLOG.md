@@ -90,7 +90,7 @@ Create Book 1 notebook. Upload only Ch12+13 splits first (highest exam weight). 
 - Static JSON = the exact textbook problems (faithful to what kids will see on the exam)
 - Generators = infinite practice variants (for when they've exhausted the book problems)
 
-## Phase 2: GuidedBoxFill Implementation
+## Phase 2: Implementation
 
 **Three reasons** to start with GuidedBoxFill over SplitTreeAdder:
 
@@ -442,16 +442,433 @@ Requirements:
 
 - Before Component #2
 ```
-Read the 5 JSON files Flash created in data/chapter_10.json through 
+Read the 5 JSON files created in data/chapter_10.json through 
 data/chapter_14.json. Compare their shape to our GuidedBoxProblem 
 interface in src/types/curriculum.ts. 
 
-Create src/lib/adapters/flashDataAdapter.ts that maps Flash's format 
-into our app's types. Don't refactor Flash's files — write a thin 
-translation layer. Log any fields that don't map cleanly to a 
+Create src/lib/adapters/flashDataAdapter.ts that maps the files format into app's types. Don't refactor JSON files — write a thin translation layer. Log any fields that don't map cleanly to a 
 FLASH_DATA_GAPS.md file so we know what to fix later.
 ```
 
-### Component #2: SplitTreeAdder
+**Output:**
+- Adapter — src/lib/adapters/flashDataAdapter.ts maps 10 Flash problem types:
+  - Fully mapped (6): multiple-choice-visual, visual-selection, matching, unit-counting, split-tree-addition, split-tree-subtraction, fill-in-the-blanks, ten-grouping place-value-counting
+  - Skipped (5): counting-composite, ordering, area-comparison-visual, word-problem, result-finding
+  Key findings in `FLASH_DATA_GAPS.md`
 
--
+---
+
+### Component #2: `SplitTreeAdder` (Learn Mode)
+
+- Why This Exists Alongside GuidedBoxFill
+GuidedBoxFill is the exam trainer — sequential boxes, text-heavy, mirrors the test paper. SplitTreeAdder is the concept builder — visual, animated, builds the mental model of why the split works. The book teaches the concept first, then drills the boxes. Our app does the same: a child enters a lesson, sees 2-3 SplitTree problems in Learn Mode, then graduates to 5-7 GuidedBoxFill problems in Practice Mode.
+
+#### What the Child Sees
+```
+┌──────────────────────────────────────────────┐
+│                                              │
+│            9   +   4   =   ?                 │  ← Equation bar
+│                                              │
+│  ┌──────────┐         ┌──────────┐           │
+│  │          │         │          │           │
+│  │    9     │         │    4     │           │  ← Two number cards
+│  │  (tap?)  │         │  (tap?)  │           │     both pulsing
+│  │          │         │          │           │
+│  └──────────┘         └──────────┘           │
+│                                              │
+│   "Which number do you want to split?"       │  ← Prompt text
+│                                              │
+│  ┌─────────────────────────────────────┐     │
+│  │ ● ● ● ● ●    ● ● ● ● ○              │     │  ← Ten-frame
+│  │ ○ ○ ○ ○ ○    ○ ○ ○ ○ ○              │     │     (9 red dots)
+│  └─────────────────────────────────────┘     │
+│                                              │
+│        ○ ○ ○ ○                               │  ← Loose dots (4 blue)
+│                                              │
+└──────────────────────────────────────────────┘
+```
+
+- After child taps 4:
+
+```
+┌──────────────────────────────────────────────┐
+│            9   +   4   =   ?                 │
+│                                              │
+│  ┌──────────┐         ┌──────────┐           │
+│  │    9     │         │    4     │           │
+│  └──────────┘         └─────┬────┘           │
+│                           ┌─┴─┐              │
+│                          ╱     ╲             │  ← Split tree opens
+│                      ┌──┐     ┌───┐          │     with animation
+│                      │🔵│     │🔵│          │
+│                      └──┘     └───┘          │
+│                     drag →   stays           │
+│                                              │
+│  Ten-frame: ● ● ● ● ●  ● ● ● ● ○             │
+│             ○ ○ ○ ○ ○  ○ ○ ○ ○ ○             │
+│                                              │
+│  Loose dots: ○ ○ ○ ○  (child drags 1 to      │
+│                         ten-frame)           │
+└──────────────────────────────────────────────┘
+```
+
+- After drag completes → ten-frame fills to 10 → celebration → final equation:
+
+```
+┌──────────────────────────────────────────────┐
+│                                              │
+│      ✨ 10 ✨  +   3   =   13               │
+│                                              │
+│  Ten-frame: ● ● ● ● ●  ● ● ● ● ●  (full!)    │
+│             ○ ○ ○ ○ ○  ○ ○ ○ ○ ○             │
+│                                              │
+│  Remaining: ○ ○ ○  (3 dots below)            │
+│                                              │
+│              ⭐ Well done! ⭐               │
+│                                              │
+└──────────────────────────────────────────────┘
+```
+
+#### Props Interface
+```ts
+// src/components/interactives/SplitTreeAdder.tsx
+
+interface SplitTreeAdderProps {
+  data: SplitTreeProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface SplitTreeProblem {
+  mode: "addition" | "subtraction";
+  numberA: number;               // left number (e.g., 9)
+  numberB: number;               // right number (e.g., 4)
+  allowSplitChoice: boolean;     // true = child picks, false = preset
+  presetSplit?: "A" | "B";      // used when allowSplitChoice is false
+  expectedAnswer: number;        // 13
+}
+
+// Reuse ActivityResult from GuidedBoxFill — same shape
+```
+
+#### State Machine
+```ts
+interface SplitTreeState {
+  phase:
+    | "show-problem"          // equation + ten-frame + loose dots appear
+    | "choose-split"          // both number cards pulse, child taps one
+    | "split-open"            // tree animates open, two empty nodes appear
+    | "fill-split"            // child fills split values (tap or drag)
+    | "drag-to-ten"           // child drags dots from split to ten-frame
+    | "ten-complete"          // "10!" animation plays
+    | "final-answer"          // child sees 10 + remainder, taps answer
+    | "celebrate";            // confetti, star, onComplete
+
+  splitTarget: "A" | "B" | null;
+  splitValues: [number | null, number | null]; // what child entered
+  correctSplit: [number, number] | null;       // computed after choice
+  tenFrameCount: number;                       // animated 0 → A → 10
+  remainderCount: number;                      // dots left after drag
+  userFinalAnswer: number | null;
+  mistakes: number;
+  startTime: number;
+}
+
+type SplitTreeAction =
+  | { type: "CHOOSE_SPLIT"; target: "A" | "B" }
+  | { type: "SET_SPLIT_VALUE"; index: 0 | 1; value: number }
+  | { type: "CONFIRM_SPLIT" }
+  | { type: "DRAG_DOT_TO_FRAME" }     // called per dot dragged
+  | { type: "TEN_FRAME_FULL" }         // triggered when count hits 10
+  | { type: "SUBMIT_FINAL"; answer: number }
+  | { type: "WRONG_ANSWER" }
+  | { type: "CELEBRATE" };
+```
+
+#### Phase-by-Phase Logic
+- `show-problem` (1.5s auto-advance)
+
+    - Equation animates in at top
+    - Ten-frame renders with numberA red dots (if splitting B) or empty (if choice pending)
+    - numberB blue loose dots appear below ten-frame
+    - Auto-advance to choose-split after animation settles`choose-split`
+    - Both number cards get a pulsing border + scale animation
+    - Prompt: "Which number do you want to split?"
+    - Child taps one → dispatch CHOOSE_SPLIT
+    - Reducer computes correctSplit:
+```ts
+case "CHOOSE_SPLIT": {
+  const other = action.target === "A" ? state.numberB : state.numberA;
+  const target = action.target === "A" ? state.numberA : state.numberB;
+  const give = 10 - other;
+  const keep = target - give;
+  return {
+    ...state,
+    phase: "split-open",
+    splitTarget: action.target,
+    correctSplit: [give, keep],
+    tenFrameCount: other,  // pre-fill ten-frame with the OTHER number
+  };
+}
+```
+- If allowSplitChoice is false, skip this phase entirely
+
+- `split-open` (animation phase, ~600ms)
+    - The chosen number card "cracks open" — Framer Motion layout + scale
+    - Two empty circle nodes appear below it in a tree formation
+    - The branch lines animate drawing downward (SVG path animation or Framer)
+    - Auto-advance to fill-split
+
+- `fill-split`
+    - Two empty circles below the split target, same number pad as GuidedBoxFill
+    - Child fills first circle → if correct, locks green → cursor to second
+    - Child fills second circle → validate both sum to the split target
+    - If wrong: red flash, increment mistakes, clear and retry
+    - Hint after 2 wrong: the "give" amount subtly pulses near the ten-frame's empty slot
+    - On both correct → dispatch CONFIRM_SPLIT → advance to drag-to-ten
+- `drag-to-ten` — THE CORE INTERACTION
+    - The loose dots below ten-frame are now split into two groups visually
+    - The "give" group (e.g., 1 dot) is highlighted and draggable
+    - Child drags dots one-by-one to the ten-frame empty slots
+    - Each successful drop: pop sound, tenFrameCount++
+    - Use @dnd-kit/core: each dot is a <Draggable>, each empty ten-frame cell is a <Droppable>
+```ts
+// Simplified drag handler
+function handleDragEnd(event: DragEndEvent) {
+  if (event.over?.id.startsWith("frame-slot-")) {
+    dispatch({ type: "DRAG_DOT_TO_FRAME" });
+    audio.playEffect("pop");
+    
+    if (state.tenFrameCount + 1 === 10) {
+      // Small delay then trigger the celebration
+      setTimeout(() => dispatch({ type: "TEN_FRAME_FULL" }), 300);
+    }
+  }
+}
+```
+For younger/struggling kids, add an auto-snap: if the dot is dragged within 40px of an empty slot, it snaps in. Don't require precision.
+
+- `ten-complete` (animation phase, ~1s)
+
+    - Ten-frame pulses gold, "10!" text scales up with spring animation
+    - The remaining dots (the "keep" group) slide to a separate area below
+    - The equation at top morphs: 9 + 4 cross-fades to 10 + 3
+    - Auto-advance to final-answer
+
+- `final-answer`
+    - Equation shows 10 + 3 = [___]
+    - Number pad appears (include teen numbers 10-18)
+    - Child taps answer → if correct → celebrate
+    - Wrong → same gentle retry pattern
+
+- `celebrate`
+    - Confetti (CSS particles or a tiny library)
+    - Star animation
+    - "Well done!" text
+    - 1.5s delay → onComplete(result)
+
+#### The Ten-Frame Component (Extracted + Reusable)
+
+- This will be reused by other components later (BlockGrouper at minimum), so build it as a standalone:
+```ts
+// src/components/shared/TenFrame.tsx
+
+interface TenFrameProps {
+  filledCount: number;          // 0-10, animated
+  filledColor: string;          // "red" | "blue" 
+  emptySlots: boolean;          // show empty circles or hide them
+  droppable: boolean;           // enable @dnd-kit drop zones
+  onSlotDrop?: (slotIndex: number) => void;
+  size: "sm" | "md" | "lg";    // responsive sizing
+}
+
+// Renders a 2×5 grid (standard ten-frame layout):
+//  ┌───┬───┬───┬───┬───┐
+//  │ ● │ ● │ ● │ ● │ ● │  ← top row (slots 0-4)
+//  ├───┼───┼───┼───┼───┤
+//  │ ● │ ● │ ● │ ● │ ○ │  ← bottom row (slots 5-9)
+//  └───┴───┴───┴───┴───┘
+// Fills left-to-right, top-to-bottom
+```
+
+#### The Loose Dots Component (Also Reusable)
+```ts
+// src/components/shared/DraggableDots.tsx
+
+interface DraggableDotsProps {
+  count: number;
+  color: string;
+  groups?: [number, number];     // if split, e.g., [1, 3] shows a gap
+  highlightGroup?: 0 | 1;       // which group is draggable
+  onDotDragStart?: (dotIndex: number) => void;
+}
+```
+
+#### Subtraction Mode
+When `mode === "subtraction",` the flow inverts:
+- Problem: 14 - 6
+- Ten-frame starts with 10 filled (since 14 = 10 + 4, show full frame + 4 extra)
+- Actually, better visualization: show 14 as one full ten-frame + 4 loose dots
+- Child splits 6 into 4 and 2
+- First: drag 4 loose dots OFF → now you have exactly 10
+- Then: remove 2 from the ten-frame → 8 remain
+- This matches the book's logic perfectly.
+
+State machine phases are identical, just the dot movement direction reverses (removing instead of adding).
+
+#### Sample Data
+```ts
+// src/data/samples/splitTree-samples.ts
+
+export const SPLIT_SAMPLES: SplitTreeProblem[] = [
+  // Addition — easy (split small number off 9)
+  { mode: "addition", numberA: 9, numberB: 4, 
+    allowSplitChoice: true, expectedAnswer: 13 },
+  { mode: "addition", numberA: 8, numberB: 5, 
+    allowSplitChoice: true, expectedAnswer: 13 },
+  
+  // Addition — medium (split off 7 or 8)  
+  { mode: "addition", numberA: 7, numberB: 6, 
+    allowSplitChoice: true, expectedAnswer: 13 },
+  
+  // Subtraction — easy
+  { mode: "subtraction", numberA: 13, numberB: 4, 
+    allowSplitChoice: false, presetSplit: "B", expectedAnswer: 9 },
+  
+  // Subtraction — medium
+  { mode: "subtraction", numberA: 14, numberB: 6, 
+    allowSplitChoice: true, expectedAnswer: 8 },
+];
+```
+
+#### Build Instructions
+```
+Build these files:
+
+1. src/components/shared/TenFrame.tsx
+   - 2×5 grid, configurable fill count and colors
+   - @dnd-kit droppable slots when droppable=true
+   - Framer Motion: dots scale-in when filledCount increases
+   - Min cell size: 48px
+
+2. src/components/shared/DraggableDots.tsx  
+   - Renders N colored circles in a flexible row
+   - Optional split into two visual groups with a gap
+   - @dnd-kit draggable on highlighted group
+   - 48px dot diameter minimum
+
+3. src/components/interactives/SplitTreeAdder.tsx
+   - useReducer with the 8-phase state machine above
+   - Renders: equation bar, two number cards, split tree (SVG lines),
+     TenFrame, DraggableDots, number pad (reuse pattern from GuidedBoxFill)
+   - Framer Motion for: split tree opening, dot dragging feedback,
+     ten-frame completion pulse, equation cross-fade
+   - Supports both addition and subtraction modes
+   - Sound hooks: pop (dot placed), ding (step correct), 
+     celebration (complete), gentle-buzz (wrong)
+
+4. src/data/samples/splitTree-samples.ts
+
+5. Dev route: /dev/splittree with problem picker and mode toggle
+
+Test: npm run dev → /dev/splittree → complete a full 9+4 problem 
+and a full 14-6 problem with no console errors.
+```
+
+  **Output:** [2026-04-06]
+#### Component #2: SplitTreeAdder (Learn Mode) — COMPLETED ✅
+
+**What was built:**
+
+1. **src/types/curriculum.ts** — added `SplitTreeProblem` interface
+2. **src/components/shared/TenFrame.tsx** — Reusable 2x5 grid:
+   - Configurable `filledCount`, `filledColor`, `size` (sm/md/lg)
+   - @dnd-kit droppable slots when `droppable=true` (empty cells become drop targets)
+   - Framer Motion spring animation when dots appear
+   - 48px minimum cell size at `md`
+3. **src/components/shared/DraggableDots.tsx** — Reusable dot renderer:
+   - Optional groups split with visual separator
+   - `highlightGroup` makes one group @dnd-kit draggable with yellow ring
+   - 48px dot diameter, touch-friendly with grab cursor
+4. **src/components/interactives/SplitTreeAdder.tsx** — 8-phase state machine:
+   - `show-problem` → `choose-split` → `split-open` → `fill-split` → `drag-to-ten` → `ten-complete` → `final-answer` → `celebrate`
+   - SVG branch lines animate drawing downward
+   - Number cards pulse during choice phase
+   - `DndContext` with `PointerSensor` + `TouchSensor` (40px snap tolerance)
+   - Number pad with conditional teen row for final answer
+   - Hints after 2 mistakes
+   - Sound hooks: `pop` (dot placed), `ding` (ten complete), `stars-earned` (celebrate), `try-again` (wrong)
+   - Supports both addition and subtraction modes
+5. **src/data/samples/splitTree-samples.ts** — 5 problems (3 addition, 2 subtraction)
+6. **Dev route** — `/dev/splittree` with problem picker, mode display, and result JSON
+
+**System Health:**
+- All done. TypeScript clean, Vite builds in 396ms.
+- **Test:** Run `npm run dev` and navigate to `/dev/splittree`.
+
+---
+
+### Localization & UI Cleanup — COMPLETED ✅ [2026-04-06]
+
+**What was changed:**
+
+- **HTML & Metadata** — `index.html` updated to `lang="en"` and `dir="ltr"`. Title set to "Primary 1 Math".
+- **Global Settings** — `src/context/AppContext.tsx` updated with `DEFAULT_SETTINGS` set to `language: "en"`.
+- **UI Translation** — 
+  - `SplashScreen.tsx`: Translated to English (Welcome!, Let's Go!).
+  - `ChapterMap.tsx`: Heading set to "Chapters", buttons show English primary label with Arabic as an optional secondary sub-label.
+  - `LessonScreen.tsx`: Updated to English "Back" and "Coming soon" labels. Header and lesson cards show English primary label with Arabic secondary.
+- **Refactor & Cleanup** — 
+  - Removed all `isAr` conditional checks from screen components.
+  - Cleaned up unused imports and variables identified by TypeScript lints.
+  - Verified `src/data/chapters.ts` titles match the exact English terminology from the textbook.
+
+**System Health:**
+- TypeScript clean, Vite builds in <3.5s.
+- **Test:** Run `npm run dev` and check that the app starts in English and LTR mode.
+---
+
+### The Critical Decision: Ch13 Subtraction Method
+
+- Method A (What We Built) -> Decompose the subtrahend:
+```
+14 - 6 = ?
+Split 6 into 4 and 2
+14 - 4 = 10
+10 - 2 = 8
+```
+
+- Method B (Found in the Book) -> Decompose the minuend:
+```
+14 - 8 = ?
+Split 14 into 10 and 4
+10 - 8 = 2
+2 + 4 = 6
+```
+- These teach different mental models. Method A says "chip away at the number you're subtracting." Method B says "break your big number into a ten and leftovers, subtract from the ten, recombine." The exam will expect the method the book teaches.
+
+#### Query4: `queries\Q4.md`
+
+
+#### Adapter Gaps — Priority Order
+
+```
+Priority 1 (do now): Add GuidedBoxProblem to the ActivityData 
+union in curriculum.ts. Remove the cast in the adapter.
+
+Priority 2 (do now): Expand the adapter to loop through all 
+sub-items in multi-item Flash problems, not just the first. 
+This should multiply available content 3-5x.
+
+Priority 3 (do now): Preserve the context field ("cheese-wedge", 
+"tennis-ball") in the adapted data. Add an optional contextHint 
+field to the base Activity interface. Components can use it for 
+flavor text or icon selection.
+
+Priority 4 (defer): Area grid cell coordinates — we'll handle 
+this when building the AreaGrid component. A count-only mode is 
+fine for now. #TODO
+
+Priority 5 (defer): The 5 skipped problem types — we'll map them 
+as we build each corresponding component. #TODO
+```
+

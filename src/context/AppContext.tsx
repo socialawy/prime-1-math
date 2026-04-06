@@ -190,7 +190,7 @@ export function useApp(): AppContextValue {
 // --- Provider ---
 
 const DEFAULT_SETTINGS: AppSettings = {
-  language: "ar",
+  language: "en",
   soundEnabled: true,
   musicEnabled: false,
 };

@@ -4,13 +4,12 @@ import { useApp } from "../context/AppContext";
 
 export function ChapterMap() {
   const navigate = useNavigate();
-  const { progress, settings } = useApp();
-  const isAr = settings.language === "ar";
+  const { progress } = useApp();
 
   return (
     <div className="min-h-screen p-6">
       <h1 className="mb-8 text-center text-4xl font-bold text-gray-800">
-        {isAr ? "الفصول" : "Chapters"}
+        Chapters
       </h1>
       <div className="mx-auto grid max-w-2xl grid-cols-2 gap-6">
         {chapters.map((ch) => {
@@ -29,7 +28,10 @@ export function ChapterMap() {
             >
               <span className="text-5xl">{locked ? "🔒" : ch.icon}</span>
               <span className="text-lg font-bold" style={{ color: ch.color }}>
-                {isAr ? ch.titleAr : ch.titleEn}
+                {ch.titleEn}
+              </span>
+              <span className="text-sm opacity-60 text-center" style={{ color: ch.color }}>
+                {ch.titleAr}
               </span>
               {cp && cp.starsEarned > 0 && (
                 <span className="text-xl">

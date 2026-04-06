@@ -1,12 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { chapters } from "../data/chapters";
-import { useApp } from "../context/AppContext";
 
 export function LessonScreen() {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
-  const { settings } = useApp();
-  const isAr = settings.language === "ar";
 
   const chapter = chapters.find((c) => c.id === chapterId);
 
@@ -24,19 +21,24 @@ export function LessonScreen() {
         onClick={() => navigate("/chapters")}
         className="mb-6 rounded-xl bg-gray-200 px-6 py-3 text-lg font-bold"
       >
-        {isAr ? "← رجوع" : "← Back"}
+        ← Back
       </button>
 
-      <h1
-        className="mb-4 text-center text-4xl font-bold"
-        style={{ color: chapter.color }}
-      >
-        {chapter.icon} {isAr ? chapter.titleAr : chapter.titleEn}
-      </h1>
+      <div className="text-center mb-8">
+        <h1
+          className="text-4xl font-bold"
+          style={{ color: chapter.color }}
+        >
+          {chapter.icon} {chapter.titleEn}
+        </h1>
+        <p className="text-xl opacity-60" style={{ color: chapter.color }}>
+          {chapter.titleAr}
+        </p>
+      </div>
 
       {chapter.lessons.length === 0 ? (
         <div className="mt-16 text-center text-2xl text-gray-400">
-          {isAr ? "قريباً..." : "Coming soon..."}
+          Coming soon...
         </div>
       ) : (
         <div className="mx-auto max-w-xl space-y-4">
@@ -46,8 +48,11 @@ export function LessonScreen() {
               className="rounded-xl bg-white p-6 shadow-md"
             >
               <h2 className="text-xl font-bold">
-                {isAr ? lesson.titleAr : lesson.titleEn}
+                {lesson.titleEn}
               </h2>
+              <p className="text-sm opacity-60">
+                {lesson.titleAr}
+              </p>
             </div>
           ))}
         </div>
