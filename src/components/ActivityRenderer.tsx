@@ -9,6 +9,7 @@ import { ShapeComposer } from "./interactives/ShapeComposer";
 import { ShapeFootprint } from "./interactives/ShapeFootprint";
 import { ShapeIdentifier } from "./interactives/ShapeIdentifier";
 import { SplitTreeAdder } from "./interactives/SplitTreeAdder";
+import { WordProblem } from "./interactives/WordProblem";
 import type {
   Activity,
   ActivityResult,
@@ -91,6 +92,12 @@ export function ActivityRenderer({
         return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected tell-time data." />;
       }
       return <ClockFace data={activity.data} onComplete={onComplete} />;
+
+    case "add-sub-mixed":
+      if (activity.data.type !== "add-sub-mixed") {
+        return <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected word-problem data." />;
+      }
+      return <WordProblem data={activity.data} onComplete={onComplete} />;
 
     case "place-value-group":
       if (activity.data.type !== "place-value-group") {

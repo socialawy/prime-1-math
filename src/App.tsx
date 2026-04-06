@@ -12,6 +12,7 @@ import { DevAreaGrid } from "./screens/DevAreaGrid";
 import { DevCapacity } from "./screens/DevCapacity";
 import { DevShapes } from "./screens/DevShapes";
 import { DevClock } from "./screens/DevClock";
+import { DevWordProblem } from "./screens/DevWordProblem";
 
 export function App() {
   return (
@@ -28,6 +29,7 @@ export function App() {
           <Route path="/dev/capacity" element={<DevCapacity />} />
           <Route path="/dev/shapes" element={<DevShapes />} />
           <Route path="/dev/clock" element={<DevClock />} />
+          <Route path="/dev/wordproblem" element={<DevWordProblem />} />
           <Route path="/dev/blockgrouper" element={<DevBlockGrouper />} />
           <Route path="/dev/numberline" element={<DevNumberLine />} />
           <Route path="*" element={<Navigate to="/" replace />} />

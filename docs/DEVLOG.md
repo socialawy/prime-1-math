@@ -2185,7 +2185,8 @@ Build src/components/interactives/ShapeComposer.tsx — V1 ONLY
 
 ---
 
-### Component #10: WordProblem (Ch17)
+### Component #10: WordProblem (Ch17) - COMPLETED ✅ [2026-04-06]
+
 
 - The book: short story → write the "mathematical sentence" → write the answer.
 ```
@@ -2274,6 +2275,117 @@ Build src/components/interactives/WordProblem.tsx
 - ActivityRenderer: "add-sub-mixed" → WordProblem
 ```
 
+**Output:** [2026-04-06]
+● **Done.** Implemented `WordProblem.tsx` for arithmetic story problems.
+
+**Summary of what landed:**
+- **Interactive Widget:** `WordProblem.tsx` (equation builder UI with pre-filled operands and interactive operator toggle).
+- **Generator & Samples:** `wordProblemGenerator.ts` and `wordProblem-samples.ts` (templated stories with random entities, numbers, and operations).
+- **Dev Screen:** New route `/dev/wordproblem` for testing various story formats.
+- **Renderer Hookup:** Added `add-sub-mixed` support to `ActivityRenderer.tsx`.
+- **Legacy Compatibility:** Aligned with existing `MixedWordProblemData` structure to ensure direct plug-and-play with the curriculum model.
+
+**Verification:**
+- `npx tsc -b` passed.
+- `npm run build` passed.
+- *Note:* Bundle size creep noted (still a warning), attributed to increasing component density.
+
+---
+
+### Component #11: ArtCorner (Reward Activity)
+
+- Last one. Reuses existing components.
+```
+"Solve and color!"
+
+  ┌─────┬─────┬─────┐
+  │10+3 │ 6+6 │ 9+2 │     Color code:
+  │     │     │     │     Sum = teen number → Orange
+  ├─────┼─────┼─────┤     Sum = not teen → Blue  
+  │ 5+3 │ 7+5 │ 4+4 │
+  │     │     │     │
+  └─────┴─────┴─────┘
+
+  Child solves each cell's equation, 
+  then taps to color it the right color.
+```
+
+#### Props
+```ts
+interface ArtCornerProps {
+  data: ArtCornerProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface ArtCornerProblem {
+  regions: {
+    id: string;
+    equation: string;          // "10 + 3"
+    correctResult: number;
+    correctColor: string;      // determined by colorCode rules
+  }[];
+  colorCode: {
+    rule: string;              // "teen number" | "even" | "greater than 10"
+    color: string;             // "orange" | "blue"
+  }[];
+  instruction: string;         // "Color the spaces with sum of teen numbers in orange"
+}
+```
+
+- Interaction:
+  - Child taps a region → equation highlights → number pad appears → child enters answer
+  - If correct → region becomes "solved" and shows the answer
+  - After all regions solved → coloring phase: child taps each region to toggle through available colors
+  - Submit → validate all colors match the code → celebrate
+
+#### Build instructions:
+```
+Build src/components/interactives/ArtCorner.tsx
+
+- Grid of equation cells (flexible layout, 2-4 columns)
+- Phase 1 "solving": tap cell → enter answer → locks with result
+- Phase 2 "coloring": tap solved cell to cycle through color options
+  (from colorCode palette). Visual: cell background changes.
+- Submit button validates all colors → celebrate or show mismatched cells
+- Generator: src/lib/generators/artCornerGenerator.ts
+  Uses the book's pattern: teen sums get one color, non-teen another
+- Dev route: /dev/artcorner
+- ActivityRenderer: "art-corner" → ArtCorner
+```
+
+**Outpt:**
+
+---
+
+### After all 11 are built, the integration phase:
+1. Wire all Flash JSON through the adapter into real lesson sequences
+2. Wire the assessment structure (the 10 final assessments from NotebookLM) into an "Exam Practice" mode
+3. Progress tracking end-to-end test
+4. Touch/tablet QA pass
+
+
+**Output:**
+
+
+
+```
+Build src/components/interactives/ArtCorner.tsx
+
+- Render grid of cells (3x3 or 4x4)
+- Each cell shows equation (e.g. "10+3")
+- Tapping cell toggles its color between:
+  - White (unsolved)
+  - Blue (not teen)
+  - Orange (teen)
+- Correct answer is pre-calculated in data
+- Child can tap in any order
+- When all cells have correct colors → celebrate
+- Use existing NumberPad for any extra number entry if needed
+- Generator: src/lib/generators/artCornerGenerator.ts
+- Dev route: /dev/artcorner
+- ActivityRenderer: "art-corner" → ArtCorner
+```
+
 ---
 
 ## Updated scorecard:
@@ -2290,5 +2402,5 @@ Build src/components/interactives/WordProblem.tsx
 | 7	| ShapeFootprint + ShapeIdentifier	| ✅	| Ch10
 | 8	| ClockFace	| ✅	| Ch16
 | 9	| ShapeComposer	| ✅	| Ch15
-| 10	| WordProblem	| next	| Ch17
+| 10	| WordProblem	| ✅	| Ch17
 | 11	| ArtCorner	| last	| all
