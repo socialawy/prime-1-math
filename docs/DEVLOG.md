@@ -2397,3 +2397,186 @@ Build src/components/interactives/ArtCorner.tsx
 | 9	| ShapeComposer	| ✅	| Ch15
 | 10	| WordProblem	| ✅	| Ch17
 | 11	| ArtCorner	| ✅	| all
+
+---
+
+## Phase 2.5: Integration & Polish
+
+### Task 1: Populate Chapter Data
+```
+Flash task: Extract Sheets 11-23 from the PDF (these cover 
+Chapters 15, 16, 17 plus the assessments). Same JSON format 
+as chapters 10-14. Output:
+
+  data/chapter_15.json
+  data/chapter_16.json  
+  data/chapter_17.json
+  data/assessments.json  (all 10 final assessments + chapter assessments)
+```
+
+- The generators can fill chapters 15-17 entirely, if needed. The generators exist for every widget type. The assessments are the higher priority extraction — those are real exam-format questions.
+
+### Task 2: Complete the Adapter (Quick Task)
+```
+In src/lib/adapters/flashDataAdapter.ts, map the 5 skipped types:
+
+  "counting-composite" → BlockGrouper (place-value-group)
+  "ordering" → CapacityPourer (compare-capacity, mode: order-multiple)
+  "area-comparison-visual" → AreaGrid (compare-area, mode: count-compare)
+  "word-problem" → WordProblem (add-sub-mixed)
+  "result-finding" → GuidedBoxFill or WordProblem depending on 
+    whether the problem has steps or is a direct equation
+
+Also expand the multi-item loop for these types (same pattern 
+as the P2 fix that went from 19→48 activities).
+
+Output: updated adapter + updated FLASH_DATA_GAPS.md showing 
+all types now mapped.
+```
+
+### Task 3: Build the Lesson Flow (Core Wiring)
+
+**This is the most important task.**
+- Right now: ChapterMap → LessonScreen → "Coming soon". After this: ChapterMap → LessonScreen → real activities.
+```
+Wire the full lesson flow in src/screens/LessonScreen.tsx:
+
+1. When LessonScreen mounts for a chapter (e.g., "ch12"):
+   a. Load static data from src/data/ch12-addition-make10.json 
+      (or wherever the chapter data lives)
+   b. Run it through flashDataAdapter to get Activity[]
+   c. If the adapted activities are fewer than 8, pad with 
+      generated problems using the chapter's generator functions
+   d. Order activities: learn-mode first (SplitTree), then 
+      practice-mode (GuidedBoxFill), then assessment-style
+
+2. Render an ActivityCarousel that steps through activities:
+   - Show progress bar at top: "3 of 10"
+   - Current activity renders through ActivityRenderer
+   - On onComplete callback: 
+     a. Record result in progress context
+     b. If more activities: advance carousel (slide animation)
+     c. If last activity: show LessonComplete screen
+
+3. LessonComplete screen:
+   - Show score: "You got 8 out of 10!"
+   - Star rating: 1 star (≥50%), 2 stars (≥75%), 3 stars (≥90%)
+   - Star animation (Framer Motion spring + confetti)
+   - "Try Again" button (resets with newly generated problems)
+   - "Back to Chapters" button
+   - Dispatch COMPLETE_LESSON to progress context
+
+4. Activity ordering per chapter:
+
+   ch10: ShapeIdentifier × 2 → ShapeFootprint × 2 → mixed × 4
+   ch11: AreaGrid × 3 → CapacityPourer × 3 → mixed × 2
+   ch12: SplitTreeAdder × 3 (learn) → GuidedBoxFill × 5 (practice)
+   ch13: SplitTreeAdder × 2 (learn, subtraction) → GuidedBoxFill × 5
+   ch14: BlockGrouper × 2 → HundredsChart × 3 → NumberLine × 2
+   ch15: ShapeComposer × 5
+   ch16: ClockFace read × 3 → ClockFace set × 3
+   ch17: WordProblem × 6 (mix + and -)
+
+   If Flash data covers some, use that first. Fill remainder 
+   with generators. Total 6-10 activities per lesson.
+```
+
+### Task 4: Chapter Unlock Logic
+```
+In the progress reducer (AppContext.tsx), implement unlock logic:
+
+- ch10: always unlocked (first chapter)
+- ch11: unlocks when ch10 completed with ≥1 star
+- ch12: unlocks when ch11 completed
+- ch13: unlocks when ch12 completed
+- ch14: unlocks when ch13 completed
+- ch15: unlocks when ch14 completed
+- ch16: unlocks when ch15 completed
+- ch17: unlocks when ch16 completed
+
+On COMPLETE_LESSON action:
+  1. Calculate stars from score
+  2. Update chapterProgress for completed chapter
+  3. Check if next chapter should unlock
+  4. If yes, dispatch UNLOCK_CHAPTER
+  5. Save to localStorage
+
+Also add a "dev mode" toggle in settings that unlocks all 
+chapters (for testing and for kids who want to jump around).
+```
+
+### Task 5: Exam Practice Mode
+
+- This is the killer feature for a 2-week review app. NotebookLM told us there are 10 final assessments, 6 questions each, covering all chapters.
+```
+Create src/screens/ExamPractice.tsx
+
+- Accessible from a prominent button on ChapterMap: "📝 Exam Practice"
+- Shows 10 exam cards, each labeled "Assessment 1" through "Assessment 10"
+- Each assessment is a fixed sequence of 6 activities drawn from 
+  across all chapters (mixed concepts)
+- On first load: generate 10 assessments using generators from 
+  all chapters, 6 problems each, balanced distribution:
+    - 1 shape problem (ch10)
+    - 1 capacity or area problem (ch11)  
+    - 1 making-10 addition (ch12)
+    - 1 using-10 subtraction (ch13)
+    - 1 place value problem (ch14)
+    - 1 word problem or clock problem (ch16/17)
+- Cache generated assessments in localStorage so the child gets 
+  the same problems if they retry
+- Show results per assessment: score, time, weak areas
+- "Generate New Assessment" button creates a fresh set
+
+If Flash delivers assessments.json with the actual book assessments,
+swap in that data. The generated ones are the fallback.
+```
+
+### Task 6: Bundle Splitting (5-Minute Fix)
+
+- 520KB is fine for desktop but sluggish on a school tablet over slow WiFi.
+```
+In vite.config.ts, add manual chunks:
+
+build: {
+  rollupOptions: {
+    output: {
+      manualChunks: {
+        'vendor-dnd': ['@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities'],
+        'vendor-motion': ['framer-motion'],
+        'vendor-audio': ['howler'],
+        'interactives': [
+          './src/components/interactives/SplitTreeAdder',
+          './src/components/interactives/GuidedBoxFill',
+          './src/components/interactives/HundredsChart',
+          './src/components/interactives/BlockGrouper',
+          './src/components/interactives/NumberLine',
+          './src/components/interactives/AreaGrid',
+          './src/components/interactives/CapacityPourer',
+          './src/components/interactives/ClockFace',
+          './src/components/interactives/ShapeIdentifier',
+          './src/components/interactives/ShapeFootprint',
+          './src/components/interactives/ShapeComposer',
+          './src/components/interactives/WordProblem',
+          './src/components/interactives/ArtCorner',
+        ],
+      }
+    }
+  }
+}
+
+Also add React.lazy() for ActivityRenderer's imports so interactives 
+load on demand, not all upfront. Wrap in Suspense with a spinner.
+```
+
+### Task 7: Deploy
+```
+1. npm run build
+2. Verify dist/ output is under 300KB per chunk
+3. Deploy to Vercel: npx vercel --prod
+   OR Netlify: npx netlify deploy --prod --dir=dist
+4. Test on a real tablet (iPad or Android) with touch
+5. Share the URL
+```
+
+- T3 is the critical path. Everything else can happen in parallel or after. Once T3 lands, it's a usable app. T5 makes it an exam-prep app. T7 puts it in kids' hands.
