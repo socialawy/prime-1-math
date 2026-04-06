@@ -1142,4 +1142,294 @@ Test: all four modes functional at /dev/hundreds
 - TypeScript clean, Vite builds in 461ms.
 - **Test:** Run `npm run dev` and navigate to `/dev/hundreds`.
 
+---
 
+### Ch13 Patch
+
+#### Subtraction Both-Methods Patch
+
+- The book teaches both. We support both.
+```
+PATCH: Support both subtraction methods in GuidedBoxFill and SplitTreeAdder.
+
+1. src/lib/generators/guidedBoxGenerator.ts — add generateUse10SubtractionMethodA:
+
+Method A (split minuend — "By spliting the greater number"):
+  For 14 - 6:
+  Step 1: "You cannot subtract 6 from 4"          (no blank, info only)
+  Step 2: "Split 14 into {0} and {1}"             [10, 4]
+  Step 3: "Subtract 6 from 10 to get {0}"         [4]
+  Step 4: "{0} and {1} make {2}"                   [4, 4, 8]
+
+Rename existing subtraction generator to generateUse10SubtractionMethodB.
+
+Add a wrapper generateUse10Subtraction(minuend, subtrahend, method: "A" | "B" | "both")
+- "both" returns two problems, one per method, for the same equation.
+
+2. src/components/interactives/GuidedBoxFill.tsx — add support for 
+info-only steps (steps where revealAfterPrevious=false and blanks is 
+empty array). Render as plain text with a lightbulb icon, no input needed.
+Auto-advance to next step after 1.5s.
+
+3. src/components/interactives/SplitTreeAdder.tsx subtraction mode:
+When allowSplitChoice=true and mode="subtraction", the choose-split 
+phase now asks: "Which number do you want to split?"
+- If child picks the minuend (14): ten-frame shows 10, loose dots show 4,
+  child removes 6 from the ten-frame, recombines remainder with the 4.
+- If child picks the subtrahend (6): existing flow (already built).
+
+4. src/data/samples/make10-samples.ts — add one Method A subtraction sample:
+  { equation: "14 - 6", type: "subtraction", method: "A" }
+
+5. Update generateAllUse10Problems to produce both methods for each equation.
+```
+
+**Output:** [2026-04-06]
+● **Done.** TypeScript clean, build in 396ms.
+
+- **src/components/interactives/GuidedBoxFill.tsx**:
+  - `initState`: step 0 gets "info" status when `blanks.length === 0`.
+  - `ADVANCE_INFO` reducer case: marks current step correct, advances to next (setting it "info" or "active" based on blanks).
+  - `SUBMIT`: now sets next step as "info" instead of "active" when it has no blanks.
+  - Auto-advance `useEffect`: fires `ADVANCE_INFO` after 1500ms whenever current step status is "info".
+  - `StepRow`: renders "info" status with 💡 icon, amber background, plain template text (no blanks).
+  - Number pad: hidden when current step has `blanks.length === 0`.
+
+The `SAMPLE_SUB_14_6_METHOD_A` flow will now correctly: show "You cannot subtract 6 from 4." as an amber info card → auto-advance after 1.5s → proceed to step 2.
+---
+
+### Component #4: BlockGrouper + NumberLine
+
+- These two finish Ch14. They're simpler than what's been built — no drag-to-ten-frame complexity. Sending both in one spec.
+
+#### 4A: `BlockGrouper`
+
+- The book teaches: loose items → group by 10s → read the place value.
+- What the child sees:
+
+```
+"Count the stars. Group them into tens."
+
+  ☆ ☆ ☆ ☆ ☆  ☆ ☆ ☆ ☆ ☆    ← 10 (drag a lasso around them)
+  ☆ ☆ ☆ ☆ ☆  ☆ ☆ ☆ ☆ ☆    ← 10
+  ☆ ☆ ☆ ☆                    ← 4 remaining
+
+  Groups of 10: [__]    Ones left: [__]    Total: [__]
+                  2              4              24
+```
+
+##### Props:
+```ts
+interface BlockGrouperProps {
+  data: BlockGrouperProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface BlockGrouperProblem {
+  totalItems: number;           // e.g., 34
+  visualType: "stars" | "blocks" | "dots";
+  expectedTens: number;         // 3
+  expectedOnes: number;         // 4
+  // interaction mode:
+  mode: "group-then-count"      // drag to group, then fill values
+      | "count-only";           // groups pre-made, just fill tens/ones/total
+}
+```
+
+##### State machine — simple, 3 phases:
+```ts
+phase: "grouping" | "counting" | "celebrate"
+
+// grouping: items scattered, child taps/selects 10 items at a time
+//   → each group of 10 snaps into a horizontal "tens rod" with a rubber band
+//   → remaining items stay loose
+//   → when all possible groups of 10 are made, auto-advance to counting
+
+// counting: three input boxes appear (tens, ones, total)
+//   → child fills with number pad
+//   → all three must be correct to advance
+
+// count-only mode: skip grouping phase, show pre-grouped rods + loose items
+```
+
+##### Interaction for grouping phase — keep it simple:
+
+- Don't do individual lasso selection (too fiddly for 7-year-olds). Instead:
+```ts
+// Show a "Make a group of 10" button at the bottom.
+// Items are displayed in a flowing grid.
+// Child taps items one at a time — each tapped item highlights.
+// When 10 are highlighted, they auto-animate into a rod.
+// OR: child taps the button, and the next 10 unhighlighted items 
+// auto-group. Simpler, still teaches the concept.
+
+// I recommend the button approach for speed. 
+// The tap-to-select approach is better pedagogy but more code.
+// Build button approach first, tap-to-select as enhancement.
+```
+
+##### Generator:
+
+```ts
+export function generateBlockGrouper(
+  difficulty: 1 | 2 | 3
+): BlockGrouperProblem {
+  // Diff 1: 10-30 items, clean tens (20, 30) 
+  // Diff 2: 20-50 items, has ones remainder
+  // Diff 3: 50-99 items
+  const ranges = { 1: [10, 30], 2: [20, 50], 3: [50, 99] };
+  const [min, max] = ranges[difficulty];
+  let total = randomInt(min, max);
+  if (difficulty === 1) total = Math.round(total / 10) * 10;
+  
+  return {
+    totalItems: total,
+    visualType: pick(["stars", "blocks", "dots"]),
+    expectedTens: Math.floor(total / 10),
+    expectedOnes: total % 10,
+    mode: difficulty === 1 ? "count-only" : "group-then-count",
+  };
+}
+```
+
+#### 4B: NumberLine
+
+- The book uses number lines with jumps — a frog or kangaroo hops along. The child fills in missing landing points.
+- What the child sees:
+```
+"Complete the number line."
+
+  0    10    20   [__]   40   [__]   60    70   [__]   90   100
+  ├────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+       🐸→        🐸→        🐸→
+       +10        +10        +10
+
+  Number pad: [0-100]
+```
+
+- Also used for smaller ranges:
+```
+"Jump by 2s."
+
+  0    2    4   [__]   8   [__]   12   14
+  ├────┼────┼────┼────┼────┼────┼─────┼────┤
+       🐸→  🐸→  🐸→
+```
+
+##### Props:
+```ts
+interface NumberLineProps {
+  data: NumberLineProblem;
+  onComplete: (result: ActivityResult) => void;
+}
+
+interface NumberLineProblem {
+  rangeStart: number;
+  rangeEnd: number;
+  jumpSize: 1 | 2 | 5 | 10;
+  points: NumberLinePoint[];      // all points on the line
+  showJumpArrows: boolean;        // show hop arrows between points
+}
+
+interface NumberLinePoint {
+  value: number;
+  type: "labeled" | "blank";     // blank = child fills in
+}
+```
+##### State:
+```ts
+interface NumberLineState {
+  phase: "filling" | "celebrate";
+  currentBlankIndex: number;      // which blank is active (left to right)
+  filledValues: Record<number, number | null>;  // pointIndex → value
+  mistakes: number;
+  startTime: number;
+}
+```
+##### Rendering:
+
+```ts
+// Horizontal scrollable container
+// Points are evenly spaced flex items
+// Between each pair of points: a curved arrow SVG (hop arc)
+//   labeled with jumpSize ("+10", "+2", etc.)
+// Blanks are styled like GuidedBoxFill blanks — tappable, blue border
+// Active blank pulses, number pad appears at bottom
+// Correct fill → green, lock, advance to next blank (left to right)
+// After all blanks filled → celebrate
+
+// On narrow screens: horizontal scroll with snap-to-blank
+// The active blank auto-scrolls into center view
+```
+
+##### Generator:
+```ts
+export function generateNumberLine(
+  jumpSize: 1 | 2 | 5 | 10,
+  difficulty: 1 | 2 | 3
+): NumberLineProblem {
+  const maxEnd = jumpSize === 1 ? 20 : jumpSize === 2 ? 30 : 100;
+  const start = 0;
+  const end = difficulty === 1 ? maxEnd / 2 : maxEnd;
+  
+  const points: NumberLinePoint[] = [];
+  for (let v = start; v <= end; v += jumpSize) {
+    points.push({ value: v, type: "labeled" });
+  }
+  
+  // Blank out some middle points (never first or last)
+  const blankCount = difficulty === 1 ? 2 : difficulty === 2 ? 3 : 5;
+  const blankable = points.slice(1, -1);
+  const toBlanks = pickRandom(blankable, Math.min(blankCount, blankable.length));
+  for (const bp of toBlanks) {
+    const idx = points.indexOf(bp);
+    points[idx] = { ...points[idx], type: "blank" };
+  }
+  
+  return {
+    rangeStart: start,
+    rangeEnd: end,
+    jumpSize,
+    points,
+    showJumpArrows: true,
+  };
+}
+```
+#### Build Instructions 
+```
+Build two components that complete Chapter 14:
+
+1. src/components/interactives/BlockGrouper.tsx
+   - Flowing grid of visual items (stars/blocks/dots as Unicode or SVG)
+   - "Make a group of 10" button: auto-selects next 10 ungrouped items,
+     animates them into a horizontal "tens rod" with Framer Motion layout
+   - After all groups made: three input boxes (tens, ones, total)
+   - Number pad 0-9 for tens/ones boxes, 0-99 for total box
+   - useReducer: grouping → counting → celebrate
+   - count-only mode: skip grouping, show pre-formed rods
+
+2. src/components/interactives/NumberLine.tsx
+   - Horizontal flex layout with evenly spaced points
+   - SVG curved arrows between points (arc path) labeled with jump size
+   - Blank points are tappable input boxes
+   - Auto-scroll active blank into view on narrow screens
+   - Fill left-to-right, same number pad pattern as other components
+   - useReducer: filling → celebrate
+   - Optional frog emoji (🐸) that hops along with each correct fill
+
+3. Generators:
+   - src/lib/generators/blockGrouperGenerator.ts
+   - src/lib/generators/numberLineGenerator.ts
+
+4. Sample data:
+   - src/data/samples/blockGrouper-samples.ts (3 difficulties)
+   - src/data/samples/numberLine-samples.ts (jump by 2, 5, 10)
+
+5. Dev routes: /dev/blockgrouper and /dev/numberline
+
+6. Update ActivityRenderer switch to include both new conceptKeys:
+   "place-value-group" → BlockGrouper
+   "place-value-number-line" → NumberLine
+
+Test: both dev routes functional, all modes working.
+```

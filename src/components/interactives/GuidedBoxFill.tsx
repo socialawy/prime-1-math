@@ -9,10 +9,12 @@ import { useApp } from "../../context/AppContext";
 
 // ── State ──────────────────────────────────────────────
 
+type StepStatus = "locked" | "info" | "active" | "correct" | "wrong";
+
 interface BoxFillState {
   currentStepIndex: number;
   filledValues: Record<string, Record<number, number | null>>;
-  stepStatus: Record<string, "locked" | "active" | "correct" | "wrong">;
+  stepStatus: Record<string, StepStatus>;
   attemptsPerStep: Record<string, number>;
   showHint: Record<string, boolean>;
   activeBlankIndex: number;
@@ -26,6 +28,7 @@ type BoxFillAction =
   | { type: "TAP_NUMBER"; digit: number }
   | { type: "BACKSPACE" }
   | { type: "SUBMIT" }
+  | { type: "ADVANCE_INFO" }
   | { type: "CLEAR_WRONG"; stepId: string }
   | { type: "CELEBRATE" };
 
@@ -36,7 +39,11 @@ function initState(problem: GuidedBoxProblem): BoxFillState {
   const showHint: Record<string, boolean> = {};
 
   problem.steps.forEach((step, i) => {
-    stepStatus[step.id] = i === 0 ? "active" : "locked";
+    if (i === 0) {
+      stepStatus[step.id] = step.blanks.length === 0 ? "info" : "active";
+    } else {
+      stepStatus[step.id] = "locked";
+    }
     filledValues[step.id] = {};
     step.blanks.forEach((b) => {
       filledValues[step.id]![b.index] = null;
@@ -48,10 +55,7 @@ function initState(problem: GuidedBoxProblem): BoxFillState {
   return {
     currentStepIndex: 0,
     filledValues: filledValues as Record<string, Record<number, number | null>>,
-    stepStatus: stepStatus as Record<
-      string,
-      "locked" | "active" | "correct" | "wrong"
-    >,
+    stepStatus: stepStatus as Record<string, StepStatus>,
     attemptsPerStep,
     showHint,
     activeBlankIndex: 0,
@@ -132,7 +136,7 @@ function reducer(
 
         // Unlock next step
         const nextStep = problem.steps[nextStepIdx]!;
-        newStepStatus[nextStep.id] = "active";
+        newStepStatus[nextStep.id] = nextStep.blanks.length === 0 ? "info" : "active";
 
         return {
           ...state,
@@ -169,6 +173,30 @@ function reducer(
       };
     }
 
+    case "ADVANCE_INFO": {
+      const step = problem.steps[state.currentStepIndex]!;
+      const newStepStatus = {
+        ...state.stepStatus,
+        [step.id]: "correct" as const,
+      };
+      const nextStepIdx = state.currentStepIndex + 1;
+
+      if (nextStepIdx >= problem.steps.length) {
+        return { ...state, stepStatus: newStepStatus, phase: "all-correct" };
+      }
+
+      const nextStep = problem.steps[nextStepIdx]!;
+      newStepStatus[nextStep.id] = nextStep.blanks.length === 0 ? "info" : "active";
+
+      return {
+        ...state,
+        stepStatus: newStepStatus,
+        currentStepIndex: nextStepIdx,
+        activeBlankIndex: 0,
+        inputBuffer: "",
+      };
+    }
+
     case "CELEBRATE": {
       return { ...state, phase: "celebrate" };
     }
@@ -198,6 +226,15 @@ export function GuidedBoxFill({ data, onComplete }: GuidedBoxFillProps) {
     (action: BoxFillAction) => rawDispatch(action),
     [],
   );
+
+  // Auto-advance info-only steps after 1.5s
+  useEffect(() => {
+    const currentStep = data.steps[state.currentStepIndex];
+    if (currentStep && state.stepStatus[currentStep.id] === "info") {
+      const t = setTimeout(() => dispatch({ type: "ADVANCE_INFO" }), 1500);
+      return () => clearTimeout(t);
+    }
+  }, [state.currentStepIndex, state.stepStatus, data.steps, dispatch]);
 
   // Handle wrong → clear after flash
   useEffect(() => {
@@ -299,8 +336,9 @@ export function GuidedBoxFill({ data, onComplete }: GuidedBoxFillProps) {
         </motion.div>
       )}
 
-      {/* Number pad — only show while working */}
-      {state.phase === "working" && (
+      {/* Number pad — only show while working and current step has blanks */}
+      {state.phase === "working" &&
+        (data.steps[state.currentStepIndex]?.blanks.length ?? 0) > 0 && (
         <NumberPad
           onTap={(n) => dispatch({ type: "TAP_NUMBER", digit: n })}
           onBackspace={() => dispatch({ type: "BACKSPACE" })}
@@ -308,7 +346,7 @@ export function GuidedBoxFill({ data, onComplete }: GuidedBoxFillProps) {
           showTeenRow={needsTeenRow}
           hasInput={state.inputBuffer.length > 0}
         />
-      )}
+        )}
     </div>
   );
 }
@@ -324,7 +362,7 @@ function StepRow({
   inputBuffer,
 }: {
   step: GuidedStep;
-  status: "locked" | "active" | "correct" | "wrong";
+  status: StepStatus;
   filledValues: Record<number, number | null>;
   activeBlankIndex: number;
   showHint: boolean;
@@ -335,9 +373,11 @@ function StepRow({
       ? "bg-green-100 border-green-400"
       : status === "wrong"
         ? "bg-red-50 border-red-400"
-        : status === "active"
-          ? "bg-white border-blue-500 border-2"
-          : "bg-gray-100 border-gray-200";
+        : status === "info"
+          ? "bg-amber-50 border-amber-300"
+          : status === "active"
+            ? "bg-white border-blue-500 border-2"
+            : "bg-gray-100 border-gray-200";
 
   return (
     <motion.div
@@ -348,6 +388,11 @@ function StepRow({
     >
       {status === "locked" ? (
         <p className="text-center text-gray-300">...</p>
+      ) : status === "info" ? (
+        <p className="text-xl font-medium leading-relaxed text-amber-800">
+          <span className="mr-2">💡</span>
+          {step.template}
+        </p>
       ) : (
         <>
           <p className="text-xl font-medium leading-relaxed">

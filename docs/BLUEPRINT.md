@@ -1,4 +1,4 @@
-# Prim-1-Math
+# Prim-1-Math (This blueprint is not the northstar, but serves as mental map)
 
 - **Egyptian Primary 1 Math:** (Term 2) Interactive Review App
 
@@ -421,9 +421,10 @@ type SplitTreeAction =
 - Phase: make-10 — The "1" animates flying to the 9. Ten-frame's 10th dot fills in with a satisfying "pop". Big "١٠!" (10!) appears.
 Phase: final-add — New equation: 10 + 3 = ?. Child taps a number pad or drags to answer. Ten-frame now shows 10 filled + 3 extra below.
 Phase: celebrate — Confetti, star earned, "!أحسنت" (Well done!).
-4. State Management Architecture
+
+## 4. State Management Architecture
 Three Layers
-text
+```
 Layer 1: App Context (Global)
 ├── StudentProfile
 ├── ProgressStore (persisted)
@@ -441,8 +442,9 @@ Layer 3: Activity Local State (Per-widget, useReducer)
 ├── AreaGridState { coloredCells: Set<string>, selectedColor: string }
 ├── ClockFaceState { hourAngle: number, minuteAngle: number, isDragging: boolean }
 └── etc.
-Implementation
-typescript
+```
+### Implementation
+```typescript
 // src/context/AppContext.tsx
 interface AppContextValue {
   progress: ProgressStore;
@@ -473,10 +475,11 @@ function progressReducer(state: ProgressStore, action: ProgressAction): Progress
   storage.save(next);
   return next;
 }
-5. Content Data Pipeline
-The curriculum content should live as static JSON files shipped with the app, not fetched from an API:
+```
 
-text
+## 5. Content Data Pipeline
+- The curriculum content should live as static JSON files shipped with the app, not fetched from an API:
+```
 src/data/
 ├── chapters.json              // Chapter metadata (titles, colors, icons, order)
 ├── ch10-shapes.json           // All activities for Chapter 10
@@ -488,12 +491,13 @@ src/data/
 ├── ch16-time.json
 ├── ch17-mixed.json
 └── assets-manifest.json       // Maps imageId → actual asset paths
-Activity Generation Strategy
-For the exam review use case, you need volume — lots of practice problems. I recommend:
+```
+### Activity Generation Strategy
+For the exam review use case, that needs volume — lots of practice problems:
 
-Hand-author 3-5 "template" activities per concept from the textbook's exact exercises.
-Write a generator function that creates randomized variants:
-typescript
+- Hand-author 3-5 "template" activities per concept from the textbook's exact exercises.
+- Write a generator function that creates randomized variants:
+```typescript
 // src/lib/generators/make10Generator.ts
 export function generateMake10Problem(difficulty: 1 | 2 | 3): Make10Data {
   // Difficulty 1: addendA is always 9 (only need to find 1 to make 10)
@@ -518,10 +522,11 @@ export function generateMake10Problem(difficulty: 1 | 2 | 3): Make10Data {
     tenFrameInitial: addendA,
   };
 }
-This gives you infinite practice problems that still follow the exact Egyptian pedagogical method.
+```
+- This gives infinite practice problems that still follow the exact Egyptian pedagogical method.
 
-6. Asset Requirements
-text
+## 6. Asset Requirements
+```
 public/assets/
 ├── shapes/
 │   ├── 3d/  (cube.svg, cylinder.svg, sphere.svg, prism.svg, cuboid.svg)
@@ -541,32 +546,39 @@ public/assets/
 └── ui/
     ├── star-empty.svg, star-filled.svg
     └── lock.svg
-For speed, use simple geometric SVGs (inline or from a sprite). Don't waste time on fancy illustrations — clean, colorful shapes are pedagogically superior for 7-year-olds anyway.
+```
+- For speed, use simple geometric SVGs (inline or from a sprite). Don't waste time on fancy illustrations — clean, colorful shapes are pedagogically superior for 7-year-olds anyway.
 
-7. Step-by-Step Build Roadmap
-Day 1 (The Sprint)
-Hour	Task	Output
-0-1	Scaffold — npm create vite@latest math-review -- --template react-ts, install deps (@dnd-kit/core, @dnd-kit/sortable, framer-motion, howler, tailwindcss)	Boilerplate running
-1-2	Data layer — Write all TypeScript interfaces, create chapters.json and the 8 chapter data files. Write the storage.ts persistence layer and AppContext.	Types + static data
-2-3	Shell UI — <App>, routing (react-router or simple state-based), <ChapterMap> with 8 clickable chapter nodes, <LessonScreen> with <ActivityCarousel> skeleton	Navigate chapters → lessons
-3-5	Build SplitTreeAdder (the hardest widget) — Full state machine, ten-frame visual, drag-and-drop split, animations	Chapter 12 playable
-5-6	Build SplitTreeSubtractor — Clone of Adder with reversed logic	Chapter 13 playable
-6-7	Build AreaGrid + CapacityPourer — Grid click-to-color with counter, animated pouring	Chapter 11 playable
-7-8	Build HundredsChart + NumberLine + BlockGrouper	Chapter 14 playable
-8-9	Build ShapeFootprint + ShapeIdentifier	Chapter 10 playable
-9-10	Build ClockFace + ShapeComposer + WordProblem	Chapters 15-17 playable
-10-11	Progress tracking — Wire up the progressReducer, star animations on lesson complete, chapter unlock logic	Full loop working
-11-12	Polish — Arabic strings, RTL layout pass, sound effects, touch target sizing (min 48×48px), deploy to Vercel	Ship it
-Post-Day-1 Enhancements (If Time Allows Before Exams)
-Adaptive difficulty: Track error rate per concept, auto-adjust difficulty level
-Spaced repetition: Resurface concepts the child struggled with
-Parent report: PIN-protected dashboard showing time spent, weak areas
-Playlist integration: Embed relevant YouTube videos as "hint" buttons per chapter
-Print mode: Generate PDF practice sheets from the same data (for offline review)
-8. Critical UX Rules for 7-Year-Olds
-Hardcode these into your component library:
+## 7. Step-by-Step Build Roadmap
 
-typescript
+### Day 1 (The Sprint)
+
+| Hour | Task | Output |
+|---|---|---|
+| 0-1 | Scaffold — npm create vite@latest math-review -- --template react-ts, install deps (@dnd-kit/core, @dnd-kit/sortable, framer-motion, howler, tailwindcss) | Boilerplate running |
+| 1-2 | Data layer — Write all TypeScript interfaces, create chapters.json and the 8 chapter data files. Write the storage.ts persistence layer and AppContext. | Types + static data |
+| 2-3 | Shell UI — <App>, routing (react-router or simple state-based), <ChapterMap> with 8 clickable chapter nodes, <LessonScreen> with <ActivityCarousel> skeleton | Navigate chapters → lessons |
+| 3-5 | Build SplitTreeAdder (the hardest widget) — Full state machine, ten-frame visual, drag-and-drop split, animations | Chapter 12 playable |
+| 5-6 | Build SplitTreeSubtractor — Clone of Adder with reversed logic | Chapter 13 playable |
+| 6-7 | Build AreaGrid + CapacityPourer — Grid click-to-color with counter, animated pouring | Chapter 11 playable |
+| 7-8 | Build HundredsChart + NumberLine + BlockGrouper | Chapter 14 playable |
+| 8-9 | Build ShapeFootprint + ShapeIdentifier | Chapter 10 playable |
+| 9-10 | Build ClockFace + ShapeComposer + WordProblem | Chapters 15-17 playable |
+| 10-11 | Progress tracking — Wire up the progressReducer, star animations on lesson complete, chapter unlock logic | Full loop working |
+| 11-12 | Polish — Arabic strings, RTL layout pass, sound effects, touch target sizing (min 48×48px), deploy to Vercel | Ship it |
+
+### Post-Day-1 Enhancements (If Time Allows Before Exams)
+
+- Adaptive difficulty: Track error rate per concept, auto-adjust difficulty level
+- Spaced repetition: Resurface concepts the child struggled with
+- Parent report: PIN-protected dashboard showing time spent, weak areas
+- Playlist integration: Embed relevant YouTube videos as "hint" buttons per chapter
+- Print mode: Generate PDF practice sheets from the same data (for offline review)
+
+## 8. Critical UX Rules for 7-Year-Olds
+- Hardcode these into component library:
+
+```typescript
 // src/lib/ux-constants.ts
 export const UX = {
   // Touch targets
@@ -593,16 +605,18 @@ export const UX = {
   ACCENT: "#FF9800",          // orange — highlights
   DANGER: "#F44336",          // red — ONLY for "X" marks, never for backgrounds
 };
-9. Key Architectural Decision: Why No Backend
+```
+
+## 9. Key Architectural Decision: Why No Backend
 For a 2-week exam review sprint:
 
-No auth — Parent bookmarks the page. Progress is device-local.
-No database — localStorage is instant, offline-capable, zero ops.
-No API — All content is static JSON bundled in the build.
-Offline-capable — Add a service worker (Vite PWA plugin) and it works without internet on the family tablet.
+- No auth — Parent bookmarks the page. Progress is device-local.
+- No database — localStorage is instant, offline-capable, zero ops.
+- No API — All content is static JSON bundled in the build.
+- Offline-capable — Add a service worker (Vite PWA plugin) and it works without internet on the family tablet.
+
 If you later want multi-device sync or classroom analytics, swap storage.ts for Supabase in 30 minutes.
 
+**Total 12 interactive components** that need to be built. Starting with SplitTreeAdder.tsx — write the complete, production-ready React component with @dnd-kit drag-and-drop, framer-motion animations, and the useReducer state machine Opus specified. Use the exact TypeScript interfaces from the schema."
 
-"Here are the 12 interactive components that need to be built. Starting with SplitTreeAdder.tsx — write the complete, production-ready React component with @dnd-kit drag-and-drop, framer-motion animations, and the useReducer state machine Opus specified. Use the exact TypeScript interfaces from the schema."
-
-Then work component-by-component through the catalog. Each widget is self-contained 
+Then work component-by-component through the catalog. Each widget is self-contained.
