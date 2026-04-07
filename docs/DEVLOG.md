@@ -2317,4 +2317,332 @@ All remaining skips are visual/drawing/logic types with no matching interactive 
 - Split `buildLessonForChapter()` into raw builder + dedup wrapper.
 - Added `dedupActivities()`: hashes `activity.data` via `JSON.stringify`, filters duplicates within the same lesson build.
 
+
+---
+
+### Task 9: Visual Anchor & EmojiMap Expansion [2026-04-07]
+
+**Summary:**
+- **Problem context:** 10 of 59 problems now get context from their data/instruction text, while 49 are pure numeric/structural where the adapter now provides hints like "hundreds chart", "clock", "block", "stick", "bundle" instead.
+- **EmojiMap Expansion:** Expanded from 21 → 49 entries. Added animals (dog, cat, fish), food (cake, cookie, candy, egg, orange, banana), school items (sticker), toys (marble, toy), nature (flower, tree), shapes (circle, pentagon), containers (bucket, vase, teapot, pitcher, watering can, gas can), objects from flash data (tent, tissue box, boat, castle, cart), and structural (hundreds chart, bundle).
+- **Adapter contextHint coverage:** All 22 previously-bare adapters now set `contextHint`:
+  - Story-aware (10 problems): extract unit noun from instruction text ("dogs", "cakes", etc.)
+  - Structural (49 problems): provide widget-appropriate hints — "hundreds chart" for grid activities, "clock" for time, "block"/"stick"/"bundle" for place value, shape names for area/comparison.
+  - `createEquationActivity` now accepts and threads `contextHint`.
+  - `adaptSubtractionWordProblem` now extracts the unit and passes it as both `imageId` and `contextHint`.
+
+**Verification:** `tsc` + `vite` passed clean, no type errors.
+
+---
+
+## Phase 3: Live Testing & Content Refinement (Ongoing)
+`local-files\prim-screens`
+
+### Task 1: QA Strategy & Execution [2026-04-07]
+
+1. Query NotebookLM (Books 2+3 notebook) per chapter:
+```
+For Sheets [X through Y] covering Chapter [N]:
+List every problem in order. For each one give:
+1. Sheet number
+2. Problem number within the sheet
+3. Exact instruction text
+4. Problem type (fill-blank, multiple-choice, matching, ordering, word-problem, coloring, grid)
+5. The numbers or values involved
+6. Correct answer from the Answer Guide
+
+Format as a numbered list.
+```
+- Then feed both outputs to agent:
+```
+I have two extractions of the same worksheet content.
+
+SOURCE A (ground truth): [paste NotebookLM output]
+SOURCE B (Flash extraction): [paste or reference the chapter JSON file]
+
+Compare them problem by problem. Report:
+1. Problems in A but missing from B (Flash missed them)
+2. Problems in B but not in A (Flash hallucinated or duplicated)
+3. Problems where the correct answer differs
+4. Problems where the type classification differs
+
+Output as a table with columns: 
+Sheet | Problem | Status (match/missing/wrong-answer/wrong-type) | Details
+```
+1. Catches wrong answers — Flash verified against the answer guide but may have misread
+2. Catches missing problems — the adapter silently skips unknown types
+3. Catches misclassification — a "matching" problem adapted as "fill-in-blank" produces a broken activity
+4. Catches chapter bleed — accumulative assessment problems attributed to the wrong chapter (the Ch16 cylinder bug you saw)
+5. Takes 20 minutes not 2 hours
+
+
+---
+
+### Fix Strategy: Systematic, Not Question-by-Question
+
+#### Fix 1: lessonBuilder concept filtering
+```
+In each buildChapterNActivities() function, filter adapted 
+flash activities by conceptKey BEFORE mixing them in.
+
+For ch16: only accept activities where conceptKey is "tell-time"
+For ch15: only accept "compose-shapes" and "shape-3d-identify"
+For ch17: only accept "add-sub-mixed" and "guided-box-*"
+
+Accumulative assessment items that test earlier chapters should 
+be routed to ExamPractice mode, NOT into chapter lessons. Add a 
+utility function:
+
+function isOnTopicForChapter(activity: Activity, chapterId: string): boolean {
+  const CHAPTER_CONCEPTS: Record<string, ConceptKey[]> = {
+    ch10: ["shape-3d-identify", "shape-3d-to-2d"],
+    ch11: ["compare-area", "compare-capacity"],
+    ch12: ["addition-make-10", "guided-box-make10"],
+    ch13: ["subtraction-use-10", "guided-box-sub10"],
+    ch14: ["place-value-group", "place-value-hundreds-chart", "place-value-number-line"],
+    ch15: ["compose-shapes"],
+    ch16: ["tell-time"],
+    ch17: ["add-sub-mixed", "guided-box-make10", "guided-box-sub10"],
+  };
+  return CHAPTER_CONCEPTS[chapterId]?.includes(activity.data.conceptKey) ?? false;
+}
+
+// Use in every build function:
+const onTopic = adapted.filter(a => isOnTopicForChapter(a, "ch16"));
+```
+- This one fix eliminates every "wrong chapter" content problem across all chapters.
+
+#### Fix 2: contextHint assignment logic
+```
+In flashDataAdapter.ts, the contextHint should come from the 
+problem's CONTENT, not its TYPE. Fix the pattern:
+
+- Area comparison: contextHint = "grid" or "area" (not the shape name)
+- Capacity: contextHint = container names from flash data
+- Clock: contextHint = "clock"
+- Shapes: contextHint = the specific shape being asked about
+- Word problems: contextHint = the noun from the story
+
+Add a validation: if contextHint doesn't exist in EmojiMap, 
+set it to null rather than showing a misleading icon.
+```
+
+#### Fix 3: ShapeComposer generator — remove trivial options
+```
+In shapeComposerGenerator.ts, the options array must never 
+include a single piece that IS the target shape. Filter:
+
+options = options.filter(opt => 
+  !(opt.pieces.length === 1 && opt.pieces[0] === targetShape)
+);
+
+Also expand the template pool. Valid compositions from the book:
+- Rectangle = 2 triangles (right triangles)
+- Rectangle = 2 squares
+- Square = 2 triangles
+- Large triangle = 2 small triangles
+- Hexagon = 6 triangles
+- Trapezoid = 3 triangles
+- House shape = square + triangle
+
+That's 7+ templates, not 3.
+```
+
+#### Fix 4: AreaGrid count-compare needs interaction
+```
+In AreaGrid.tsx count-compare mode, DON'T pre-fill the counts.
+
+Current: shows "D: 2 squares" and "A: 4 squares" immediately.
+Should: show the count labels but hide the numbers. Child types 
+the count into each box (even though it's just reading a number). 
+Then the comparison question appears.
+
+OR (simpler): skip the counting step for count-compare mode and 
+go straight to the comparison question, but DON'T show the raw 
+numbers. Show visual bars instead:
+
+  Shape D: ██░░░░░░░░  (2 units, visual)
+  Shape A: ████░░░░░░  (4 units, visual)
+  
+  "Which has the smaller area?"  [D]  [A]
+
+This way the child must visually compare, not just read digits.
+```
+
+#### Fix 5: SplitTreeAdder subtraction — show full minuend
+```
+In SplitTreeAdder.tsx subtraction mode, the visual must show 
+the FULL starting number, not just 10.
+
+For 14 - 8:
+  Ten-frame: 10 red dots (full)
+  Loose dots: 4 red dots below (the "ones" of 14)
+  
+  Total visible: 14 dots
+  
+The child must see 14 BEFORE splitting. Then the split logic 
+removes dots to reach the answer.
+
+Check: does the component set tenFrameCount to the minuend's 
+tens (10) and show numberA % 10 (4) as loose dots? If not, 
+that's the visual bug.
+```
+
+#### The QA Approach Going Forward
+
+- Does the instruction make sense for this chapter?
+- Can the question actually be answered with the controls shown?
+- Is there visual information that helps (not just numbers on white)?
+- Does correct input actually register as correct?
+```
+Play through each chapter lesson (ch10-ch17) in the dev build. 
+For each activity, report:
+1. ConceptKey shown
+2. Whether the instruction matches the chapter topic
+3. Whether the question is answerable (all needed info visible)
+4. Whether correct input is accepted
+5. Any visual glitches
+
+Output as a table. Flag issues as BLOCKER / MINOR / COSMETIC.
+```
+
+---
+
+### Fix Priority Rationale [2026-04-07]
+
+Ordered by trust/comprehension impact:
+
+1. **Fix 1 — Concept filtering** (highest leverage): chapter bleed is the biggest trust-breaker — a cylinder problem in ch16 (Time) confuses parents and kids.
+2. **Fix 5 — SplitTreeAdder subtraction visual**: math comprehension bug — child can't understand 14-8 without seeing all 14 dots first.
+3. **Fix 3 — ShapeComposer pools**: thin pool (3 templates) + trivial options undermine the activity's purpose.
+4. **Fix 4 — AreaGrid visual bars**: pre-filled digit counts turn a comparison exercise into a reading exercise.
+5. **Fix 2 — contextHint validation**: cosmetic — unrecognized hints showed misleading sparkle emoji.
+
+---
+
+### Fix 1: lessonBuilder concept filtering [2026-04-07]
+
+**Problem:** Accumulative assessment items from flash data bled into wrong chapter lessons. E.g., ch16 (Time) included cylinder identification and capacity ordering from prior chapters.
+
+**Changes (lessonBuilder.ts):**
+- Added `CHAPTER_CONCEPTS` map defining on-topic conceptKeys per chapter.
+- Added `isOnTopicForChapter(activity, chapterId)` utility.
+- `getAdaptedActivities()` now filters all adapted flash data through `isOnTopicForChapter` before returning.
+- Simplified `buildChapter15/16/17Activities()` to only use on-topic flash data:
+  - ch15: shapes only (compose-shapes, shape-3d-identify, shape-3d-to-2d) + generator fill
+  - ch16: tell-time only (4 flash + 4 generated read/set-time)
+  - ch17: word problems + guided-box only + generator fill
+
+**Result:** Off-topic content eliminated across all chapters. Accumulative assessment items are no longer mixed into chapter lessons.
+
+**Verification:** `npm run build` passed.
+
+---
+
+### Fix 5: SplitTreeAdder subtraction — show full minuend [2026-04-07]
+
+**Problem:** In subtraction mode (e.g., 14 - 8), the child saw only the equation text during show-problem, then a full ten-frame (10 dots) during fill-split — but never the 4 loose dots representing the ones part. The full minuend was invisible.
+
+**Changes (SplitTreeAdder.tsx):**
+- `initState`: for subtraction, initialize `tenFrameCount` to `min(numberA, 10)` and `looseDotsCount` to `max(numberA - 10, 0)` — so 14 shows as 10 + 4 from the start.
+- Ten-frame now renders during `show-problem` phase for subtraction mode.
+- Loose dots now render during all phases (not just `drag-to-ten`) for subtraction, using red color matching the ten-frame dots.
+
+**Result:** For 14 - 8, child sees 14 dots (10 frame + 4 loose) before any splitting begins.
+
+**Verification:** `npm run build` passed.
+
+---
+
+### Fix 3: ShapeComposer — remove trivial options + expand templates [2026-04-07]
+
+**Problem:** Only 3 composition templates. Wrong options included single shapes like `["rectangle"]` — trivially wrong and pedagogically useless.
+
+**Changes (shapeComposerGenerator.ts):**
+- Expanded from 3 → 7 templates:
+  - Rectangle = 2 triangles
+  - Rectangle = 2 squares
+  - Square = 2 triangles
+  - Large triangle = 2 small triangles
+  - Hexagon = 6 triangles
+  - Trapezoid = 3 triangles
+  - House = square + triangle
+- Added filter: wrong options where `pieces.length === 1 && pieces[0] === targetShape` are excluded.
+- All wrong options now use multi-piece combinations that are plausibly confusing.
+
+**Verification:** `npm run build` passed.
+
+---
+
+### Fix 4: AreaGrid count-compare — visual bars [2026-04-07]
+
+**Problem:** `CountCompareCards` displayed raw digit counts (`<p className="text-3xl">4</p>`). Child just read the bigger number instead of visually comparing areas.
+
+**Changes (AreaGrid.tsx):**
+- Replaced raw count display with proportional bar visualization.
+- Bars use `width: ${pct}%` based on `count / maxCount * 100`.
+- Bar colors match shape colors (blue/orange).
+- Count digits removed — child must judge relative bar lengths.
+
+**Verification:** `npm run build` passed.
+
+---
+
+### Fix 2: contextHint validation [2026-04-07]
+
+**Problem:** Unrecognized contextHints (e.g., "F-like vs Hash-like" for area, "A, B, C, D" for capacity labels) showed a misleading ✨ sparkle emoji via the fallback in `getContextEmoji`.
+
+**Changes:**
+- **EmojiMap.tsx:** `getContextEmoji` now returns `null` for unrecognized hints (was `"✨"`). Added `isKnownHint()` export for validation.
+- **flashDataAdapter.ts:**
+  - Area comparisons: contextHint changed from shape names to `"grid"` (matches EmojiMap 🔢).
+  - Area ordering: contextHint changed from item IDs to `"grid"`.
+  - Capacity ordering: fallback changed from `items.map(label).join()` to `"container"`.
+  - Unit counting: changed from joining color contexts to using `imageType` (e.g., "jug", "teapot").
+
+**Verification:** `npm run build` passed.
+
+---
+
+### Visual QA Pass — screenshot fixes [2026-04-07]
+
+From local testing screenshots (`local-files/prim-screens/screens-after-phase3-fixes/`):
+
+**Issue A: AreaGrid count-compare showed raw digit counts below bars.**
+The bars rendered correctly but the CountField components below still showed "D squares: 2" and "A squares: 4" — child could just read numbers. Fix: hide CountField row when `mode === "count-compare"`.
+**File:** `AreaGrid.tsx`
+
+**Issue B: Area comparison contextHint label said "Like a hundreds chart".**
+The "grid" key in EmojiMap was grouped with "hundreds chart", so area comparisons showed the wrong label. Fix: split into separate entries — `["hundreds chart"] → 🔢 "hundreds chart"` and `["grid", "area"] → 📐 "area grid"`. Changed area adapter contextHints from "grid" to "area".
+**Files:** `EmojiMap.tsx`, `flashDataAdapter.ts`
+
+~~**Not fixed (noted for later):**~~
+~~- Capacity container labels show raw flash data colors ("green", "orange", "brown-clay") — needs human-friendly label mapping at adapter level.~~
+Fixed below.
+
+---
+
+### Visual QA Pass 2 — kid-clarity fixes [2026-04-07]
+
+Three issues from screenshot review where visuals were too abstract for a child:
+
+**Fix A: 3D shape SVGs not recognizable (prism looked like a blob).**
+Redesigned all 5 shapes in `Shape3DSVG.tsx`:
+- Prism: clear front triangular face + rectangular depth extending right, distinct face colors (fill vs dark).
+- Cube/cuboid: 3 distinct faces with top=accent, front=fill, right=dark.
+- Cylinder: proper path-based body (no more rect seam artifacts), clear top/bottom ellipses.
+- Ball: same but with rotated highlight ellipse.
+- Added text labels below each shape (e.g., "Prism", "Cube") so the child always knows the name.
+
+**Fix B: AreaGrid count-compare had no visual shapes — just abstract bars.**
+Adapted flash data creates `shapeA: [], shapeB: []` so count-compare mode had nothing to show. Replaced proportion bars with mini square grids: each shape's count rendered as colored square cells in a compact grid layout (`cols = ceil(sqrt(count))`). Child sees actual colored squares to compare visually.
+
+**Fix C: Capacity containers showed stacked cup icons with raw color labels.**
+- Replaced stacked emoji cups with SVG container + liquid fill level (blue water fill at proportional height, tick marks for cups).
+- Added `humanizeLabel()` to convert raw flash data colors ("green", "brown-clay") to child-friendly names ("Container A", "Container B").
+- Removed raw "N cups shown" text — the visual fill level replaces it.
+- Updated both `ContainerCard` and `SortableContainerCard`.
+
+**Files:** `Shape3DSVG.tsx`, `AreaGrid.tsx`, `CapacityPourer.tsx`
+
 **Verification:** `npm run build` passed.

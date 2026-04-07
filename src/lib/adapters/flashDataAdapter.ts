@@ -357,7 +357,7 @@ function adaptUnitCounting(p: FlashProblem): Activity[] {
     conceptKey: "compare-capacity",
     difficulty: 1,
     data,
-    contextHint: items.map((item) => item.target.context).join(", "),
+    contextHint: items[0]?.target.imageType ?? "container",
   }];
 }
 
@@ -447,7 +447,7 @@ function adaptAreaGridCounting(p: FlashProblem): Activity[] {
       conceptKey: "compare-area",
       difficulty: 1,
       data,
-      contextHint: `${first.shape} vs ${second.shape}`,
+      contextHint: "area",
     });
   }
 
@@ -510,7 +510,7 @@ function adaptAreaComparisonVisual(p: FlashProblem): Activity[] {
       conceptKey: "compare-area",
       difficulty: 1,
       data,
-      contextHint: `${smaller.shape} vs ${larger.shape}`,
+      contextHint: "area",
     });
   }
 
@@ -581,6 +581,7 @@ function adaptSplitTreeAddition(p: FlashProblem): Activity[] {
     conceptKey: "addition-make-10",
     difficulty: 1,
     data,
+    contextHint: extractUnitFromInstruction(p.instruction),
   }];
 }
 
@@ -645,6 +646,7 @@ function adaptSplitTreeSubtraction(p: FlashProblem): Activity[] {
     conceptKey: "subtraction-use-10",
     difficulty: 1,
     data,
+    contextHint: extractUnitFromInstruction(p.instruction),
   }];
 }
 
@@ -681,6 +683,7 @@ function adaptFillInBlanks(p: FlashProblem): Activity[] {
       conceptKey,
       difficulty: 1,
       data,
+      contextHint: extractUnitFromInstruction(p.instruction),
     };
   });
 }
@@ -783,7 +786,7 @@ function adaptResultFinding(p: FlashProblem): Activity[] {
     const id = index === 0 ? p.id : `${p.id}-${index + 1}`;
 
     if ("equation" in item && typeof item.answer === "number") {
-      const activity = createEquationActivity(item.equation, item.answer, id);
+      const activity = createEquationActivity(item.equation, item.answer, id, extractUnitFromInstruction(p.instruction));
       return activity ? [activity] : [];
     }
 
@@ -837,6 +840,7 @@ function adaptTenGrouping(p: FlashProblem): Activity[] {
       conceptKey: "place-value-group",
       difficulty: 1,
       data,
+      contextHint: "block",
     };
   });
 }
@@ -866,6 +870,7 @@ function adaptPlaceValueCounting(p: FlashProblem): Activity[] {
       conceptKey: "place-value-group",
       difficulty: 1,
       data,
+      contextHint: "stick",
     };
   });
 }
@@ -902,6 +907,7 @@ function adaptMatchingTo100(p: FlashProblem): Activity[] {
       conceptKey: "guided-box-make10" as ConceptKey,
       difficulty: 1 as const,
       data,
+      contextHint: "hundreds chart",
     };
   });
 }
@@ -939,6 +945,7 @@ function adaptGridFragmentFill(p: FlashProblem): Activity[] {
       conceptKey: "place-value-hundreds-chart" as ConceptKey,
       difficulty: 1 as const,
       data,
+      contextHint: "hundreds chart",
     };
   });
 }
@@ -952,11 +959,13 @@ function adaptMathProblems(p: FlashProblem): Activity[] {
   const items = p.items as FlashMathProblemItem[] | undefined;
   if (!items?.length) return [];
 
+  const hint = extractUnitFromInstruction(p.instruction);
   return items.flatMap((item, index) => {
     const activity = createEquationActivity(
       item.problem,
       item.answer,
       index === 0 ? p.id : `${p.id}-${index + 1}`,
+      hint,
     );
     return activity ? [activity] : [];
   });
@@ -997,6 +1006,7 @@ function adaptCapacityOrdering(p: FlashProblem): Activity[] {
     conceptKey: "compare-capacity",
     difficulty: 1,
     data,
+    contextHint: imageType ?? "container",
   }];
 }
 
@@ -1006,12 +1016,14 @@ function adaptMixedArithmetic(p: FlashProblem): Activity[] {
   const subProblems = (p as unknown as { subProblems?: { sentence: string; answer: number }[] }).subProblems;
   if (!Array.isArray(subProblems) || !subProblems.length) return [];
 
+  const hint = extractUnitFromInstruction(p.instruction);
   return subProblems.flatMap((sub, index) => {
     const equation = sub.sentence.replace("__", "?");
     const activity = createEquationActivity(
       equation,
       sub.answer,
       index === 0 ? p.id : `${p.id}-${index + 1}`,
+      hint,
     );
     return activity ? [activity] : [];
   });
@@ -1021,12 +1033,14 @@ function adaptMultipleChoice(p: FlashProblem): Activity[] {
   const questions = (p as unknown as { questions?: { text: string; options: number[]; answer: number }[] }).questions;
   if (!Array.isArray(questions) || !questions.length) return [];
 
+  const hint = extractUnitFromInstruction(p.instruction);
   return questions.flatMap((q, index) => {
     const equation = q.text.replace("__", "?");
     const activity = createEquationActivity(
       equation,
       q.answer,
       index === 0 ? p.id : `${p.id}-${index + 1}`,
+      hint,
     );
     return activity ? [activity] : [];
   });
@@ -1057,6 +1071,7 @@ function adaptNumberComparison(p: FlashProblem): Activity[] {
         conceptKey: "guided-box-make10" as ConceptKey,
         difficulty: 1 as const,
         data,
+        contextHint: extractUnitFromInstruction(p.instruction),
       };
     });
   }
@@ -1090,6 +1105,7 @@ function adaptNumberComparison(p: FlashProblem): Activity[] {
       conceptKey: "guided-box-make10" as ConceptKey,
       difficulty: 1 as const,
       data,
+      contextHint: extractUnitFromInstruction(p.instruction),
     };
   });
 }
@@ -1115,6 +1131,7 @@ function adaptGridFragment(p: FlashProblem): Activity[] {
       conceptKey: "place-value-hundreds-chart" as ConceptKey,
       difficulty: 1 as const,
       data,
+      contextHint: "hundreds chart",
     };
   });
 }
@@ -1153,6 +1170,7 @@ function adaptAreaOrdering(p: FlashProblem): Activity[] {
       conceptKey: "compare-area",
       difficulty: 1,
       data,
+      contextHint: "area",
     });
   }
 
@@ -1206,6 +1224,7 @@ function adaptMakeTenAddition(p: FlashProblem): Activity[] {
     conceptKey: "guided-box-make10",
     difficulty: 1,
     data,
+    contextHint: extractUnitFromInstruction(p.instruction),
   }];
 }
 
@@ -1232,6 +1251,7 @@ function adaptAnalogClockRead(p: FlashProblem): Activity[] {
       conceptKey: "tell-time" as ConceptKey,
       difficulty: 1 as const,
       data,
+      contextHint: "clock",
     }];
   });
 }
@@ -1255,6 +1275,7 @@ function adaptCountingTo100(p: FlashProblem): Activity[] {
       conceptKey: "place-value-group" as ConceptKey,
       difficulty: 1 as const,
       data,
+      contextHint: "bundle",
     };
   });
 }
@@ -1283,6 +1304,7 @@ function adaptPlaceValueComposition(p: FlashProblem): Activity[] {
     conceptKey: "guided-box-make10",
     difficulty: 1,
     data,
+    contextHint: extractUnitFromInstruction(p.instruction) ?? "stick",
   }];
 }
 
@@ -1294,6 +1316,7 @@ function adaptSubtractionWordProblem(p: FlashProblem): Activity[] {
   const initial = numbers[0] ?? answer + (numbers[1] ?? 0);
   const removed = numbers[1] ?? initial - answer;
 
+  const unit = extractUnitFromInstruction(p.instruction) ?? "items";
   return [createWordProblemActivity({
     id: p.id,
     storyAr: p.instruction,
@@ -1301,7 +1324,8 @@ function adaptSubtractionWordProblem(p: FlashProblem): Activity[] {
     operation: "-",
     operands: [initial, removed],
     correctAnswer: answer,
-    imageId: "items",
+    imageId: unit,
+    contextHint: unit,
   })];
 }
 
@@ -1329,6 +1353,7 @@ function adaptOrdinalWordProblem(p: FlashProblem): Activity[] {
     conceptKey: "guided-box-sub10",
     difficulty: 1,
     data,
+    contextHint: extractUnitFromInstruction(p.instruction),
   }];
 }
 
@@ -1354,6 +1379,7 @@ function adaptShapeTracingMatch(p: FlashProblem): Activity[] {
       conceptKey: "shape-3d-identify",
       difficulty: 1,
       data,
+      contextHint: answer,
     }];
   }
 
@@ -1482,6 +1508,7 @@ function adaptFillMissingNumbers(p: FlashProblem): Activity[] {
       conceptKey: "place-value-hundreds-chart" as ConceptKey,
       difficulty: 1 as const,
       data,
+      contextHint: "hundreds chart",
     }];
   });
 }
@@ -1519,6 +1546,7 @@ function adaptNumberOrdering(p: FlashProblem): Activity[] {
       conceptKey: "guided-box-make10",
       difficulty: 1,
       data,
+      contextHint: extractUnitFromInstruction(p.instruction),
     });
   }
 
@@ -1587,7 +1615,7 @@ function createWordProblemActivity({
   };
 }
 
-function createEquationActivity(equation: string, answer: number, id: string): Activity | null {
+function createEquationActivity(equation: string, answer: number, id: string, contextHint?: string): Activity | null {
   const isAdd = equation.includes("+");
   const conceptKey: ConceptKey = isAdd ? "guided-box-make10" : "guided-box-sub10";
 
@@ -1611,7 +1639,16 @@ function createEquationActivity(equation: string, answer: number, id: string): A
     conceptKey,
     difficulty: 1,
     data,
+    contextHint,
   };
+}
+
+/** Extract a noun/unit from instruction text for contextHint. */
+function extractUnitFromInstruction(instruction: string): string | undefined {
+  const match = instruction.match(
+    /\b(dogs?|cats?|cakes?|apples?|birds?|pencils?|books?|balls?|coins?|flowers?|eggs?|cups?|fish|stars?|stickers?|marbles?|toys?|trees?|sweets?|oranges?|bananas?|cookies?|candies|squares?|bottles?)\b/i,
+  );
+  return match?.[0]?.toLowerCase();
 }
 
 function normalizeShape3d(

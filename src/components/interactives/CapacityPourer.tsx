@@ -242,7 +242,8 @@ export function CapacityPourer({ data, onComplete }: CapacityPourerProps) {
             <div className="flex flex-wrap gap-4 rounded-2xl bg-white p-4 shadow-sm">
               {state.userOrder.map((id) => {
                 const container = data.containers.find((item) => (item.id ?? item.label) === id)!;
-                return <SortableContainerCard key={id} container={container} />;
+                const maxCups = Math.max(...data.containers.map((c) => c.capacityCups), 1);
+                return <SortableContainerCard key={id} container={container} maxCups={maxCups} />;
               })}
             </div>
           </SortableContext>
@@ -251,6 +252,7 @@ export function CapacityPourer({ data, onComplete }: CapacityPourerProps) {
         <div className="grid gap-4 rounded-2xl bg-white p-4 shadow-sm md:grid-cols-3">
           {data.containers.map((container) => {
             const key = container.id ?? container.label;
+            const maxCups = Math.max(...data.containers.map((c) => c.capacityCups), 1);
             return (
               <ContainerCard
                 key={key}
@@ -262,6 +264,7 @@ export function CapacityPourer({ data, onComplete }: CapacityPourerProps) {
                 showInput={mode === "count-cups"}
                 onChoose={() => rawDispatch({ type: "CHOOSE_CONTAINER", id: key })}
                 onFocus={() => rawDispatch({ type: "TAP_FIELD", field: key })}
+                maxCups={maxCups}
               />
             );
           })}
@@ -354,6 +357,7 @@ function ContainerCard({
   showInput,
   onChoose,
   onFocus,
+  maxCups,
 }: {
   container: CapacityData["containers"][number];
   wrong: boolean;
@@ -363,8 +367,12 @@ function ContainerCard({
   showInput: boolean;
   onChoose: () => void;
   onFocus: () => void;
+  maxCups: number;
 }) {
   const display = countValue !== null ? String(countValue) : countBuffer || (isActive ? "_" : "");
+  const fillPct = maxCups > 0 ? Math.round((container.capacityCups / maxCups) * 100) : 0;
+  const friendlyLabel = humanizeLabel(container.label);
+
   return (
     <button
       onClick={showInput ? onFocus : onChoose}
@@ -376,29 +384,42 @@ function ContainerCard({
             : "border-gray-200 bg-white"
       }`}
     >
-      <p className="text-sm font-medium text-gray-500">{container.label}</p>
-      <div className="mt-4 flex min-h-28 flex-col items-center justify-end gap-1">
-        {Array.from({ length: container.capacityCups }, (_, index) => (
-          <span key={index} className="text-2xl leading-none">
-            {getCupIcon(container.imageId)}
-          </span>
-        ))}
+      <p className="text-sm font-medium text-gray-600">{friendlyLabel}</p>
+      {/* Container with liquid fill */}
+      <div className="mx-auto mt-3 flex justify-center">
+        <svg viewBox="0 0 60 90" className="h-28 w-16" aria-label={`${friendlyLabel}: ${container.capacityCups} cups`}>
+          {/* Container outline */}
+          <rect x="8" y="8" width="44" height="72" rx="6" ry="6"
+            fill="#f1f5f9" stroke="#94a3b8" strokeWidth="2" />
+          {/* Liquid fill */}
+          <rect x="10" y={10 + 68 * (1 - fillPct / 100)} width="40"
+            height={68 * (fillPct / 100)} rx="4" ry="4"
+            fill="#38bdf8" opacity="0.7" />
+          {/* Cup tick marks */}
+          {Array.from({ length: maxCups }, (_, i) => {
+            const y = 78 - (68 / maxCups) * (i + 1) + 68 / maxCups / 2;
+            return i < container.capacityCups ? (
+              <line key={i} x1="14" y1={y} x2="22" y2={y}
+                stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
+            ) : null;
+          })}
+        </svg>
       </div>
       {showInput ? (
-        <div className="mt-4 rounded-xl bg-white px-4 py-2 text-2xl font-bold text-blue-700">
+        <div className="mt-3 rounded-xl bg-white px-4 py-2 text-2xl font-bold text-blue-700">
           {display}
         </div>
-      ) : (
-        <p className="mt-4 text-sm text-gray-500">{container.capacityCups} cups shown</p>
-      )}
+      ) : null}
     </button>
   );
 }
 
 function SortableContainerCard({
   container,
+  maxCups,
 }: {
   container: CapacityData["containers"][number];
+  maxCups: number;
 }) {
   const id = container.id ?? container.label;
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -406,6 +427,8 @@ function SortableContainerCard({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+  const fillPct = maxCups > 0 ? Math.round((container.capacityCups / maxCups) * 100) : 0;
+  const friendlyLabel = humanizeLabel(container.label);
 
   return (
     <div
@@ -415,22 +438,37 @@ function SortableContainerCard({
       {...listeners}
       className="w-44 touch-none rounded-2xl border-2 border-gray-200 bg-white p-4 text-center shadow-sm"
     >
-      <p className="text-sm font-medium text-gray-500">{container.label}</p>
-      <div className="mt-4 flex min-h-28 flex-col items-center justify-end gap-1">
-        {Array.from({ length: container.capacityCups }, (_, index) => (
-          <span key={index} className="text-2xl leading-none">
-            {getCupIcon(container.imageId)}
-          </span>
-        ))}
+      <p className="text-sm font-medium text-gray-600">{friendlyLabel}</p>
+      <div className="mx-auto mt-3 flex justify-center">
+        <svg viewBox="0 0 60 90" className="h-28 w-16" aria-label={`${friendlyLabel}: ${container.capacityCups} cups`}>
+          <rect x="8" y="8" width="44" height="72" rx="6" ry="6"
+            fill="#f1f5f9" stroke="#94a3b8" strokeWidth="2" />
+          <rect x="10" y={10 + 68 * (1 - fillPct / 100)} width="40"
+            height={68 * (fillPct / 100)} rx="4" ry="4"
+            fill="#38bdf8" opacity="0.7" />
+          {Array.from({ length: maxCups }, (_, i) => {
+            const y = 78 - (68 / maxCups) * (i + 1) + 68 / maxCups / 2;
+            return i < container.capacityCups ? (
+              <line key={i} x1="14" y1={y} x2="22" y2={y}
+                stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
+            ) : null;
+          })}
+        </svg>
       </div>
     </div>
   );
 }
 
-function getCupIcon(imageId: string): string {
-  if (imageId === "bottle") return "🥤";
-  if (imageId === "box") return "🧃";
-  return "🥤";
+/** Convert raw flash data labels (e.g., "brown-clay", "green") into child-friendly names. */
+function humanizeLabel(label: string): string {
+  const map: Record<string, string> = {
+    "green": "Container A",
+    "orange": "Container B",
+    "brown-clay": "Container C",
+    "blue": "Container D",
+    "red": "Container E",
+  };
+  return map[label.toLowerCase()] ?? label;
 }
 
 function NumberPad({

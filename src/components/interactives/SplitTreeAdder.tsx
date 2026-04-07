@@ -60,8 +60,8 @@ function initState(problem: SplitTreeProblem): SplitTreeState {
     splitTarget: problem.allowSplitChoice ? null : (problem.presetSplit ?? "B"),
     splitValues: [null, null],
     correctSplit: null,
-    tenFrameCount: 0,
-    looseDotsCount: problem.mode === "addition" ? problem.numberB : 0,
+    tenFrameCount: problem.mode === "subtraction" ? Math.min(problem.numberA, 10) : 0,
+    looseDotsCount: problem.mode === "addition" ? problem.numberB : Math.max(problem.numberA - 10, 0),
     activeSplitIndex: 0,
     inputBuffer: "",
     userFinalAnswer: null,
@@ -376,8 +376,8 @@ export function SplitTreeAdder({ data, onComplete }: SplitTreeAdderProps) {
           </div>
         )}
 
-        {/* Ten-frame */}
-        {state.phase !== "show-problem" && state.phase !== "choose-split" && (
+        {/* Ten-frame — for subtraction, show from the start so child sees full minuend */}
+        {(state.mode === "subtraction" ? state.phase !== "choose-split" : state.phase !== "show-problem" && state.phase !== "choose-split") && (
           <div className="flex flex-col items-center gap-3">
             <TenFrame
               filledCount={Math.min(state.tenFrameCount, 10)}
@@ -387,14 +387,14 @@ export function SplitTreeAdder({ data, onComplete }: SplitTreeAdderProps) {
               size="md"
             />
 
-            {/* Loose dots */}
-            {state.phase === "drag-to-ten" && state.looseDotsCount > 0 && (
+            {/* Loose dots — for subtraction, show during all phases so child sees full minuend */}
+            {state.looseDotsCount > 0 && (state.phase === "drag-to-ten" || state.mode === "subtraction") && (
               <div className="mt-2">
                 <DraggableDots
                   count={state.looseDotsCount}
-                  color="#3b82f6"
-                  highlightGroup={0}
-                  groups={[state.looseDotsCount, 0]}
+                  color={state.mode === "subtraction" ? "#ef4444" : "#3b82f6"}
+                  highlightGroup={state.phase === "drag-to-ten" ? 0 : undefined}
+                  groups={state.phase === "drag-to-ten" ? [state.looseDotsCount, 0] : undefined}
                 />
               </div>
             )}

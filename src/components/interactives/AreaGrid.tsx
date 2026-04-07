@@ -216,20 +216,23 @@ export function AreaGrid({ data, onComplete }: AreaGridProps) {
         />
       )}
 
-      <div className="grid gap-3 md:grid-cols-2">
-        {shapeCounts.map((shape) => (
-          <CountField
-            key={shape.label}
-            label={`${shape.label} squares`}
-            value={state.userCounts[shape.label] ?? null}
-            isActive={state.activeField === shape.label && state.phase === "counting"}
-            isWrong={state.wrongField === shape.label}
-            color={shape.color}
-            buffer={state.activeField === shape.label ? state.inputBuffer : ""}
-            onClick={() => rawDispatch({ type: "TAP_FIELD", field: shape.label })}
-          />
-        ))}
-      </div>
+      {/* Only show count fields when child needs to enter counts (not in count-compare mode) */}
+      {mode !== "count-compare" && (
+        <div className="grid gap-3 md:grid-cols-2">
+          {shapeCounts.map((shape) => (
+            <CountField
+              key={shape.label}
+              label={`${shape.label} squares`}
+              value={state.userCounts[shape.label] ?? null}
+              isActive={state.activeField === shape.label && state.phase === "counting"}
+              isWrong={state.wrongField === shape.label}
+              color={shape.color}
+              buffer={state.activeField === shape.label ? state.inputBuffer : ""}
+              onClick={() => rawDispatch({ type: "TAP_FIELD", field: shape.label })}
+            />
+          ))}
+        </div>
+      )}
 
       {state.phase === "counting" && (
         <>
@@ -419,22 +422,38 @@ function CountCompareCards({
 }) {
   return (
     <div className="grid gap-3 md:grid-cols-2">
-      {shapeCounts.map((shape) => (
-        <button
-          key={shape.label}
-          onClick={() => onChoose(shape.label)}
-          disabled={disabled}
-          className={`rounded-2xl p-5 text-left shadow-sm ${
-            shape.color === "blue"
-              ? "bg-blue-50 text-blue-800"
-              : "bg-orange-50 text-orange-800"
-          } ${wrongField === shape.label ? "ring-2 ring-red-300" : ""} disabled:opacity-80`}
-        >
-          <p className="text-sm opacity-70">{shape.label}</p>
-          <p className="mt-2 text-3xl font-bold">{shape.count}</p>
-          <p className="text-sm">square units</p>
-        </button>
-      ))}
+      {shapeCounts.map((shape) => {
+        const bgColor = shape.color === "blue" ? "bg-blue-50 text-blue-800" : "bg-orange-50 text-orange-800";
+        const cellColor = shape.color === "blue" ? "bg-blue-400" : "bg-orange-400";
+        // Layout squares in a grid: pick cols to make a compact rectangle
+        const cols = shape.count <= 3 ? shape.count : Math.ceil(Math.sqrt(shape.count));
+
+        return (
+          <button
+            key={shape.label}
+            onClick={() => onChoose(shape.label)}
+            disabled={disabled}
+            className={`rounded-2xl p-5 text-center shadow-sm ${bgColor} ${wrongField === shape.label ? "ring-2 ring-red-300" : ""} disabled:opacity-80`}
+          >
+            <p className="mb-3 text-sm font-medium opacity-70">{shape.label}</p>
+            <div
+              className="mx-auto grid gap-1"
+              style={{
+                gridTemplateColumns: `repeat(${cols}, 28px)`,
+                justifyContent: "center",
+              }}
+            >
+              {Array.from({ length: shape.count }, (_, i) => (
+                <div
+                  key={i}
+                  className={`h-7 w-7 rounded-sm border border-white/50 ${cellColor}`}
+                />
+              ))}
+            </div>
+            <p className="mt-3 text-xs opacity-50">area</p>
+          </button>
+        );
+      })}
     </div>
   );
 }

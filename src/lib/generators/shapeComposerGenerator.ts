@@ -6,23 +6,54 @@ const COMPOSITIONS: Array<{
   correctPieces: ShapePiece["shape"][];
   wrongOptions: ShapePiece["shape"][][];
 }> = [
+  // Rectangle = 2 right triangles
   {
     targetShape: "rectangle",
     targetDescription: "a rectangle",
     correctPieces: ["triangle", "triangle"],
-    wrongOptions: [["square"], ["triangle", "square"]],
+    wrongOptions: [["square", "square"], ["triangle", "square"]],
   },
-  {
-    targetShape: "square",
-    targetDescription: "a square",
-    correctPieces: ["triangle", "triangle"],
-    wrongOptions: [["rectangle"], ["square", "triangle"]],
-  },
+  // Rectangle = 2 squares
   {
     targetShape: "rectangle",
     targetDescription: "a rectangle",
     correctPieces: ["square", "square"],
-    wrongOptions: [["triangle", "triangle"], ["rectangle"]],
+    wrongOptions: [["triangle", "triangle"], ["triangle", "square"]],
+  },
+  // Square = 2 triangles
+  {
+    targetShape: "square",
+    targetDescription: "a square",
+    correctPieces: ["triangle", "triangle"],
+    wrongOptions: [["square", "rectangle"], ["triangle", "rectangle"]],
+  },
+  // Large triangle = 2 small triangles
+  {
+    targetShape: "triangle",
+    targetDescription: "a large triangle",
+    correctPieces: ["triangle", "triangle"],
+    wrongOptions: [["square", "triangle"], ["rectangle", "triangle"]],
+  },
+  // Hexagon = 6 triangles
+  {
+    targetShape: "hexagon",
+    targetDescription: "a hexagon",
+    correctPieces: ["triangle", "triangle", "triangle", "triangle", "triangle", "triangle"],
+    wrongOptions: [["square", "square", "square"], ["triangle", "triangle", "square", "square"]],
+  },
+  // Trapezoid = 3 triangles
+  {
+    targetShape: "trapezoid",
+    targetDescription: "a trapezoid",
+    correctPieces: ["triangle", "triangle", "triangle"],
+    wrongOptions: [["square", "triangle"], ["triangle", "triangle", "square"]],
+  },
+  // House = square + triangle
+  {
+    targetShape: "house",
+    targetDescription: "a house shape",
+    correctPieces: ["square", "triangle"],
+    wrongOptions: [["triangle", "triangle"], ["rectangle", "triangle"]],
   },
 ];
 
@@ -41,13 +72,19 @@ function shuffle<T>(items: T[]): T[] {
 
 export function generateShapeComposer(): ComposeShapesData {
   const composition = COMPOSITIONS[randomInt(0, COMPOSITIONS.length - 1)]!;
+
+  // Filter wrong options: never include a single piece that IS the target shape
+  const filteredWrong = composition.wrongOptions.filter(
+    (pieces) => !(pieces.length === 1 && pieces[0] === composition.targetShape),
+  );
+
   const options = shuffle([
     {
       id: "correct",
       pieces: composition.correctPieces,
       label: composition.correctPieces.join(" + "),
     },
-    ...composition.wrongOptions.map((pieces, index) => ({
+    ...filteredWrong.map((pieces, index) => ({
       id: `wrong-${index + 1}`,
       pieces,
       label: pieces.join(" + "),
