@@ -2646,3 +2646,16 @@ Adapted flash data creates `shapeA: [], shapeB: []` so count-compare mode had no
 **Files:** `Shape3DSVG.tsx`, `AreaGrid.tsx`, `CapacityPourer.tsx`
 
 **Verification:** `npm run build` passed.
+
+### Capacity container labels — imageId-based names [2026-04-11]
+
+Replaced generic "Container A/B/C" labels with names derived from each container's `imageId` field:
+- `buildContainerLabels()` resolves imageId → kid-friendly name (Jug, Bottle, Box, Beaker, Bucket, Bowl, Pot, Cup)
+- Duplicate imageIds get A/B/C suffix for disambiguation (e.g., "Jug A", "Jug B")
+- Raw color strings from flash data ("green", "brown-clay") fall back to "Container"
+- Generator updated to pick unique imageIds from an expanded pool instead of hardcoding "Container A/B/C"
+- Labels computed once per problem via `useMemo`, passed down as `displayLabel` prop
+
+**Files:** `CapacityPourer.tsx`, `capacityGenerator.ts`
+
+**Verification:** `npm run build` passed.

@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useMemo, useReducer, useRef } from "react";
 import {
   DndContext,
   PointerSensor,
@@ -190,6 +190,7 @@ export function CapacityPourer({ data, onComplete }: CapacityPourerProps) {
   );
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const mode = getMode(data);
+  const containerLabels = useMemo(() => buildContainerLabels(data.containers), [data.containers]);
   const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 5 } });
   const touchSensor = useSensor(TouchSensor, {
     activationConstraint: { delay: 100, tolerance: 5 },
@@ -243,7 +244,7 @@ export function CapacityPourer({ data, onComplete }: CapacityPourerProps) {
               {state.userOrder.map((id) => {
                 const container = data.containers.find((item) => (item.id ?? item.label) === id)!;
                 const maxCups = Math.max(...data.containers.map((c) => c.capacityCups), 1);
-                return <SortableContainerCard key={id} container={container} maxCups={maxCups} />;
+                return <SortableContainerCard key={id} container={container} maxCups={maxCups} displayLabel={containerLabels.get(id) ?? container.label} />;
               })}
             </div>
           </SortableContext>
@@ -257,6 +258,7 @@ export function CapacityPourer({ data, onComplete }: CapacityPourerProps) {
               <ContainerCard
                 key={key}
                 container={container}
+                displayLabel={containerLabels.get(key) ?? container.label}
                 wrong={state.wrongField === key}
                 countValue={state.userCounts[key] ?? null}
                 countBuffer={state.activeField === key ? state.inputBuffer : ""}
@@ -350,6 +352,7 @@ function getInstruction(data: CapacityData): string {
 
 function ContainerCard({
   container,
+  displayLabel,
   wrong,
   countValue,
   countBuffer,
@@ -360,6 +363,7 @@ function ContainerCard({
   maxCups,
 }: {
   container: CapacityData["containers"][number];
+  displayLabel: string;
   wrong: boolean;
   countValue: number | null;
   countBuffer: string;
@@ -371,7 +375,7 @@ function ContainerCard({
 }) {
   const display = countValue !== null ? String(countValue) : countBuffer || (isActive ? "_" : "");
   const fillPct = maxCups > 0 ? Math.round((container.capacityCups / maxCups) * 100) : 0;
-  const friendlyLabel = humanizeLabel(container.label);
+  const friendlyLabel = displayLabel;
 
   return (
     <button
@@ -417,9 +421,11 @@ function ContainerCard({
 function SortableContainerCard({
   container,
   maxCups,
+  displayLabel,
 }: {
   container: CapacityData["containers"][number];
   maxCups: number;
+  displayLabel: string;
 }) {
   const id = container.id ?? container.label;
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -428,7 +434,7 @@ function SortableContainerCard({
     transition,
   };
   const fillPct = maxCups > 0 ? Math.round((container.capacityCups / maxCups) * 100) : 0;
-  const friendlyLabel = humanizeLabel(container.label);
+  const friendlyLabel = displayLabel;
 
   return (
     <div
@@ -459,16 +465,40 @@ function SortableContainerCard({
   );
 }
 
-/** Convert raw flash data labels (e.g., "brown-clay", "green") into child-friendly names. */
-function humanizeLabel(label: string): string {
-  const map: Record<string, string> = {
-    "green": "Container A",
-    "orange": "Container B",
-    "brown-clay": "Container C",
-    "blue": "Container D",
-    "red": "Container E",
+/** Build a lookup of child-friendly display names for all containers in a problem. */
+function buildContainerLabels(containers: CapacityData["containers"]): Map<string, string> {
+  const imageNames: Record<string, string> = {
+    jug: "Jug", bottle: "Bottle", box: "Box", beaker: "Beaker",
+    container: "Container", cup: "Cup", bucket: "Bucket", pot: "Pot", bowl: "Bowl",
   };
-  return map[label.toLowerCase()] ?? label;
+  const rawColors = new Set(["green", "orange", "brown-clay", "blue", "red", "yellow", "brown"]);
+
+  // First pass: resolve each container to a base name
+  const baseNames = containers.map((c) => {
+    const fromImage = imageNames[c.imageId.toLowerCase()];
+    if (fromImage) return fromImage;
+    if (rawColors.has(c.label.toLowerCase())) return "Container";
+    return c.label;
+  });
+
+  // Second pass: disambiguate duplicates with A/B/C suffix
+  const nameCounts = new Map<string, number>();
+  for (const name of baseNames) nameCounts.set(name, (nameCounts.get(name) ?? 0) + 1);
+
+  const nameIndex = new Map<string, number>();
+  const result = new Map<string, string>();
+  containers.forEach((c, i) => {
+    const base = baseNames[i]!;
+    const key = c.id ?? c.label;
+    if (nameCounts.get(base)! > 1) {
+      const idx = nameIndex.get(base) ?? 0;
+      nameIndex.set(base, idx + 1);
+      result.set(key, `${base} ${String.fromCharCode(65 + idx)}`);
+    } else {
+      result.set(key, base);
+    }
+  });
+  return result;
 }
 
 function NumberPad({

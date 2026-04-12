@@ -33,12 +33,18 @@ export function generateCapacity(
   const rawCaps = Array.from({ length: containerCount }, () => randomInt(1, maxCups));
   const caps = ensureUniqueCaps(rawCaps);
 
-  const containers = caps.map((capacityCups, index) => ({
-    id: `c${index}`,
-    label: `Container ${String.fromCharCode(65 + index)}`,
-    imageId: pickRandom(["jug", "bottle", "box"]),
-    capacityCups,
-  }));
+  const imagePool = ["jug", "bottle", "box", "bucket", "bowl", "pot"];
+  // Pick unique imageIds so labels are distinct
+  const shuffled = imagePool.sort(() => Math.random() - 0.5);
+  const containers = caps.map((capacityCups, index) => {
+    const imageId = shuffled[index % shuffled.length]!;
+    return {
+      id: `c${index}`,
+      label: imageId,
+      imageId,
+      capacityCups,
+    };
+  });
 
   const sorted = [...containers].sort((a, b) => a.capacityCups - b.capacityCups);
 
