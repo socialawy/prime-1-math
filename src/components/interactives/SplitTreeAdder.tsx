@@ -700,7 +700,6 @@ function NumberPad({
         {[6, 7, 8, 9, 0].map((n) => (
           <PadBtn key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
-        <PadBtn label="⌫" onPress={onBackspace} variant="secondary" />
       </div>
       {showTeenRow && (
         <div className="flex justify-center gap-2">
@@ -714,7 +713,8 @@ function NumberPad({
           ))}
         </div>
       )}
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-2">
+        <PadBtn label="⌫" onPress={onBackspace} variant="secondary" />
         <button
           onClick={onSubmit}
           disabled={!inputBuffer}

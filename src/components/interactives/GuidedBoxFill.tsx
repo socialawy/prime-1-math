@@ -543,12 +543,11 @@ function NumberPad({
           <PadButton key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
       </div>
-      {/* Row 2: 6-0 + backspace */}
+      {/* Row 2: 6-0 */}
       <div className="flex justify-center gap-2">
         {[6, 7, 8, 9, 0].map((n) => (
           <PadButton key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
-        <PadButton label="⌫" onPress={onBackspace} variant="secondary" />
       </div>
       {/* Row 3: teen numbers (conditional) */}
       {showTeenRow && (
@@ -563,8 +562,9 @@ function NumberPad({
           ))}
         </div>
       )}
-      {/* Submit button */}
-      <div className="flex justify-center">
+      {/* Submit button & Backspace */}
+      <div className="flex justify-center gap-2">
+        <PadButton label="⌫" onPress={onBackspace} variant="secondary" />
         <button
           onClick={onSubmit}
           disabled={!hasInput}

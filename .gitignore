@@ -3,3 +3,4 @@ dist
 *.local
 local-files
 *.tsbuildinfo
+docs/ASSET_MANIFEST_REQUIREMENTS.md

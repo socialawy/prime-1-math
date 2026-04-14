@@ -573,20 +573,22 @@ function NumberPad({
           <PadBtn key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
       </div>
-      {/* Row 2: 6-0 + backspace */}
+      {/* Row 2: 6-0 */}
       <div className="flex gap-2">
         {[6, 7, 8, 9, 0].map((n) => (
           <PadBtn key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
-        <PadBtn label="⌫" onPress={onBackspace} variant="secondary" />
       </div>
-      <button
-        onClick={onSubmit}
-        disabled={!inputBuffer}
-        className="min-h-14 min-w-32 rounded-xl bg-blue-600 px-8 py-3 text-xl font-bold text-white shadow-md active:scale-95 disabled:bg-gray-300"
-      >
-        ✓ Check
-      </button>
+      <div className="flex gap-2">
+        <PadBtn label="⌫" onPress={onBackspace} variant="secondary" />
+        <button
+          onClick={onSubmit}
+          disabled={!inputBuffer}
+          className="min-h-14 min-w-32 rounded-xl bg-blue-600 px-8 py-3 text-xl font-bold text-white shadow-md active:scale-95 disabled:bg-gray-300"
+        >
+          ✓ Check
+        </button>
+      </div>
     </div>
   );
 }

@@ -2659,3 +2659,58 @@ Replaced generic "Container A/B/C" labels with names derived from each container
 **Files:** `CapacityPourer.tsx`, `capacityGenerator.ts`
 
 **Verification:** `npm run build` passed.
+
+---
+
+### NumberPad UI Layout Refactor [2026-04-14]
+
+**Problem:** The `⌫` (backspace) button was on the same row as the digits (6, 7, 8, 9, 0) inside `NumberPad` implementations across 8 interactive components. This caused horizontal cramping on smaller screens.
+
+**Changes:**
+- Moved the `⌫` button down to the submit row, next to the "Check" button.
+- Updated the following components: `GuidedBoxFill`, `SplitTreeAdder`, `WordProblem`, `NumberLine`, `HundredsChart`, `CapacityPourer`, `BlockGrouper`, and `AreaGrid`.
+
+**Verification:** UI renders without horizontal squishing. `npm run build` passed.
+
+**Review - Recent Changes**
+
+1. Inconsistent flex alignment across components
+
+  The new backspace+Check row uses two different alignment patterns:
+
+  ┌───────────────────────────┬────────────────────────────────────────────────┐   
+  │          Pattern          │                   Components                   │   
+  ├───────────────────────────┼────────────────────────────────────────────────┤   
+  │ flex gap-2 (no centering) │ AreaGrid, BlockGrouper, CapacityPourer,        │   
+  │                           │ NumberLine, WordProblem, HundredsChart         │   
+  ├───────────────────────────┼────────────────────────────────────────────────┤   
+  │ flex justify-center gap-2 │ GuidedBoxFill, SplitTreeAdder                  │   
+  │  (centered)               │                                                │   
+  └───────────────────────────┴────────────────────────────────────────────────┘   
+
+  This works if those 2 components had centered layouts before, but it means the backspace/Check row will be left-aligned in 6 components and centered in 2. Worth a visual check — on wide screens the left-aligned ones might look off.
+
+  **Test**
+  npm run build: passed with vite v8.0.5
+Mobile browser smoke checks at 390px width on:
+/dev/guidedbox
+/dev/splittree
+/dev/wordproblem
+/dev/numberline
+/dev/hundreds
+/dev/capacity
+/dev/blockgrouper
+/dev/areagrid
+Results:
+
+No runtime page errors from agent-browser
+No horizontal overflow on the sampled mobile viewport
+Number pads show 0, ⌫, and Check as expected
+SplitTree’s phase-specific number pad was advanced and checked separately
+
+  2. Build passes with zero errors
+  - No whitespace issues beyond the expected LF→CRLF warnings (Windows environment)
+
+  3. Observation: duplicated NumberPad
+
+  Each of the 8 components has its own copy of NumberPad. This is pre-existing arch debt (not introduced here), but this refactor touched all 8 copies for the same change — a shared NumberPad component would have made this a 1-file edit.  

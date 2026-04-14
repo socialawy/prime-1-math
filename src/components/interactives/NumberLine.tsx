@@ -247,15 +247,17 @@ function NumberPad({
         {[6, 7, 8, 9, 0].map((n) => (
           <PadButton key={n} label={String(n)} onPress={() => onTap(n)} />
         ))}
-        <PadButton label="⌫" onPress={onBackspace} variant="secondary" />
       </div>
-      <button
-        onClick={onSubmit}
-        disabled={!inputBuffer}
-        className="min-h-14 min-w-32 rounded-xl bg-blue-600 px-8 py-3 text-xl font-bold text-white shadow-md active:scale-95 disabled:bg-gray-300"
-      >
-        Check
-      </button>
+      <div className="flex gap-2">
+        <PadButton label="⌫" onPress={onBackspace} variant="secondary" />
+        <button
+          onClick={onSubmit}
+          disabled={!inputBuffer}
+          className="min-h-14 min-w-32 rounded-xl bg-blue-600 px-8 py-3 text-xl font-bold text-white shadow-md active:scale-95 disabled:bg-gray-300"
+        >
+          Check
+        </button>
+      </div>
     </div>
   );
 }
