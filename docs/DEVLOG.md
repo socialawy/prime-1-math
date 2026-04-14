@@ -2778,3 +2778,78 @@ SplitTree’s phase-specific number pad was advanced and checked separately
 
 **Verification:**
 - `npm run build` passed.
+
+---
+
+## [2026-04-14] Round 2: Pedagogical Calibration & Logic Fixes
+
+### Curriculum Alignment Deep Scan
+Following a critical review of the current interactives against Primary-1 curriculum standards, several core logic and pedagogical breaks were identified and remediated:
+
+- **Shape Footprints**: Corrected `cuboid` and `prism` in `FOOTPRINT_MAP`. Primary-1 standard requires the "defining" face (rectangle for cuboid, triangle for prism) to be the canonical footprint to avoid ambiguity.
+- **Capacity Visuals**: `CapacityPourer` now uses full-width markings and explicit "{N} cups" labels. This removes the "counting tiny lines" frustration and ensures visual scale matches the mathematical reality.
+- **Arithmetic Strategy**: Fixed the "14-8" subtraction hint in `SplitTreeAdder`. It previously used addition-logic phrasing ("What plus 14 equals 10?"), which was conceptually incorrect.
+- **Label Cleanup**: Unified container labels (Bucket, Jug, Mug instead of generic IDs) and removed redundant SVG text.
+
+### Registry & Ecosystem
+- Documentation: `BUG_AUDIT.md` fully verified and closed for this cycle.
+- Build: Verified `npm run build` passes; confirmed that transient `npm run dev` HMR errors do not impact code integrity.
+
+---
+
+## [2026-04-14] Round 3: Logic Bias & Metadata Consistency Sweep
+
+### Fixes
+- **ShapeFootprint answer bias**: Shuffled footprint options in `ShapeFootprint.tsx`; the correct footprint is no longer always rendered first.
+- **Capacity compare-two metadata**: Fixed `capacityGenerator.ts` so `which-less` generated tasks store the smaller capacity as `correctAnswer`.
+- **Capacity ordering metadata**: Updated `flashDataAdapter.ts` so reversed least-to-most order also drives the stored `correctAnswer` capacities.
+
+### Verification
+- `npm run build` passed.
+
+---
+
+## [2026-04-14] Question Audit Extraction
+
+### Audit Tooling
+- Added `npm run audit:questions`, backed by `scripts/extract-question-audit.mjs`.
+- The extractor uses Vite SSR to load the real app `lessonBuilder` and `flashDataAdapter`, seeds `Math.random` for repeatable generated rows, and writes:
+  - `docs/QUESTION_AUDIT.md`
+  - `docs/question-audit.csv`
+  - `docs/question-audit.json`
+
+### Initial Review Results
+- Current seeded lesson build emits 62 built lesson activities.
+- `ch13` and `ch14` emit 7 activities, not the expected 8, which points to count drift from deduplication/fallback behavior.
+- 37 of 62 built activities are generated/fallback rows rather than direct source matches.
+- `ass17_p1` and `ass17_p1-2` are source comparison prompts currently adapted into `guided-box-make10`, which is an adapter/widget mismatch.
+
+### Verification
+- `npm run audit:questions` passed.
+- `npm run build` passed.
+
+### Follow-up Verification
+- Re-ran `npm run audit:questions` after the number-comparison adapter/component fix.
+- Audit now reports 64 built lesson activities, with all 8 chapters building exactly 8 activities.
+- No P1 audit findings remain; only the P2 source-coverage note remains for workbook/source lock review.
+- Updated the audit extractor to render `number-comparison` prompts and answers explicitly, e.g. `45 ? 27` -> `45 > 27`.
+
+---
+
+## [2026-04-14] Round 4: Adapter Alignment & Scaling Sweep
+
+### Fixes
+- **Number Comparison Alignment**: Resolved adapter/widget mismatch where comparison prompts were incorrectly treated as "Make-10" boxes. New `NumberComparison.tsx` handles tens/ones parsing (e.g., "8 tens" -> 80) and multi-pair interaction.
+- **Activity Count Scaling**: Standardized all chapters to exactly 8 activities. Billed Ch13 (`learn` 2 -> 3) and Ch14 (added `number-line-3`) to reach the target 64-activity build.
+
+### Audit Result
+- **Built Count**: 64 (Finalized 8x8 matrix).
+- **Source Coverage**: 26 / 64 (40% direct source matching, up from 25/62).
+- **Tooling**: Introduced `scripts/extract-question-audit.mjs` for automated verification of lesson composition.
+
+### Verification
+- `npm run audit:questions` confirms 64-row CSV/Markdown output.
+- `npm run build` passes globally.
+
+### Next Steps
+- [ ] **Manual Content Scrutiny**: Verify all 60~80 questions (current build: 64) against the physical source books using NotebookLM to ensure 100% pedagogical accuracy before the final production lock.

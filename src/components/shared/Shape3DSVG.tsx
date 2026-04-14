@@ -83,18 +83,6 @@ export function Shape3DSVG({
           <polygon points="18,90 44,28 70,90" fill="none" stroke={c.stroke} strokeWidth="3" />
         </>
       )}
-
-      {/* Shape label */}
-      <text
-        x="60"
-        y="114"
-        textAnchor="middle"
-        fontSize="11"
-        fontWeight="bold"
-        fill={c.stroke}
-      >
-        {shape === "ball" ? "Sphere" : shape.charAt(0).toUpperCase() + shape.slice(1)}
-      </text>
     </svg>
   );
 }

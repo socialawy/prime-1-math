@@ -389,24 +389,30 @@ function ContainerCard({
       }`}
     >
       <p className="text-sm font-medium text-gray-600">{friendlyLabel}</p>
-      {/* Container with liquid fill */}
+      {/* Container with liquid fill and uniform cup markings */}
       <div className="mx-auto mt-3 flex justify-center">
-        <svg viewBox="0 0 60 90" className="h-28 w-16" aria-label={`${friendlyLabel}: ${container.capacityCups} cups`}>
+        <svg viewBox="0 0 60 100" className="h-32 w-16" aria-label={`${friendlyLabel}: ${container.capacityCups} cups`}>
           {/* Container outline */}
-          <rect x="8" y="8" width="44" height="72" rx="6" ry="6"
+          <rect x="8" y="8" width="44" height="76" rx="6" ry="6"
             fill="#f1f5f9" stroke="#94a3b8" strokeWidth="2" />
           {/* Liquid fill */}
-          <rect x="10" y={10 + 68 * (1 - fillPct / 100)} width="40"
-            height={68 * (fillPct / 100)} rx="4" ry="4"
-            fill="#38bdf8" opacity="0.7" />
-          {/* Cup tick marks */}
-          {Array.from({ length: maxCups }, (_, i) => {
-            const y = 78 - (68 / maxCups) * (i + 1) + 68 / maxCups / 2;
-            return i < container.capacityCups ? (
-              <line key={i} x1="14" y1={y} x2="22" y2={y}
-                stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
-            ) : null;
+          <rect x="10" y={10 + 72 * (1 - fillPct / 100)} width="40"
+            height={72 * (fillPct / 100)} rx="4" ry="4"
+            fill="#38bdf8" opacity="0.6" />
+          {/* Cup-level lines — all levels shown so kids can count */}
+          {Array.from({ length: maxCups - 1 }, (_, i) => {
+            const cupIndex = i + 1;
+            const y = 82 - (72 / maxCups) * cupIndex;
+            return (
+              <line key={i} x1="10" y1={y} x2="50" y2={y}
+                stroke={cupIndex <= container.capacityCups ? "#0284c7" : "#cbd5e1"}
+                strokeWidth="1.5" strokeDasharray={cupIndex <= container.capacityCups ? "none" : "3 2"} />
+            );
           })}
+          {/* Cup count number below container */}
+          <text x="30" y="96" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#334155">
+            {container.capacityCups} cups
+          </text>
         </svg>
       </div>
       {showInput ? (
@@ -446,19 +452,24 @@ function SortableContainerCard({
     >
       <p className="text-sm font-medium text-gray-600">{friendlyLabel}</p>
       <div className="mx-auto mt-3 flex justify-center">
-        <svg viewBox="0 0 60 90" className="h-28 w-16" aria-label={`${friendlyLabel}: ${container.capacityCups} cups`}>
-          <rect x="8" y="8" width="44" height="72" rx="6" ry="6"
+        <svg viewBox="0 0 60 100" className="h-32 w-16" aria-label={`${friendlyLabel}: ${container.capacityCups} cups`}>
+          <rect x="8" y="8" width="44" height="76" rx="6" ry="6"
             fill="#f1f5f9" stroke="#94a3b8" strokeWidth="2" />
-          <rect x="10" y={10 + 68 * (1 - fillPct / 100)} width="40"
-            height={68 * (fillPct / 100)} rx="4" ry="4"
-            fill="#38bdf8" opacity="0.7" />
-          {Array.from({ length: maxCups }, (_, i) => {
-            const y = 78 - (68 / maxCups) * (i + 1) + 68 / maxCups / 2;
-            return i < container.capacityCups ? (
-              <line key={i} x1="14" y1={y} x2="22" y2={y}
-                stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
-            ) : null;
+          <rect x="10" y={10 + 72 * (1 - fillPct / 100)} width="40"
+            height={72 * (fillPct / 100)} rx="4" ry="4"
+            fill="#38bdf8" opacity="0.6" />
+          {Array.from({ length: maxCups - 1 }, (_, i) => {
+            const cupIndex = i + 1;
+            const y = 82 - (72 / maxCups) * cupIndex;
+            return (
+              <line key={i} x1="10" y1={y} x2="50" y2={y}
+                stroke={cupIndex <= container.capacityCups ? "#0284c7" : "#cbd5e1"}
+                strokeWidth="1.5" strokeDasharray={cupIndex <= container.capacityCups ? "none" : "3 2"} />
+            );
           })}
+          <text x="30" y="96" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#334155">
+            {container.capacityCups} cups
+          </text>
         </svg>
       </div>
     </div>
@@ -470,6 +481,8 @@ function buildContainerLabels(containers: CapacityData["containers"]): Map<strin
   const imageNames: Record<string, string> = {
     jug: "Jug", bottle: "Bottle", box: "Box", beaker: "Beaker",
     container: "Container", cup: "Cup", bucket: "Bucket", pot: "Pot", bowl: "Bowl",
+    teapot: "Teapot", vase: "Vase", "watering-can": "Watering Can",
+    "gas-can": "Gas Can", mug: "Mug",
   };
   const rawColors = new Set(["green", "orange", "brown-clay", "blue", "red", "yellow", "brown"]);
 

@@ -189,13 +189,13 @@ function buildChapter12Activities(): Activity[] {
 function buildChapter13Activities(): Activity[] {
   const source = getSubtractionGuidedSources();
   const allUse10 = generateAllUse10Problems();
-  const learn = takeOrGenerate(source, 2, (index) => {
+  const learn = takeOrGenerate(source, 3, (index) => {
     const generated = allUse10[index % allUse10.length]!;
     return createGuidedActivity(`ch13-learn-${index + 1}`, "subtraction-use-10", generated);
   }).map((activity, index) => cloneGuidedActivity(activity, "subtraction-use-10", `ch13-learn-${index + 1}`));
 
-  const practice = takeOrGenerate(source.slice(2), 5, (index) => {
-    const generated = allUse10[(index + 2) % allUse10.length]!;
+  const practice = takeOrGenerate(source.slice(3), 5, (index) => {
+    const generated = allUse10[(index + 3) % allUse10.length]!;
     return createGuidedActivity(`ch13-practice-${index + 1}`, "guided-box-sub10", generated, "quiz");
   }).map((activity, index) => cloneGuidedActivity(activity, "guided-box-sub10", `ch13-practice-${index + 1}`));
 
@@ -215,6 +215,7 @@ function buildChapter14Activities(): Activity[] {
     createActivity("ch14-hundreds-3", "place-value-hundreds-chart", generateFindNumber()),
     createActivity("ch14-numberline-1", "place-value-number-line", generateNumberLine(10, 1)),
     createActivity("ch14-numberline-2", "place-value-number-line", generateNumberLine(5, 2)),
+    createActivity("ch14-numberline-3", "place-value-number-line", generateNumberLine(10, 2)),
   ];
 }
 
@@ -250,9 +251,10 @@ function buildChapter16Activities(): Activity[] {
 }
 
 function buildChapter17Activities(): Activity[] {
-  const flash = getAdaptedActivities("ch17"); // pre-filtered: word problems + guided-box only
+  const flash = getAdaptedActivities("ch17");
   const wordProblems = flash.filter((a) => a.conceptKey === "add-sub-mixed");
   const math = flash.filter((a) => a.conceptKey === "guided-box-make10" || a.conceptKey === "guided-box-sub10");
+  const comparisons = flash.filter((a) => a.conceptKey === "number-comparison");
 
   return [
     ...takeOrGenerate(wordProblems, 4, (index) =>
@@ -265,9 +267,8 @@ function buildChapter17Activities(): Activity[] {
           allMake10[index % allMake10.length]!, "quiz"),
       );
     })(),
-    ...Array.from({ length: 2 }, (_, index) =>
-      createActivity(`ch17-word-extra-${index + 1}`, "add-sub-mixed", generateWordProblem(2)),
-    ),
+    ...comparisons.slice(0, 1),
+    createActivity("ch17-word-extra-1", "add-sub-mixed", generateWordProblem(2)),
   ];
 }
 
@@ -280,7 +281,7 @@ const CHAPTER_CONCEPTS: Record<string, ConceptKey[]> = {
   ch14: ["place-value-group", "place-value-hundreds-chart", "place-value-number-line"],
   ch15: ["compose-shapes", "shape-3d-identify", "shape-3d-to-2d"],
   ch16: ["tell-time"],
-  ch17: ["add-sub-mixed", "guided-box-make10", "guided-box-sub10"],
+  ch17: ["add-sub-mixed", "guided-box-make10", "guided-box-sub10", "number-comparison"],
 };
 
 function isOnTopicForChapter(activity: Activity, chapterId: string): boolean {

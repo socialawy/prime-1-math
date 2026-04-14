@@ -35,7 +35,8 @@ export type ConceptKey =
   | "place-value-number-line"
   | "compose-shapes"
   | "tell-time"
-  | "add-sub-mixed";
+  | "add-sub-mixed"
+  | "number-comparison";
 
 export interface Activity {
   id: string;
@@ -63,7 +64,8 @@ export type ActivityData =
   | ComposeShapesData
   | TellTimeData
   | MixedWordProblemData
-  | GuidedBoxProblem;
+  | GuidedBoxProblem
+  | NumberComparisonData;
 
 // --- Payload types ---
 
@@ -229,6 +231,15 @@ export interface MixedWordProblemData {
   operands: [number, number];
   correctAnswer: number;
   imageId: string;
+}
+
+export interface NumberComparisonData {
+  type: "number-comparison";
+  pairs: {
+    left: { label: string; value: number };
+    right: { label: string; value: number };
+    correctSymbol: ">" | "<" | "=";
+  }[];
 }
 
 // ============================================

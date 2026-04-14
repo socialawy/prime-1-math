@@ -51,22 +51,25 @@ export function generateCapacity(
   });
 
   const sorted = [...containers].sort((a, b) => a.capacityCups - b.capacityCups);
+  const question =
+    mode === "compare-two"
+      ? pickRandom<CapacityData["question"]>(["which-more", "which-less"])
+      : mode === "difference"
+        ? "difference"
+        : "order";
 
   return {
     type: "compare-capacity",
     mode,
     containers,
-    question:
-      mode === "compare-two"
-        ? pickRandom<CapacityData["question"]>(["which-more", "which-less"])
-        : mode === "difference"
-          ? "difference"
-          : "order",
+    question,
     correctAnswer:
       mode === "difference"
         ? Math.abs(containers[0]!.capacityCups - containers[1]!.capacityCups)
         : mode === "compare-two"
-          ? Math.max(...containers.map((container) => container.capacityCups))
+          ? question === "which-less"
+            ? Math.min(...containers.map((container) => container.capacityCups))
+            : Math.max(...containers.map((container) => container.capacityCups))
           : sorted.map((container) => container.capacityCups),
     correctOrder:
       mode === "order-multiple" ? sorted.map((container) => container.id!) : undefined,

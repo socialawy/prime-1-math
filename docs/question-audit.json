@@ -1,0 +1,5895 @@
+{
+  "seed": 101,
+  "generatedAt": "2026-04-14T20:14:52.544Z",
+  "reviewFindings": [
+    {
+      "priority": "P2",
+      "area": "source-coverage",
+      "detail": "38/64 built activities are generated/fallback rows, not direct source matches. Review these against the workbook before calling the question set source-locked."
+    }
+  ],
+  "rows": [
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 1,
+      "activityId": "ch10-identify-1",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is prism?",
+      "answer": "prism",
+      "options": "[\"cuboid\",\"cylinder\",\"ball\",\"prism\"]",
+      "dataHash": "64fd927d",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 2,
+      "activityId": "ch10-identify-2",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cuboid?",
+      "answer": "cuboid",
+      "options": "[\"cylinder\",\"ball\",\"cuboid\",\"cube\"]",
+      "dataHash": "6349ab17",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 3,
+      "activityId": "ch10-footprint-1",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cube?",
+      "answer": "square",
+      "options": "[\"square\",\"triangle\",\"circle\",\"rectangle\"]",
+      "dataHash": "a59ff56d",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 4,
+      "activityId": "ch10-footprint-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cuboid?",
+      "answer": "rectangle",
+      "options": "[\"rectangle\",\"square\",\"triangle\",\"circle\"]",
+      "dataHash": "ab756862",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 5,
+      "activityId": "ch10-mixed-identify-1",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cuboid?",
+      "answer": "cuboid",
+      "options": "[\"cuboid\",\"prism\",\"cylinder\",\"cube\"]",
+      "dataHash": "00cdabbf",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 6,
+      "activityId": "ch10-mixed-footprint-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cylinder?",
+      "answer": "circle",
+      "options": "[\"circle\",\"square\",\"rectangle\",\"triangle\"]",
+      "dataHash": "22459fe4",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 7,
+      "activityId": "ch10-mixed-identify-3",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cube?",
+      "answer": "cube",
+      "options": "[\"ball\",\"prism\",\"cuboid\",\"cube\"]",
+      "dataHash": "2aab27f6",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch10",
+      "chapterTitle": "Shape Revision",
+      "sequence": 8,
+      "activityId": "ch10-mixed-footprint-4",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from prism?",
+      "answer": "triangle",
+      "options": "[\"triangle\",\"circle\",\"rectangle\",\"square\"]",
+      "dataHash": "2e24b6ab",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 1,
+      "activityId": "ch11-s5-q1",
+      "sourceIds": [
+        "ch11-s5-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the smaller area?",
+      "answer": "D",
+      "options": "[{\"label\":\"D\",\"count\":2,\"color\":\"blue\"},{\"label\":\"A\",\"count\":4,\"color\":\"blue\"}]",
+      "dataHash": "186f7a55",
+      "origin": "source/adapted",
+      "notes": "context=area"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 2,
+      "activityId": "ch11-s5-q1-pair2",
+      "sourceIds": [
+        "ch11-s5-q1-pair2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the smaller area?",
+      "answer": "A",
+      "options": "[{\"label\":\"A\",\"count\":4,\"color\":\"blue\"},{\"label\":\"B\",\"count\":6,\"color\":\"blue\"}]",
+      "dataHash": "f11bd8a0",
+      "origin": "source/adapted",
+      "notes": "context=area"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 3,
+      "activityId": "ch11-s5-q1-pair3",
+      "sourceIds": [
+        "ch11-s5-q1-pair3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the smaller area?",
+      "answer": "B",
+      "options": "[{\"label\":\"B\",\"count\":6,\"color\":\"blue\"},{\"label\":\"C\",\"count\":8,\"color\":\"blue\"}]",
+      "dataHash": "114d52fb",
+      "origin": "source/adapted",
+      "notes": "context=area"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 4,
+      "activityId": "ch11-s3-q1",
+      "sourceIds": [
+        "ch11-s3-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Arrange containers from least to most cups.",
+      "answer": "order C -> B -> A / [1,2,3]",
+      "options": "[\"A:3\",\"B:2\",\"C:1\"]",
+      "dataHash": "5416fd12",
+      "origin": "source/adapted",
+      "notes": "context=teapot"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 5,
+      "activityId": "ch11-s4-q1",
+      "sourceIds": [
+        "ch11-s4-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Tap the container that has more water.",
+      "answer": "7",
+      "options": "[\"green:5\",\"orange:7\",\"brown-clay:3\"]",
+      "dataHash": "b5f1f08a",
+      "origin": "source/adapted",
+      "notes": "context=bucket"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 6,
+      "activityId": "ch11-capacity-3",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "How many more cups does one container have?",
+      "answer": "3",
+      "options": "[\"c0:3\",\"c1:6\"]",
+      "dataHash": "52b61c59",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 7,
+      "activityId": "ch11-s6-q1-pair2",
+      "sourceIds": [
+        "ch11-s6-q1-pair2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "Shape B",
+      "options": "[{\"label\":\"Shape A\",\"count\":8,\"color\":\"blue\"},{\"label\":\"Shape B\",\"count\":20,\"color\":\"orange\"}]",
+      "dataHash": "85f10c05",
+      "origin": "source/adapted",
+      "notes": "context=area"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch11",
+      "chapterTitle": "Compare and Measure",
+      "sequence": 8,
+      "activityId": "ch11-s6-q1-pair3",
+      "sourceIds": [
+        "ch11-s6-q1-pair3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "Shape A",
+      "options": "[{\"label\":\"Shape A\",\"count\":20,\"color\":\"blue\"},{\"label\":\"Shape B\",\"count\":10,\"color\":\"orange\"}]",
+      "dataHash": "0c932713",
+      "origin": "source/adapted",
+      "notes": "context=area"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 1,
+      "activityId": "ch12-learn-1",
+      "sourceIds": [
+        "ch12-s7-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "addition-make-10",
+      "prompt": "9 + 3",
+      "answer": "{\"finalAnswer\":12,\"blanks\":[1,1,2,1,2,12]}",
+      "options": "",
+      "dataHash": "0313ac3d",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 2,
+      "activityId": "ch12-learn-2",
+      "sourceIds": [
+        "ch12-s7-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "addition-make-10",
+      "prompt": "5 + 8",
+      "answer": "{\"finalAnswer\":13,\"blanks\":[2,2,3,2,3,13]}",
+      "options": "",
+      "dataHash": "bd93ff81",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 3,
+      "activityId": "ch12-learn-3",
+      "sourceIds": [
+        "ch12-a-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "addition-make-10",
+      "prompt": "7 + ? = 10",
+      "answer": "{\"finalAnswer\":3,\"blanks\":[3]}",
+      "options": "",
+      "dataHash": "11bf971c",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 4,
+      "activityId": "ch12-practice-1",
+      "sourceIds": [
+        "ch12-a-q1-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "? + 9 = 10",
+      "answer": "{\"finalAnswer\":1,\"blanks\":[1]}",
+      "options": "",
+      "dataHash": "1b8d9a31",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 5,
+      "activityId": "ch12-practice-2",
+      "sourceIds": [
+        "ch12-a-q1-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "10 + 8 = ?",
+      "answer": "{\"finalAnswer\":18,\"blanks\":[18]}",
+      "options": "",
+      "dataHash": "8f705ec0",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 6,
+      "activityId": "ch12-practice-3",
+      "sourceIds": [
+        "ch12-a-q1-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "9 + 7 = ?",
+      "answer": "{\"finalAnswer\":16,\"blanks\":[16]}",
+      "options": "",
+      "dataHash": "01d38985",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 7,
+      "activityId": "ch12-practice-4",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "5 + 6",
+      "answer": "{\"finalAnswer\":11,\"blanks\":[4,4,1,4,1,11]}",
+      "options": "",
+      "dataHash": "d2d66707",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch12",
+      "chapterTitle": "Make 10",
+      "sequence": 8,
+      "activityId": "ch12-practice-5",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "5 + 7",
+      "answer": "{\"finalAnswer\":12,\"blanks\":[3,3,2,3,2,12]}",
+      "options": "",
+      "dataHash": "3bbfd7bb",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 1,
+      "activityId": "ch13-learn-1",
+      "sourceIds": [
+        "ch13-s8-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "subtraction-use-10",
+      "prompt": "14 - 8",
+      "answer": "{\"finalAnswer\":6,\"blanks\":[4,4,4,4,6]}",
+      "options": "",
+      "dataHash": "831c66df",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 2,
+      "activityId": "ch13-learn-2",
+      "sourceIds": [
+        "ch13-s8-q3-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "subtraction-use-10",
+      "prompt": "18 - 9 = ?",
+      "answer": "{\"finalAnswer\":9,\"blanks\":[9]}",
+      "options": "",
+      "dataHash": "ce5be2a8",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 3,
+      "activityId": "ch13-learn-3",
+      "sourceIds": [
+        "ch13-s8-q3-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "subtraction-use-10",
+      "prompt": "14 - 7 = ?",
+      "answer": "{\"finalAnswer\":7,\"blanks\":[7]}",
+      "options": "",
+      "dataHash": "dad50441",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 4,
+      "activityId": "ch13-practice-1",
+      "sourceIds": [
+        "ch13-s8-q3-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "12 - 4 = ?",
+      "answer": "{\"finalAnswer\":8,\"blanks\":[8]}",
+      "options": "",
+      "dataHash": "fed7e46c",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 5,
+      "activityId": "ch13-practice-2",
+      "sourceIds": [
+        "ch13-a-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "15 - 8",
+      "answer": "{\"finalAnswer\":7,\"blanks\":[7]}",
+      "options": "",
+      "dataHash": "8318419c",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 6,
+      "activityId": "ch13-practice-3",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "11 - 4",
+      "answer": "{\"finalAnswer\":7,\"blanks\":[1,3,1,3,7]}",
+      "options": "",
+      "dataHash": "e9ed31d3",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 7,
+      "activityId": "ch13-practice-4",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "11 - 5",
+      "answer": "{\"finalAnswer\":6,\"blanks\":[10,1,5,5,1,6]}",
+      "options": "",
+      "dataHash": "c923c2f7",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch13",
+      "chapterTitle": "Use 10",
+      "sequence": 8,
+      "activityId": "ch13-practice-5",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "11 - 5",
+      "answer": "{\"finalAnswer\":6,\"blanks\":[1,4,1,4,6]}",
+      "options": "",
+      "dataHash": "7ff3a4c5",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 1,
+      "activityId": "ch14-s9-q1",
+      "sourceIds": [
+        "ch14-s9-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 40 blocks",
+      "answer": "4 tens, 0 ones",
+      "options": "",
+      "dataHash": "cf45e2ff",
+      "origin": "source/adapted",
+      "notes": "context=block"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 2,
+      "activityId": "ch14-s9-q1-2",
+      "sourceIds": [
+        "ch14-s9-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 60 blocks",
+      "answer": "6 tens, 0 ones",
+      "options": "",
+      "dataHash": "9bf7fbe3",
+      "origin": "source/adapted",
+      "notes": "context=block"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 3,
+      "activityId": "ch14-hundreds-1",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "fill-missing on hundreds chart",
+      "answer": "[9,12,72,95]",
+      "options": "",
+      "dataHash": "9fec3320",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 4,
+      "activityId": "ch14-hundreds-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "jump-by-10 on hundreds chart",
+      "answer": "[14,34,84]",
+      "options": "",
+      "dataHash": "bfe1eccb",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 5,
+      "activityId": "ch14-hundreds-3",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "I have 3 tens and 4 ones. Who am I?",
+      "answer": "34",
+      "options": "",
+      "dataHash": "1e581046",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 6,
+      "activityId": "ch14-numberline-1",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "place-value-number-line",
+      "prompt": "Fill number line 0-50, jump 10",
+      "answer": "[10,30]",
+      "options": "",
+      "dataHash": "0f3c9833",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 7,
+      "activityId": "ch14-numberline-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "place-value-number-line",
+      "prompt": "Fill number line 0-100, jump 5",
+      "answer": "[45,50,65]",
+      "options": "",
+      "dataHash": "2cfd9ae3",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch14",
+      "chapterTitle": "Place Value",
+      "sequence": 8,
+      "activityId": "ch14-numberline-3",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "place-value-number-line",
+      "prompt": "Fill number line 0-100, jump 10",
+      "answer": "[20,70,80]",
+      "options": "",
+      "dataHash": "db200984",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 1,
+      "activityId": "ch15-compose-1",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "compose-shapes",
+      "prompt": "a large triangle",
+      "answer": "correct",
+      "options": "[{\"id\":\"wrong-2\",\"pieces\":[\"rectangle\",\"triangle\"],\"label\":\"rectangle + triangle\"},{\"id\":\"correct\",\"pieces\":[\"triangle\",\"triangle\"],\"label\":\"triangle + triangle\"},{\"id\":\"wrong-1\",\"pieces\":[\"square\",\"triangle\"],\"label\":\"square + triangle\"}]",
+      "dataHash": "d16d1586",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 2,
+      "activityId": "ch15-compose-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "compose-shapes",
+      "prompt": "a rectangle",
+      "answer": "correct",
+      "options": "[{\"id\":\"wrong-1\",\"pieces\":[\"square\",\"square\",\"square\"],\"label\":\"square + square + square\"},{\"id\":\"correct\",\"pieces\":[\"triangle\",\"triangle\",\"square\"],\"label\":\"triangle + triangle + square\"},{\"id\":\"wrong-2\",\"pieces\":[\"triangle\",\"square\"],\"label\":\"triangle + square\"}]",
+      "dataHash": "9f04aeb8",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 3,
+      "activityId": "ch15-compose-3",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "compose-shapes",
+      "prompt": "a large triangle",
+      "answer": "correct",
+      "options": "[{\"id\":\"wrong-1\",\"pieces\":[\"square\",\"triangle\",\"triangle\"],\"label\":\"square + triangle + triangle\"},{\"id\":\"correct\",\"pieces\":[\"triangle\",\"triangle\",\"triangle\",\"triangle\"],\"label\":\"triangle + triangle + triangle + triangle\"},{\"id\":\"wrong-2\",\"pieces\":[\"rectangle\",\"triangle\"],\"label\":\"rectangle + triangle\"}]",
+      "dataHash": "673502f4",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 4,
+      "activityId": "ch15-compose-4",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "compose-shapes",
+      "prompt": "a square",
+      "answer": "correct",
+      "options": "[{\"id\":\"correct\",\"pieces\":[\"triangle\",\"triangle\",\"triangle\",\"triangle\"],\"label\":\"triangle + triangle + triangle + triangle\"},{\"id\":\"wrong-1\",\"pieces\":[\"triangle\",\"triangle\"],\"label\":\"triangle + triangle\"},{\"id\":\"wrong-2\",\"pieces\":[\"square\",\"square\"],\"label\":\"square + square\"}]",
+      "dataHash": "7291d78c",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 5,
+      "activityId": "ch15-identify-1",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is prism?",
+      "answer": "prism",
+      "options": "[\"cuboid\",\"cube\",\"ball\",\"prism\"]",
+      "dataHash": "327073f8",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 6,
+      "activityId": "ch15-identify-2",
+      "sourceIds": [],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cylinder?",
+      "answer": "cylinder",
+      "options": "[\"cylinder\",\"ball\",\"cube\",\"cuboid\"]",
+      "dataHash": "093dba87",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 7,
+      "activityId": "ch15-footprint-1",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cuboid?",
+      "answer": "rectangle",
+      "options": "[\"rectangle\",\"square\",\"triangle\",\"circle\"]",
+      "dataHash": "ab756862",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch15",
+      "chapterTitle": "Making Shapes",
+      "sequence": 8,
+      "activityId": "ch15-footprint-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from prism?",
+      "answer": "triangle",
+      "options": "[\"triangle\",\"circle\",\"rectangle\",\"square\"]",
+      "dataHash": "2e24b6ab",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 1,
+      "activityId": "s20_p2",
+      "sourceIds": [
+        "s20_p2"
+      ],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "10:30",
+      "options": "[\"10:30\",\"10:00\"]",
+      "dataHash": "2ed5140c",
+      "origin": "source/adapted",
+      "notes": "context=clock"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 2,
+      "activityId": "s20_p2-2",
+      "sourceIds": [
+        "s20_p2-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "7:00",
+      "options": "[\"7:00\",\"7:30\"]",
+      "dataHash": "2b74d576",
+      "origin": "source/adapted",
+      "notes": "context=clock"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 3,
+      "activityId": "ch16-read-3",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "half past 5",
+      "options": "[\"half past 4\",\"half past 5\",\"half past 6\"]",
+      "dataHash": "15138f6e",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 4,
+      "activityId": "ch16-read-4",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "half past 1",
+      "options": "[\"half past 12\",\"half past 1\",\"6 o'clock\"]",
+      "dataHash": "eac6fecb",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 5,
+      "activityId": "ch16-clock-1",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "9 o'clock",
+      "options": "[\"half past 10\",\"8 o'clock\",\"9 o'clock\"]",
+      "dataHash": "82541ca2",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 6,
+      "activityId": "ch16-clock-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "10 o'clock",
+      "options": "[\"10 o'clock\",\"12 o'clock\",\"9 o'clock\"]",
+      "dataHash": "fd7beefe",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 7,
+      "activityId": "ch16-clock-3",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "Set 12 half-past",
+      "answer": "12 half-past",
+      "options": "",
+      "dataHash": "c91baab0",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch16",
+      "chapterTitle": "Time",
+      "sequence": 8,
+      "activityId": "ch16-clock-4",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "Set 7 o-clock",
+      "answer": "7 o-clock",
+      "options": "",
+      "dataHash": "77564684",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 1,
+      "activityId": "ch17-s22-q5",
+      "sourceIds": [
+        "ch17-s22-q5"
+      ],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "There were 12 cakes. 4 were eaten. How many are left?",
+      "answer": "8",
+      "options": "",
+      "dataHash": "684f7a87",
+      "origin": "source/adapted",
+      "notes": "context=cakes"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 2,
+      "activityId": "ch17-word-2",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "Omar has 6 birds. Omar gave 5 to a friend. How many birds does Omar have now?",
+      "answer": "1",
+      "options": "",
+      "dataHash": "b46bd175",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 3,
+      "activityId": "ch17-word-3",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "Nour has 20 apples. Nour gave 11 to a friend. How many apples does Nour have now?",
+      "answer": "9",
+      "options": "",
+      "dataHash": "8dd65d61",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 4,
+      "activityId": "ch17-word-4",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "Omar has 12 stars. Omar gave 2 to a friend. How many stars does Omar have now?",
+      "answer": "10",
+      "options": "",
+      "dataHash": "c650e9f4",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 5,
+      "activityId": "ch17-s21-q1",
+      "sourceIds": [
+        "ch17-s21-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "20 and 3 make __",
+      "answer": "{\"finalAnswer\":23,\"blanks\":[23]}",
+      "options": "",
+      "dataHash": "032be230",
+      "origin": "source/adapted",
+      "notes": "context=stick"
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 6,
+      "activityId": "ch17-s21-q4",
+      "sourceIds": [
+        "ch17-s21-q4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "If you are the 4th person in a line, how many people are in front of you?",
+      "answer": "{\"finalAnswer\":3,\"blanks\":[3]}",
+      "options": "",
+      "dataHash": "b708cca1",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 7,
+      "activityId": "ass17_p1",
+      "sourceIds": [
+        "ass17_p1"
+      ],
+      "type": "quiz",
+      "conceptKey": "number-comparison",
+      "prompt": "45 ? 27; 8 tens ? 11 ones; 79 ? 82",
+      "answer": "45 > 27; 8 tens > 11 ones; 79 < 82",
+      "options": ">; <; =",
+      "dataHash": "a48d10ad",
+      "origin": "source/adapted",
+      "notes": ""
+    },
+    {
+      "scope": "built-lesson",
+      "chapterId": "ch17",
+      "chapterTitle": "Word Problems",
+      "sequence": 8,
+      "activityId": "ch17-word-extra-1",
+      "sourceIds": [],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "Hani has 8 birds. Hani gave 4 to a friend. How many birds does Hani have now?",
+      "answer": "4",
+      "options": "",
+      "dataHash": "bc2be30b",
+      "origin": "generated/fallback",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 1,
+      "activityId": "ch10-s1-q1",
+      "sourceIds": [
+        "ch10-s1-q1"
+      ],
+      "type": "multiple-choice-visual",
+      "conceptKey": "",
+      "prompt": "Which shape looks like [Target]? | target=prism",
+      "answer": "c",
+      "options": "[{\"id\":\"a\",\"imageType\":\"sphere\",\"context\":\"tennis-ball\"},{\"id\":\"b\",\"imageType\":\"cylinder\",\"context\":\"blue-glass\"},{\"id\":\"c\",\"imageType\":\"prism\",\"context\":\"cheese-wedge\"},{\"id\":\"d\",\"imageType\":\"cube\",\"context\":\"rubiks-cube\"}]",
+      "dataHash": "428c408e",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 1,
+      "activityId": "ch10-s1-q1-2",
+      "sourceIds": [
+        "ch10-s1-q1"
+      ],
+      "type": "multiple-choice-visual",
+      "conceptKey": "",
+      "prompt": "Which shape looks like [Target]? | target=sphere",
+      "answer": "a",
+      "options": "[{\"id\":\"a\",\"imageType\":\"sphere\",\"context\":\"basket-ball\"},{\"id\":\"b\",\"imageType\":\"cylinder\",\"context\":\"red-can\"},{\"id\":\"c\",\"imageType\":\"cuboid\",\"context\":\"juice-box\"},{\"id\":\"d\",\"imageType\":\"cylinder\",\"context\":\"blue-drum\"}]",
+      "dataHash": "831b2272",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s1-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 2,
+      "activityId": "ch10-s1-q2",
+      "sourceIds": [
+        "ch10-s1-q2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Join each shape to its name.",
+      "answer": "[\"1\",\"Cuboid shape\"]",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "9fea5b95",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 2,
+      "activityId": "ch10-s1-q2-2",
+      "sourceIds": [
+        "ch10-s1-q2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Join each shape to its name.",
+      "answer": "[\"2\",\"Prism shape\"]",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "2f579164",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s1-q2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 2,
+      "activityId": "ch10-s1-q2-3",
+      "sourceIds": [
+        "ch10-s1-q2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Join each shape to its name.",
+      "answer": "[\"3\",\"Ball shape\"]",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "b4b255a2",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s1-q2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 2,
+      "activityId": "ch10-s1-q2-4",
+      "sourceIds": [
+        "ch10-s1-q2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Join each shape to its name.",
+      "answer": "[\"4\",\"Cylinder shape\"]",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "268a0dcb",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s1-q2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 2,
+      "activityId": "ch10-s1-q2-5",
+      "sourceIds": [
+        "ch10-s1-q2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Join each shape to its name.",
+      "answer": "[\"5\",\"Cube shape\"]",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "5b81a9a2",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s1-q2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 3,
+      "activityId": "ch10-s2-q1",
+      "sourceIds": [
+        "ch10-s2-q1"
+      ],
+      "type": "visual-selection",
+      "conceptKey": "",
+      "prompt": "Trace the following shapes, then circle the shapes you draw. | source=cylinder",
+      "answer": "circle",
+      "options": "[\"circle\",\"triangle\",\"rectangle\",\"square\"]",
+      "dataHash": "d58bbb79",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 3,
+      "activityId": "ch10-s2-q1-2",
+      "sourceIds": [
+        "ch10-s2-q1"
+      ],
+      "type": "visual-selection",
+      "conceptKey": "",
+      "prompt": "Trace the following shapes, then circle the shapes you draw. | source=prism",
+      "answer": "triangle",
+      "options": "[\"triangle\",\"square\",\"circle\",\"rectangle\"]",
+      "dataHash": "41dc7665",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s2-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 3,
+      "activityId": "ch10-s2-q1-3",
+      "sourceIds": [
+        "ch10-s2-q1"
+      ],
+      "type": "visual-selection",
+      "conceptKey": "",
+      "prompt": "Trace the following shapes, then circle the shapes you draw. | source=cuboid",
+      "answer": "rectangle",
+      "options": "[\"triangle\",\"circle\",\"square\",\"rectangle\"]",
+      "dataHash": "4554fa94",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s2-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 3,
+      "activityId": "ch10-s2-q1-4",
+      "sourceIds": [
+        "ch10-s2-q1"
+      ],
+      "type": "visual-selection",
+      "conceptKey": "",
+      "prompt": "Trace the following shapes, then circle the shapes you draw. | source=cube",
+      "answer": "square",
+      "options": "[\"circle\",\"triangle\",\"square\",\"rectangle\"]",
+      "dataHash": "81d3bc12",
+      "origin": "source-json",
+      "notes": "expanded from ch10-s2-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 4,
+      "activityId": "ch10-a-q5",
+      "sourceIds": [
+        "ch10-a-q5"
+      ],
+      "type": "counting-composite",
+      "conceptKey": "",
+      "prompt": "How many?",
+      "answer": "{\"cube\":6,\"cuboid\":2,\"cylinder\":1,\"ball\":0}",
+      "options": "",
+      "dataHash": "7ff6e7fe",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 1,
+      "activityId": "ch11-s3-q1",
+      "sourceIds": [
+        "ch11-s3-q1"
+      ],
+      "type": "ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the containers in order from most to least amount.",
+      "answer": "[\"A\",\"B\",\"C\"]",
+      "options": "",
+      "dataHash": "525e2b32",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 1,
+      "activityId": "ch11-s3-q1-2",
+      "sourceIds": [
+        "ch11-s3-q1"
+      ],
+      "type": "ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the containers in order from most to least amount.",
+      "answer": "[\"A\",\"B\",\"C\"]",
+      "options": "",
+      "dataHash": "230d6ed9",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s3-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 1,
+      "activityId": "ch11-s3-q1-3",
+      "sourceIds": [
+        "ch11-s3-q1"
+      ],
+      "type": "ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the containers in order from most to least amount.",
+      "answer": "[\"A\",\"B\",\"C\"]",
+      "options": "",
+      "dataHash": "cd4559d6",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s3-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 2,
+      "activityId": "ch11-s4-q1",
+      "sourceIds": [
+        "ch11-s4-q1"
+      ],
+      "type": "unit-counting",
+      "conceptKey": "",
+      "prompt": "Notice the amount of water in each container. Write how many cups. | target=bucket",
+      "answer": "5",
+      "options": "",
+      "dataHash": "c2a3c5ea",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 2,
+      "activityId": "ch11-s4-q1-2",
+      "sourceIds": [
+        "ch11-s4-q1"
+      ],
+      "type": "unit-counting",
+      "conceptKey": "",
+      "prompt": "Notice the amount of water in each container. Write how many cups. | target=juice-box",
+      "answer": "7",
+      "options": "",
+      "dataHash": "0f098b01",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s4-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 2,
+      "activityId": "ch11-s4-q1-3",
+      "sourceIds": [
+        "ch11-s4-q1"
+      ],
+      "type": "unit-counting",
+      "conceptKey": "",
+      "prompt": "Notice the amount of water in each container. Write how many cups. | target=vase",
+      "answer": "3",
+      "options": "",
+      "dataHash": "be59e9ef",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s4-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 3,
+      "activityId": "ch11-s5-q1",
+      "sourceIds": [
+        "ch11-s5-q1"
+      ],
+      "type": "area-comparison-visual",
+      "conceptKey": "area",
+      "prompt": "Arrange from the smallest area to the largest area.",
+      "answer": "[\"D\",\"A\",\"B\",\"C\"]",
+      "options": "",
+      "dataHash": "4da8afcb",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 3,
+      "activityId": "ch11-s5-q1-2",
+      "sourceIds": [
+        "ch11-s5-q1"
+      ],
+      "type": "area-comparison-visual",
+      "conceptKey": "area",
+      "prompt": "Arrange from the smallest area to the largest area.",
+      "answer": "[\"D\",\"A\",\"B\",\"C\"]",
+      "options": "",
+      "dataHash": "9dd6393a",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s5-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 3,
+      "activityId": "ch11-s5-q1-3",
+      "sourceIds": [
+        "ch11-s5-q1"
+      ],
+      "type": "area-comparison-visual",
+      "conceptKey": "area",
+      "prompt": "Arrange from the smallest area to the largest area.",
+      "answer": "[\"D\",\"A\",\"B\",\"C\"]",
+      "options": "",
+      "dataHash": "6e232d5b",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s5-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 3,
+      "activityId": "ch11-s5-q1-4",
+      "sourceIds": [
+        "ch11-s5-q1"
+      ],
+      "type": "area-comparison-visual",
+      "conceptKey": "area",
+      "prompt": "Arrange from the smallest area to the largest area.",
+      "answer": "[\"D\",\"A\",\"B\",\"C\"]",
+      "options": "",
+      "dataHash": "b82dfe7c",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s5-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 4,
+      "activityId": "ch11-s6-q1",
+      "sourceIds": [
+        "ch11-s6-q1"
+      ],
+      "type": "area-grid-counting",
+      "conceptKey": "area",
+      "prompt": "Count the squares of the colored area, and write how many units.",
+      "answer": "",
+      "options": "",
+      "dataHash": "ac8a1947",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 4,
+      "activityId": "ch11-s6-q1-2",
+      "sourceIds": [
+        "ch11-s6-q1"
+      ],
+      "type": "area-grid-counting",
+      "conceptKey": "area",
+      "prompt": "Count the squares of the colored area, and write how many units.",
+      "answer": "",
+      "options": "",
+      "dataHash": "fde68dd4",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s6-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 4,
+      "activityId": "ch11-s6-q1-3",
+      "sourceIds": [
+        "ch11-s6-q1"
+      ],
+      "type": "area-grid-counting",
+      "conceptKey": "area",
+      "prompt": "Count the squares of the colored area, and write how many units.",
+      "answer": "",
+      "options": "",
+      "dataHash": "31377577",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s6-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 4,
+      "activityId": "ch11-s6-q1-4",
+      "sourceIds": [
+        "ch11-s6-q1"
+      ],
+      "type": "area-grid-counting",
+      "conceptKey": "area",
+      "prompt": "Count the squares of the colored area, and write how many units.",
+      "answer": "",
+      "options": "",
+      "dataHash": "89819d0e",
+      "origin": "source-json",
+      "notes": "expanded from ch11-s6-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 5,
+      "activityId": "ch11-s6-q3",
+      "sourceIds": [
+        "ch11-s6-q3"
+      ],
+      "type": "word-problem",
+      "conceptKey": "arithmetic",
+      "prompt": "Youssef and Omar colored the shape, and this is what it looked like on the right.",
+      "answer": "Omar",
+      "options": "[\"Youssef\",\"Omar\"]",
+      "dataHash": "caa016c9",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 1,
+      "activityId": "ch12-s7-q1",
+      "sourceIds": [
+        "ch12-s7-q1"
+      ],
+      "type": "split-tree-addition",
+      "conceptKey": "arithmetic",
+      "prompt": "Let's do addition. Make a 10.",
+      "answer": "12",
+      "options": "",
+      "dataHash": "f91c0011",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 2,
+      "activityId": "ch12-s7-q1-2",
+      "sourceIds": [
+        "ch12-s7-q1-2"
+      ],
+      "type": "split-tree-addition",
+      "conceptKey": "arithmetic",
+      "prompt": "Make a 10 to add.",
+      "answer": "13",
+      "options": "",
+      "dataHash": "734e25d7",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 3,
+      "activityId": "ch12-s7-q3",
+      "sourceIds": [
+        "ch12-s7-q3"
+      ],
+      "type": "word-problem",
+      "conceptKey": "arithmetic",
+      "prompt": "There are 8 dogs. 7 more dogs come. How many dogs are there in total?",
+      "answer": "15",
+      "options": "",
+      "dataHash": "f54dbca6",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 4,
+      "activityId": "ch12-a-q1",
+      "sourceIds": [
+        "ch12-a-q1"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | 7 + __ = 10",
+      "answer": "3",
+      "options": "",
+      "dataHash": "5dc50aa7",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 4,
+      "activityId": "ch12-a-q1-2",
+      "sourceIds": [
+        "ch12-a-q1"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | __ + 9 = 10",
+      "answer": "1",
+      "options": "",
+      "dataHash": "9b0fa0f6",
+      "origin": "source-json",
+      "notes": "expanded from ch12-a-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 4,
+      "activityId": "ch12-a-q1-3",
+      "sourceIds": [
+        "ch12-a-q1"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | 10 + 8 = __",
+      "answer": "18",
+      "options": "",
+      "dataHash": "6168e4ce",
+      "origin": "source-json",
+      "notes": "expanded from ch12-a-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 4,
+      "activityId": "ch12-a-q1-4",
+      "sourceIds": [
+        "ch12-a-q1"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | 9 + 7 = __",
+      "answer": "16",
+      "options": "",
+      "dataHash": "059017ec",
+      "origin": "source-json",
+      "notes": "expanded from ch12-a-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 1,
+      "activityId": "ch13-s8-q1",
+      "sourceIds": [
+        "ch13-s8-q1"
+      ],
+      "type": "split-tree-subtraction",
+      "conceptKey": "arithmetic",
+      "prompt": "Let's look at how to calculate 14 - 8. Tell us what numbers go in the [Box].",
+      "answer": "6",
+      "options": "",
+      "dataHash": "c1252ae0",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 2,
+      "activityId": "ch13-s8-q3",
+      "sourceIds": [
+        "ch13-s8-q3"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | 10 + 5 = __",
+      "answer": "15",
+      "options": "",
+      "dataHash": "70cff6dd",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 2,
+      "activityId": "ch13-s8-q3-2",
+      "sourceIds": [
+        "ch13-s8-q3"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | 18 - 9 = __",
+      "answer": "9",
+      "options": "",
+      "dataHash": "1c60be9b",
+      "origin": "source-json",
+      "notes": "expanded from ch13-s8-q3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 2,
+      "activityId": "ch13-s8-q3-3",
+      "sourceIds": [
+        "ch13-s8-q3"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | 14 - 7 = __",
+      "answer": "7",
+      "options": "",
+      "dataHash": "8504493e",
+      "origin": "source-json",
+      "notes": "expanded from ch13-s8-q3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 2,
+      "activityId": "ch13-s8-q3-4",
+      "sourceIds": [
+        "ch13-s8-q3"
+      ],
+      "type": "fill-in-the-blanks",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following. | 12 - 4 = __",
+      "answer": "8",
+      "options": "",
+      "dataHash": "627ab4d9",
+      "origin": "source-json",
+      "notes": "expanded from ch13-s8-q3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 3,
+      "activityId": "ch13-a-q1",
+      "sourceIds": [
+        "ch13-a-q1"
+      ],
+      "type": "result-finding",
+      "conceptKey": "arithmetic",
+      "prompt": "Find the result. | 15 - 8",
+      "answer": "7",
+      "options": "",
+      "dataHash": "d6f02233",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 3,
+      "activityId": "ch13-a-q1-2",
+      "sourceIds": [
+        "ch13-a-q1"
+      ],
+      "type": "result-finding",
+      "conceptKey": "arithmetic",
+      "prompt": "Find the result.",
+      "answer": "prism",
+      "options": "",
+      "dataHash": "a6f5ce05",
+      "origin": "source-json",
+      "notes": "expanded from ch13-a-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 1,
+      "activityId": "ch14-s9-q1",
+      "sourceIds": [
+        "ch14-s9-q1"
+      ],
+      "type": "ten-grouping",
+      "conceptKey": "place-value/number",
+      "prompt": "Count the groups of 10, then write the numerals.",
+      "answer": "",
+      "options": "",
+      "dataHash": "10975944",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 1,
+      "activityId": "ch14-s9-q1-2",
+      "sourceIds": [
+        "ch14-s9-q1"
+      ],
+      "type": "ten-grouping",
+      "conceptKey": "place-value/number",
+      "prompt": "Count the groups of 10, then write the numerals.",
+      "answer": "",
+      "options": "",
+      "dataHash": "055073bf",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s9-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 1,
+      "activityId": "ch14-s9-q1-3",
+      "sourceIds": [
+        "ch14-s9-q1"
+      ],
+      "type": "ten-grouping",
+      "conceptKey": "place-value/number",
+      "prompt": "Count the groups of 10, then write the numerals.",
+      "answer": "",
+      "options": "",
+      "dataHash": "3248ed8c",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s9-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 2,
+      "activityId": "ch14-s10-q1",
+      "sourceIds": [
+        "ch14-s10-q1"
+      ],
+      "type": "place-value-counting",
+      "conceptKey": "place-value/number",
+      "prompt": "Count how many 10s and 1s. Write the number.",
+      "answer": "",
+      "options": "",
+      "dataHash": "4a8da38e",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 2,
+      "activityId": "ch14-s10-q1-2",
+      "sourceIds": [
+        "ch14-s10-q1"
+      ],
+      "type": "place-value-counting",
+      "conceptKey": "place-value/number",
+      "prompt": "Count how many 10s and 1s. Write the number.",
+      "answer": "",
+      "options": "",
+      "dataHash": "0a88f9dd",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s10-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 2,
+      "activityId": "ch14-s10-q1-3",
+      "sourceIds": [
+        "ch14-s10-q1"
+      ],
+      "type": "place-value-counting",
+      "conceptKey": "place-value/number",
+      "prompt": "Count how many 10s and 1s. Write the number.",
+      "answer": "",
+      "options": "",
+      "dataHash": "a3930a4e",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s10-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 3,
+      "activityId": "ch14-s10-q4",
+      "sourceIds": [
+        "ch14-s10-q4"
+      ],
+      "type": "word-problem",
+      "conceptKey": "arithmetic",
+      "prompt": "Ahmed had 13 pencils. He gave away 9 of them. How many pencils does he have now?",
+      "answer": "4",
+      "options": "",
+      "dataHash": "5024235f",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 4,
+      "activityId": "ch14-s11-q1",
+      "sourceIds": [
+        "ch14-s11-q1"
+      ],
+      "type": "matching-to-100",
+      "conceptKey": "place-value/number",
+      "prompt": "Match the pairs that make 100.",
+      "answer": "{\"left\":30,\"right\":70}",
+      "options": "",
+      "dataHash": "7d9d2aaf",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 4,
+      "activityId": "ch14-s11-q1-2",
+      "sourceIds": [
+        "ch14-s11-q1"
+      ],
+      "type": "matching-to-100",
+      "conceptKey": "place-value/number",
+      "prompt": "Match the pairs that make 100.",
+      "answer": "{\"left\":40,\"right\":60}",
+      "options": "",
+      "dataHash": "d1b6aefc",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s11-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 4,
+      "activityId": "ch14-s11-q1-3",
+      "sourceIds": [
+        "ch14-s11-q1"
+      ],
+      "type": "matching-to-100",
+      "conceptKey": "place-value/number",
+      "prompt": "Match the pairs that make 100.",
+      "answer": "{\"left\":50,\"right\":50}",
+      "options": "",
+      "dataHash": "a787757f",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s11-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 4,
+      "activityId": "ch14-s11-q1-4",
+      "sourceIds": [
+        "ch14-s11-q1"
+      ],
+      "type": "matching-to-100",
+      "conceptKey": "place-value/number",
+      "prompt": "Match the pairs that make 100.",
+      "answer": "{\"left\":80,\"right\":20}",
+      "options": "",
+      "dataHash": "5f6fc27a",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s11-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 5,
+      "activityId": "ch14-s12-q1",
+      "sourceIds": [
+        "ch14-s12-q1"
+      ],
+      "type": "grid-fragment-fill",
+      "conceptKey": "place-value/number",
+      "prompt": "Fill in the missing numbers in the 100-chart fragments.",
+      "answer": "",
+      "options": "",
+      "dataHash": "608db958",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 6,
+      "activityId": "ch14-s15-q1",
+      "sourceIds": [
+        "ch14-s15-q1"
+      ],
+      "type": "math-problems",
+      "conceptKey": "arithmetic",
+      "prompt": "Solve the addition and subtraction problems.",
+      "answer": "73",
+      "options": "",
+      "dataHash": "591ed078",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 6,
+      "activityId": "ch14-s15-q1-2",
+      "sourceIds": [
+        "ch14-s15-q1"
+      ],
+      "type": "math-problems",
+      "conceptKey": "arithmetic",
+      "prompt": "Solve the addition and subtraction problems.",
+      "answer": "100",
+      "options": "",
+      "dataHash": "38ac413e",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s15-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 6,
+      "activityId": "ch14-s15-q1-3",
+      "sourceIds": [
+        "ch14-s15-q1"
+      ],
+      "type": "math-problems",
+      "conceptKey": "arithmetic",
+      "prompt": "Solve the addition and subtraction problems.",
+      "answer": "40",
+      "options": "",
+      "dataHash": "4261e02e",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s15-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 6,
+      "activityId": "ch14-s15-q1-4",
+      "sourceIds": [
+        "ch14-s15-q1"
+      ],
+      "type": "math-problems",
+      "conceptKey": "arithmetic",
+      "prompt": "Solve the addition and subtraction problems.",
+      "answer": "96",
+      "options": "",
+      "dataHash": "b6f4923c",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s15-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 7,
+      "activityId": "ch14-s16-q1",
+      "sourceIds": [
+        "ch14-s16-q1"
+      ],
+      "type": "capacity-ordering",
+      "conceptKey": "capacity",
+      "prompt": "Order the beakers from the least capacity to the greatest capacity.",
+      "answer": "A, C, B",
+      "options": "",
+      "dataHash": "7b47e079",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 7,
+      "activityId": "ch14-s16-q1-2",
+      "sourceIds": [
+        "ch14-s16-q1"
+      ],
+      "type": "capacity-ordering",
+      "conceptKey": "capacity",
+      "prompt": "Order the beakers from the least capacity to the greatest capacity.",
+      "answer": "A, C, B",
+      "options": "",
+      "dataHash": "9ed80988",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s16-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 7,
+      "activityId": "ch14-s16-q1-3",
+      "sourceIds": [
+        "ch14-s16-q1"
+      ],
+      "type": "capacity-ordering",
+      "conceptKey": "capacity",
+      "prompt": "Order the beakers from the least capacity to the greatest capacity.",
+      "answer": "A, C, B",
+      "options": "",
+      "dataHash": "2d1f5f91",
+      "origin": "source-json",
+      "notes": "expanded from ch14-s16-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 8,
+      "activityId": "ch14-s16-q3",
+      "sourceIds": [
+        "ch14-s16-q3"
+      ],
+      "type": "word-problem",
+      "conceptKey": "arithmetic",
+      "prompt": "Mariam had 80 candies. She gave 40 to her brother. How many does she have left?",
+      "answer": "40",
+      "options": "",
+      "dataHash": "16cf70c2",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 1,
+      "activityId": "s17_p1",
+      "sourceIds": [
+        "s17_p1"
+      ],
+      "type": "shape_composition",
+      "conceptKey": "shape",
+      "prompt": "How many pieces of colored paper A do you need to make each shape below?",
+      "answer": "10",
+      "options": "",
+      "dataHash": "09eaf82d",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 1,
+      "activityId": "s17_p1-2",
+      "sourceIds": [
+        "s17_p1"
+      ],
+      "type": "shape_composition",
+      "conceptKey": "shape",
+      "prompt": "How many pieces of colored paper A do you need to make each shape below?",
+      "answer": "8",
+      "options": "",
+      "dataHash": "cb349d85",
+      "origin": "source-json",
+      "notes": "expanded from s17_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 1,
+      "activityId": "s17_p1-3",
+      "sourceIds": [
+        "s17_p1"
+      ],
+      "type": "shape_composition",
+      "conceptKey": "shape",
+      "prompt": "How many pieces of colored paper A do you need to make each shape below?",
+      "answer": "8",
+      "options": "",
+      "dataHash": "15f97922",
+      "origin": "source-json",
+      "notes": "expanded from s17_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 2,
+      "activityId": "s17_p2",
+      "sourceIds": [
+        "s17_p2"
+      ],
+      "type": "mixed_arithmetic",
+      "conceptKey": "arithmetic",
+      "prompt": "Complete the following.",
+      "answer": "",
+      "options": "",
+      "dataHash": "2529f0fd",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 3,
+      "activityId": "s17_p3",
+      "sourceIds": [
+        "s17_p3"
+      ],
+      "type": "comparison_circle",
+      "conceptKey": "",
+      "prompt": "Circle the bigger number.",
+      "answer": "{\"options\":[62,69],\"answer\":69}",
+      "options": "",
+      "dataHash": "87355161",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 3,
+      "activityId": "s17_p3-2",
+      "sourceIds": [
+        "s17_p3"
+      ],
+      "type": "comparison_circle",
+      "conceptKey": "",
+      "prompt": "Circle the bigger number.",
+      "answer": "{\"options\":[19,91],\"answer\":91}",
+      "options": "",
+      "dataHash": "1df69920",
+      "origin": "source-json",
+      "notes": "expanded from s17_p3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 3,
+      "activityId": "s17_p3-3",
+      "sourceIds": [
+        "s17_p3"
+      ],
+      "type": "comparison_circle",
+      "conceptKey": "",
+      "prompt": "Circle the bigger number.",
+      "answer": "{\"options\":[120,112],\"answer\":120}",
+      "options": "",
+      "dataHash": "7c6afdb3",
+      "origin": "source-json",
+      "notes": "expanded from s17_p3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 3,
+      "activityId": "s17_p3-4",
+      "sourceIds": [
+        "s17_p3"
+      ],
+      "type": "comparison_circle",
+      "conceptKey": "",
+      "prompt": "Circle the bigger number.",
+      "answer": "{\"options\":[54,47],\"answer\":54}",
+      "options": "",
+      "dataHash": "1cb122b9",
+      "origin": "source-json",
+      "notes": "expanded from s17_p3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 4,
+      "activityId": "s17_p4",
+      "sourceIds": [
+        "s17_p4"
+      ],
+      "type": "capacity_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the containers in order from most to least amount.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "b94cd3db",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 4,
+      "activityId": "s17_p4-2",
+      "sourceIds": [
+        "s17_p4"
+      ],
+      "type": "capacity_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the containers in order from most to least amount.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "064e337c",
+      "origin": "source-json",
+      "notes": "expanded from s17_p4"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 4,
+      "activityId": "s17_p4-3",
+      "sourceIds": [
+        "s17_p4"
+      ],
+      "type": "capacity_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the containers in order from most to least amount.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "5e161357",
+      "origin": "source-json",
+      "notes": "expanded from s17_p4"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 4,
+      "activityId": "s17_p4-4",
+      "sourceIds": [
+        "s17_p4"
+      ],
+      "type": "capacity_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the containers in order from most to least amount.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "4e8435ba",
+      "origin": "source-json",
+      "notes": "expanded from s17_p4"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 5,
+      "activityId": "s18_p1",
+      "sourceIds": [
+        "s18_p1"
+      ],
+      "type": "stick_construction",
+      "conceptKey": "",
+      "prompt": "We made a shape using sticks (—) as follow. Answer the questions.",
+      "answer": "",
+      "options": "",
+      "dataHash": "523189f2",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 6,
+      "activityId": "s18_p2",
+      "sourceIds": [
+        "s18_p2"
+      ],
+      "type": "multiple_choice",
+      "conceptKey": "",
+      "prompt": "Choose the correct answer.",
+      "answer": "",
+      "options": "",
+      "dataHash": "e8bb3637",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 7,
+      "activityId": "s18_p3",
+      "sourceIds": [
+        "s18_p3"
+      ],
+      "type": "grid_fragment",
+      "conceptKey": "place-value/number",
+      "prompt": "Write the number in [blank square]",
+      "answer": "",
+      "options": "",
+      "dataHash": "d34313c7",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 8,
+      "activityId": "s18_p4",
+      "sourceIds": [
+        "s18_p4"
+      ],
+      "type": "word_problem",
+      "conceptKey": "arithmetic",
+      "prompt": "There are 40 people on the bus, 20 people got off. How many people are on the bus now?",
+      "answer": "20",
+      "options": "",
+      "dataHash": "085a7e0d",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 9,
+      "activityId": "s19_p1",
+      "sourceIds": [
+        "s19_p1"
+      ],
+      "type": "dot_grid_copy",
+      "conceptKey": "place-value/number",
+      "prompt": "Draw the same shape.",
+      "answer": "",
+      "options": "",
+      "dataHash": "00fe9bb1",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 10,
+      "activityId": "s19_p2",
+      "sourceIds": [
+        "s19_p2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Match to make 100.",
+      "answer": "[70,30]",
+      "options": "",
+      "dataHash": "d866a4b5",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 10,
+      "activityId": "s19_p2-2",
+      "sourceIds": [
+        "s19_p2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Match to make 100.",
+      "answer": "[80,20]",
+      "options": "",
+      "dataHash": "f7d92d2a",
+      "origin": "source-json",
+      "notes": "expanded from s19_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 10,
+      "activityId": "s19_p2-3",
+      "sourceIds": [
+        "s19_p2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Match to make 100.",
+      "answer": "[40,60]",
+      "options": "",
+      "dataHash": "fa0d2729",
+      "origin": "source-json",
+      "notes": "expanded from s19_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 10,
+      "activityId": "s19_p2-4",
+      "sourceIds": [
+        "s19_p2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Match to make 100.",
+      "answer": "[10,90]",
+      "options": "",
+      "dataHash": "91878648",
+      "origin": "source-json",
+      "notes": "expanded from s19_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 10,
+      "activityId": "s19_p2-5",
+      "sourceIds": [
+        "s19_p2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Match to make 100.",
+      "answer": "[50,50]",
+      "options": "",
+      "dataHash": "1d7f734f",
+      "origin": "source-json",
+      "notes": "expanded from s19_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 10,
+      "activityId": "s19_p2-6",
+      "sourceIds": [
+        "s19_p2"
+      ],
+      "type": "matching",
+      "conceptKey": "",
+      "prompt": "Match to make 100.",
+      "answer": "[100,0]",
+      "options": "",
+      "dataHash": "57f8d87f",
+      "origin": "source-json",
+      "notes": "expanded from s19_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 11,
+      "activityId": "s19_p3",
+      "sourceIds": [
+        "s19_p3"
+      ],
+      "type": "area_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following shapes from the greatest area to the least area.",
+      "answer": "B, A, C, D",
+      "options": "",
+      "dataHash": "5fd54aaa",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 11,
+      "activityId": "s19_p3-2",
+      "sourceIds": [
+        "s19_p3"
+      ],
+      "type": "area_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following shapes from the greatest area to the least area.",
+      "answer": "B, A, C, D",
+      "options": "",
+      "dataHash": "a6e9d0d1",
+      "origin": "source-json",
+      "notes": "expanded from s19_p3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 11,
+      "activityId": "s19_p3-3",
+      "sourceIds": [
+        "s19_p3"
+      ],
+      "type": "area_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following shapes from the greatest area to the least area.",
+      "answer": "B, A, C, D",
+      "options": "",
+      "dataHash": "311dbc32",
+      "origin": "source-json",
+      "notes": "expanded from s19_p3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 11,
+      "activityId": "s19_p3-4",
+      "sourceIds": [
+        "s19_p3"
+      ],
+      "type": "area_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following shapes from the greatest area to the least area.",
+      "answer": "B, A, C, D",
+      "options": "",
+      "dataHash": "439c40fb",
+      "origin": "source-json",
+      "notes": "expanded from s19_p3"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 12,
+      "activityId": "s19_p4",
+      "sourceIds": [
+        "s19_p4"
+      ],
+      "type": "make_ten_addition",
+      "conceptKey": "place-value/number",
+      "prompt": "Make a ten to add 8 + 5",
+      "answer": "13",
+      "options": "",
+      "dataHash": "265a3678",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 13,
+      "activityId": "s19_p5",
+      "sourceIds": [
+        "s19_p5"
+      ],
+      "type": "stick_construction",
+      "conceptKey": "",
+      "prompt": "How many sticks (—) were used to make the opposite shape?",
+      "answer": "12",
+      "options": "",
+      "dataHash": "be549c80",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 1,
+      "activityId": "s20_p1",
+      "sourceIds": [
+        "s20_p1"
+      ],
+      "type": "number_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following numbers from least to greatest.",
+      "answer": "[19,63,85,94,100]",
+      "options": "",
+      "dataHash": "e60a5c0c",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 1,
+      "activityId": "s20_p1-2",
+      "sourceIds": [
+        "s20_p1"
+      ],
+      "type": "number_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following numbers from least to greatest.",
+      "answer": "[19,63,85,94,100]",
+      "options": "",
+      "dataHash": "fa618ed1",
+      "origin": "source-json",
+      "notes": "expanded from s20_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 1,
+      "activityId": "s20_p1-3",
+      "sourceIds": [
+        "s20_p1"
+      ],
+      "type": "number_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following numbers from least to greatest.",
+      "answer": "[19,63,85,94,100]",
+      "options": "",
+      "dataHash": "c22a038c",
+      "origin": "source-json",
+      "notes": "expanded from s20_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 1,
+      "activityId": "s20_p1-4",
+      "sourceIds": [
+        "s20_p1"
+      ],
+      "type": "number_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following numbers from least to greatest.",
+      "answer": "[19,63,85,94,100]",
+      "options": "",
+      "dataHash": "b8687e27",
+      "origin": "source-json",
+      "notes": "expanded from s20_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 1,
+      "activityId": "s20_p1-5",
+      "sourceIds": [
+        "s20_p1"
+      ],
+      "type": "number_ordering",
+      "conceptKey": "capacity",
+      "prompt": "Arrange the following numbers from least to greatest.",
+      "answer": "[19,63,85,94,100]",
+      "options": "",
+      "dataHash": "8686311a",
+      "origin": "source-json",
+      "notes": "expanded from s20_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 2,
+      "activityId": "s20_p2",
+      "sourceIds": [
+        "s20_p2"
+      ],
+      "type": "analog_clock_read",
+      "conceptKey": "time",
+      "prompt": "Let's read the clocks.",
+      "answer": "",
+      "options": "",
+      "dataHash": "138aa8ab",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 2,
+      "activityId": "s20_p2-2",
+      "sourceIds": [
+        "s20_p2"
+      ],
+      "type": "analog_clock_read",
+      "conceptKey": "time",
+      "prompt": "Let's read the clocks.",
+      "answer": "",
+      "options": "",
+      "dataHash": "d517e6bc",
+      "origin": "source-json",
+      "notes": "expanded from s20_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 2,
+      "activityId": "s20_p2-3",
+      "sourceIds": [
+        "s20_p2"
+      ],
+      "type": "analog_clock_read",
+      "conceptKey": "time",
+      "prompt": "Let's read the clocks.",
+      "answer": "",
+      "options": "",
+      "dataHash": "a388a54b",
+      "origin": "source-json",
+      "notes": "expanded from s20_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 3,
+      "activityId": "s20_p3",
+      "sourceIds": [
+        "s20_p3"
+      ],
+      "type": "stick_construction",
+      "conceptKey": "",
+      "prompt": "We made a shape using sticks (—) as follow. Answer the questions.",
+      "answer": "",
+      "options": "",
+      "dataHash": "a72abf6f",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 4,
+      "activityId": "s20_p4",
+      "sourceIds": [
+        "s20_p4"
+      ],
+      "type": "multiple_choice",
+      "conceptKey": "",
+      "prompt": "Choose the correct answer.",
+      "answer": "",
+      "options": "",
+      "dataHash": "5177d300",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 5,
+      "activityId": "ass16_p1",
+      "sourceIds": [
+        "ass16_p1"
+      ],
+      "type": "trace_source_identification",
+      "conceptKey": "shape",
+      "prompt": "We traced a shape onto paper, and it looks like a red circle. Which shape did we trace?",
+      "answer": "cylinder",
+      "options": "[\"cuboid\",\"triangular_prism\",\"cube\",\"cylinder\"]",
+      "dataHash": "4e82722d",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 6,
+      "activityId": "ass16_p2",
+      "sourceIds": [
+        "ass16_p2"
+      ],
+      "type": "capacity_matching",
+      "conceptKey": "capacity",
+      "prompt": "Match the equal amounts (number of cups).",
+      "answer": "{\"item1\":\"Patterned vase\",\"item2\":\"Yellow pitcher\",\"cups\":3}",
+      "options": "",
+      "dataHash": "c4f1c504",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 6,
+      "activityId": "ass16_p2-2",
+      "sourceIds": [
+        "ass16_p2"
+      ],
+      "type": "capacity_matching",
+      "conceptKey": "capacity",
+      "prompt": "Match the equal amounts (number of cups).",
+      "answer": "{\"item1\":\"Red gas can\",\"item2\":\"Red vase\",\"cups\":4}",
+      "options": "",
+      "dataHash": "ebf14117",
+      "origin": "source-json",
+      "notes": "expanded from ass16_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 6,
+      "activityId": "ass16_p2-3",
+      "sourceIds": [
+        "ass16_p2"
+      ],
+      "type": "capacity_matching",
+      "conceptKey": "capacity",
+      "prompt": "Match the equal amounts (number of cups).",
+      "answer": "{\"item1\":\"Orange juice box\",\"item2\":\"Green bucket\",\"cups\":5}",
+      "options": "",
+      "dataHash": "b677864d",
+      "origin": "source-json",
+      "notes": "expanded from ass16_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 6,
+      "activityId": "ass16_p2-4",
+      "sourceIds": [
+        "ass16_p2"
+      ],
+      "type": "capacity_matching",
+      "conceptKey": "capacity",
+      "prompt": "Match the equal amounts (number of cups).",
+      "answer": "{\"item1\":\"Red teapot\",\"item2\":\"Pink water bottle\",\"cups\":6}",
+      "options": "",
+      "dataHash": "ad0944a0",
+      "origin": "source-json",
+      "notes": "expanded from ass16_p2"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 7,
+      "activityId": "ass16_p3",
+      "sourceIds": [
+        "ass16_p3"
+      ],
+      "type": "odd_one_out_3d",
+      "conceptKey": "shape",
+      "prompt": "Cross out the shape that does not belong in each group.",
+      "answer": "",
+      "options": "",
+      "dataHash": "bf6b31cb",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 8,
+      "activityId": "ass16_p4",
+      "sourceIds": [
+        "ass16_p4"
+      ],
+      "type": "shape_decomposition",
+      "conceptKey": "shape",
+      "prompt": "Which shapes were used to make the opposite structure? Choose all that apply.",
+      "answer": "[\"cube\",\"cylinder\",\"cuboid\"]",
+      "options": "[\"cube\",\"cylinder\",\"cuboid\",\"sphere\"]",
+      "dataHash": "bf007505",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 9,
+      "activityId": "ass16_p5",
+      "sourceIds": [
+        "ass16_p5"
+      ],
+      "type": "area_ordering_grid",
+      "conceptKey": "capacity",
+      "prompt": "Arrange from the largest area to the smallest area.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "b94bfa8e",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 9,
+      "activityId": "ass16_p5-2",
+      "sourceIds": [
+        "ass16_p5"
+      ],
+      "type": "area_ordering_grid",
+      "conceptKey": "capacity",
+      "prompt": "Arrange from the largest area to the smallest area.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "7d98b2ff",
+      "origin": "source-json",
+      "notes": "expanded from ass16_p5"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 9,
+      "activityId": "ass16_p5-3",
+      "sourceIds": [
+        "ass16_p5"
+      ],
+      "type": "area_ordering_grid",
+      "conceptKey": "capacity",
+      "prompt": "Arrange from the largest area to the smallest area.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "8230707e",
+      "origin": "source-json",
+      "notes": "expanded from ass16_p5"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 9,
+      "activityId": "ass16_p5-4",
+      "sourceIds": [
+        "ass16_p5"
+      ],
+      "type": "area_ordering_grid",
+      "conceptKey": "capacity",
+      "prompt": "Arrange from the largest area to the smallest area.",
+      "answer": "A, D, B, C",
+      "options": "",
+      "dataHash": "383f699d",
+      "origin": "source-json",
+      "notes": "expanded from ass16_p5"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 10,
+      "activityId": "ass16_p6",
+      "sourceIds": [
+        "ass16_p6"
+      ],
+      "type": "object_part_counting",
+      "conceptKey": "",
+      "prompt": "How many of each shape were used to make the toy cart?",
+      "answer": "",
+      "options": "",
+      "dataHash": "f6e2fa20",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 1,
+      "activityId": "ass17_p1",
+      "sourceIds": [
+        "ass17_p1"
+      ],
+      "type": "number_comparison",
+      "conceptKey": "place-value/number",
+      "prompt": "Compare using >, <, or =.",
+      "answer": ">",
+      "options": "",
+      "dataHash": "1ce918e2",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 1,
+      "activityId": "ass17_p1-2",
+      "sourceIds": [
+        "ass17_p1"
+      ],
+      "type": "number_comparison",
+      "conceptKey": "place-value/number",
+      "prompt": "Compare using >, <, or =.",
+      "answer": ">",
+      "options": "",
+      "dataHash": "fc80f113",
+      "origin": "source-json",
+      "notes": "expanded from ass17_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 1,
+      "activityId": "ass17_p1-3",
+      "sourceIds": [
+        "ass17_p1"
+      ],
+      "type": "number_comparison",
+      "conceptKey": "place-value/number",
+      "prompt": "Compare using >, <, or =.",
+      "answer": "<",
+      "options": "",
+      "dataHash": "348fda98",
+      "origin": "source-json",
+      "notes": "expanded from ass17_p1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 2,
+      "activityId": "ass17_p2",
+      "sourceIds": [
+        "ass17_p2"
+      ],
+      "type": "fill_missing_numbers",
+      "conceptKey": "place-value/number",
+      "prompt": "Write the missing numbers.",
+      "answer": "",
+      "options": "",
+      "dataHash": "385ab8ac",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 3,
+      "activityId": "ass17_p3",
+      "sourceIds": [
+        "ass17_p3"
+      ],
+      "type": "visual_pattern_completion",
+      "conceptKey": "",
+      "prompt": "Continue the pattern.",
+      "answer": "",
+      "options": "",
+      "dataHash": "de9235e9",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 4,
+      "activityId": "ass17_p4",
+      "sourceIds": [
+        "ass17_p4"
+      ],
+      "type": "counting_to_100",
+      "conceptKey": "place-value/number",
+      "prompt": "Count the total number of objects. (Bundles of 10 and ones)",
+      "answer": "45",
+      "options": "",
+      "dataHash": "3534ec4b",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 4,
+      "activityId": "ass17_p4-2",
+      "sourceIds": [
+        "ass17_p4"
+      ],
+      "type": "counting_to_100",
+      "conceptKey": "place-value/number",
+      "prompt": "Count the total number of objects. (Bundles of 10 and ones)",
+      "answer": "20",
+      "options": "",
+      "dataHash": "ce14ed47",
+      "origin": "source-json",
+      "notes": "expanded from ass17_p4"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 5,
+      "activityId": "ch17-s21-q1",
+      "sourceIds": [
+        "ch17-s21-q1"
+      ],
+      "type": "place-value-composition",
+      "conceptKey": "place-value/number",
+      "prompt": "20 and 3 make __",
+      "answer": "23",
+      "options": "",
+      "dataHash": "f7fe4df8",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 6,
+      "activityId": "ch17-s21-q4",
+      "sourceIds": [
+        "ch17-s21-q4"
+      ],
+      "type": "ordinal-word-problem",
+      "conceptKey": "arithmetic",
+      "prompt": "If you are the 4th person in a line, how many people are in front of you?",
+      "answer": "3",
+      "options": "",
+      "dataHash": "9e2bd2a6",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 7,
+      "activityId": "ch17-s21-q5",
+      "sourceIds": [
+        "ch17-s21-q5"
+      ],
+      "type": "number-comparison",
+      "conceptKey": "place-value/number",
+      "prompt": "Which is greater: 5 tens or 48 ones?",
+      "answer": "5 tens",
+      "options": "",
+      "dataHash": "5b2496b5",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 8,
+      "activityId": "ch17-s22-q1",
+      "sourceIds": [
+        "ch17-s22-q1"
+      ],
+      "type": "analog-clock-read",
+      "conceptKey": "time",
+      "prompt": "Write the time shown on the clock.",
+      "answer": "3:30",
+      "options": "",
+      "dataHash": "5c520166",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 9,
+      "activityId": "ch17-s22-q3",
+      "sourceIds": [
+        "ch17-s22-q3"
+      ],
+      "type": "shape-logic-counting",
+      "conceptKey": "shape",
+      "prompt": "How many green triangle papers do you need to cover a 2x2 square area if each small square uses 2 triangles?",
+      "answer": "8",
+      "options": "",
+      "dataHash": "c2e4c95e",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 10,
+      "activityId": "ch17-s22-q5",
+      "sourceIds": [
+        "ch17-s22-q5"
+      ],
+      "type": "subtraction-word-problem",
+      "conceptKey": "arithmetic",
+      "prompt": "There were 12 cakes. 4 were eaten. How many are left?",
+      "answer": "8",
+      "options": "",
+      "dataHash": "d2364662",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 11,
+      "activityId": "ch17-s23-q1",
+      "sourceIds": [
+        "ch17-s23-q1"
+      ],
+      "type": "shape-tracing-match",
+      "conceptKey": "shape",
+      "prompt": "Which shape do you get when tracing these objects?",
+      "answer": "{\"object\":\"Tissue box\",\"shape\":\"Rectangle\"}",
+      "options": "",
+      "dataHash": "0abfea56",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 11,
+      "activityId": "ch17-s23-q1-2",
+      "sourceIds": [
+        "ch17-s23-q1"
+      ],
+      "type": "shape-tracing-match",
+      "conceptKey": "shape",
+      "prompt": "Which shape do you get when tracing these objects?",
+      "answer": "{\"object\":\"Tent\",\"shape\":\"Triangle\"}",
+      "options": "",
+      "dataHash": "e642f117",
+      "origin": "source-json",
+      "notes": "expanded from ch17-s23-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 11,
+      "activityId": "ch17-s23-q1-3",
+      "sourceIds": [
+        "ch17-s23-q1"
+      ],
+      "type": "shape-tracing-match",
+      "conceptKey": "shape",
+      "prompt": "Which shape do you get when tracing these objects?",
+      "answer": "{\"object\":\"Ball\",\"shape\":\"Circle\"}",
+      "options": "",
+      "dataHash": "0aef3444",
+      "origin": "source-json",
+      "notes": "expanded from ch17-s23-q1"
+    },
+    {
+      "scope": "raw-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 12,
+      "activityId": "ch17-s23-q4",
+      "sourceIds": [
+        "ch17-s23-q4"
+      ],
+      "type": "stick-construction-analysis",
+      "conceptKey": "",
+      "prompt": "Look at the shape made of sticks [cross shape]. Answer the questions.",
+      "answer": "",
+      "options": "",
+      "dataHash": "86336032",
+      "origin": "source-json",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 1,
+      "activityId": "ch10-s1-q1",
+      "sourceIds": [
+        "ch10-s1-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is prism?",
+      "answer": "prism",
+      "options": "[\"sphere\",\"cylinder\",\"prism\",\"cube\"]",
+      "dataHash": "604ce845",
+      "origin": "unknown",
+      "notes": "context=cheese-wedge"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 2,
+      "activityId": "ch10-s1-q1-2",
+      "sourceIds": [
+        "ch10-s1-q1-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is sphere?",
+      "answer": "sphere",
+      "options": "[\"sphere\",\"cylinder\",\"cuboid\",\"cylinder\"]",
+      "dataHash": "df5e3c2b",
+      "origin": "unknown",
+      "notes": "context=basket-ball"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 3,
+      "activityId": "ch10-s1-q2",
+      "sourceIds": [
+        "ch10-s1-q2"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cuboid?",
+      "answer": "Cuboid shape",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "c0133e42",
+      "origin": "unknown",
+      "notes": "context=brown-box"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 4,
+      "activityId": "ch10-s1-q2-2",
+      "sourceIds": [
+        "ch10-s1-q2-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is prism?",
+      "answer": "Prism shape",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "e2e846ea",
+      "origin": "unknown",
+      "notes": "context=blue-wedge"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 5,
+      "activityId": "ch10-s1-q2-3",
+      "sourceIds": [
+        "ch10-s1-q2-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is sphere?",
+      "answer": "Ball shape",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "e833e7c9",
+      "origin": "unknown",
+      "notes": "context=green-ball"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 6,
+      "activityId": "ch10-s1-q2-4",
+      "sourceIds": [
+        "ch10-s1-q2-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cylinder?",
+      "answer": "Cylinder shape",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "2c819c0b",
+      "origin": "unknown",
+      "notes": "context=orange-roll"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 7,
+      "activityId": "ch10-s1-q2-5",
+      "sourceIds": [
+        "ch10-s1-q2-5"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cube?",
+      "answer": "Cube shape",
+      "options": "[\"Prism shape\",\"Cuboid shape\",\"Cube shape\",\"Ball shape\",\"Cylinder shape\"]",
+      "dataHash": "22fd3344",
+      "origin": "unknown",
+      "notes": "context=blue-cube"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 8,
+      "activityId": "ch10-s2-q1",
+      "sourceIds": [
+        "ch10-s2-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cylinder?",
+      "answer": "circle",
+      "options": "[\"circle\",\"triangle\",\"rectangle\",\"square\"]",
+      "dataHash": "e5793956",
+      "origin": "unknown",
+      "notes": "context=cylinder"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 9,
+      "activityId": "ch10-s2-q1-2",
+      "sourceIds": [
+        "ch10-s2-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from prism?",
+      "answer": "triangle",
+      "options": "[\"triangle\",\"square\",\"circle\",\"rectangle\"]",
+      "dataHash": "0a145ca7",
+      "origin": "unknown",
+      "notes": "context=prism"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 10,
+      "activityId": "ch10-s2-q1-3",
+      "sourceIds": [
+        "ch10-s2-q1-3"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cuboid?",
+      "answer": "rectangle",
+      "options": "[\"rectangle\",\"triangle\",\"circle\",\"square\"]",
+      "dataHash": "10ce65f2",
+      "origin": "unknown",
+      "notes": "context=cuboid"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 11,
+      "activityId": "ch10-s2-q1-4",
+      "sourceIds": [
+        "ch10-s2-q1-4"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cube?",
+      "answer": "square",
+      "options": "[\"square\",\"circle\",\"triangle\",\"rectangle\"]",
+      "dataHash": "d1690765",
+      "origin": "unknown",
+      "notes": "context=cube"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 12,
+      "activityId": "ch10-a-q5-1-cube",
+      "sourceIds": [
+        "ch10-a-q5-1-cube"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 6 blocks",
+      "answer": "0 tens, 6 ones",
+      "options": "",
+      "dataHash": "4f87aa56",
+      "origin": "unknown",
+      "notes": "context=cube"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 13,
+      "activityId": "ch10-a-q5-1-cuboid",
+      "sourceIds": [
+        "ch10-a-q5-1-cuboid"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 2 blocks",
+      "answer": "0 tens, 2 ones",
+      "options": "",
+      "dataHash": "285140ae",
+      "origin": "unknown",
+      "notes": "context=cuboid"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch10",
+      "chapterTitle": "Different Shapes",
+      "sequence": 14,
+      "activityId": "ch10-a-q5-1-cylinder",
+      "sourceIds": [
+        "ch10-a-q5-1-cylinder"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 1 blocks",
+      "answer": "0 tens, 1 ones",
+      "options": "",
+      "dataHash": "51c03162",
+      "origin": "unknown",
+      "notes": "context=cylinder"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 1,
+      "activityId": "ch11-s3-q1",
+      "sourceIds": [
+        "ch11-s3-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Arrange containers from least to most cups.",
+      "answer": "order C -> B -> A / [1,2,3]",
+      "options": "[\"A:3\",\"B:2\",\"C:1\"]",
+      "dataHash": "5416fd12",
+      "origin": "unknown",
+      "notes": "context=teapot"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 2,
+      "activityId": "ch11-s4-q1",
+      "sourceIds": [
+        "ch11-s4-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Tap the container that has more water.",
+      "answer": "7",
+      "options": "[\"green:5\",\"orange:7\",\"brown-clay:3\"]",
+      "dataHash": "b5f1f08a",
+      "origin": "unknown",
+      "notes": "context=bucket"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 3,
+      "activityId": "ch11-s5-q1",
+      "sourceIds": [
+        "ch11-s5-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the smaller area?",
+      "answer": "D",
+      "options": "[{\"label\":\"D\",\"count\":2,\"color\":\"blue\"},{\"label\":\"A\",\"count\":4,\"color\":\"blue\"}]",
+      "dataHash": "186f7a55",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 4,
+      "activityId": "ch11-s5-q1-pair2",
+      "sourceIds": [
+        "ch11-s5-q1-pair2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the smaller area?",
+      "answer": "A",
+      "options": "[{\"label\":\"A\",\"count\":4,\"color\":\"blue\"},{\"label\":\"B\",\"count\":6,\"color\":\"blue\"}]",
+      "dataHash": "f11bd8a0",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 5,
+      "activityId": "ch11-s5-q1-pair3",
+      "sourceIds": [
+        "ch11-s5-q1-pair3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the smaller area?",
+      "answer": "B",
+      "options": "[{\"label\":\"B\",\"count\":6,\"color\":\"blue\"},{\"label\":\"C\",\"count\":8,\"color\":\"blue\"}]",
+      "dataHash": "114d52fb",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 6,
+      "activityId": "ch11-s6-q1",
+      "sourceIds": [
+        "ch11-s6-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "Shape A",
+      "options": "[{\"label\":\"Shape A\",\"count\":16,\"color\":\"blue\"},{\"label\":\"Shape B\",\"count\":8,\"color\":\"orange\"}]",
+      "dataHash": "78e19465",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 7,
+      "activityId": "ch11-s6-q1-pair2",
+      "sourceIds": [
+        "ch11-s6-q1-pair2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "Shape B",
+      "options": "[{\"label\":\"Shape A\",\"count\":8,\"color\":\"blue\"},{\"label\":\"Shape B\",\"count\":20,\"color\":\"orange\"}]",
+      "dataHash": "85f10c05",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 8,
+      "activityId": "ch11-s6-q1-pair3",
+      "sourceIds": [
+        "ch11-s6-q1-pair3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "Shape A",
+      "options": "[{\"label\":\"Shape A\",\"count\":20,\"color\":\"blue\"},{\"label\":\"Shape B\",\"count\":10,\"color\":\"orange\"}]",
+      "dataHash": "0c932713",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch11",
+      "chapterTitle": "How to Compare?",
+      "sequence": 9,
+      "activityId": "ch11-s6-q3",
+      "sourceIds": [
+        "ch11-s6-q3"
+      ],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "Omar colored 12 squares. Youssef colored 7 squares. How many more squares did Omar color?",
+      "answer": "5",
+      "options": "",
+      "dataHash": "5ae75d52",
+      "origin": "unknown",
+      "notes": "context=Which one wins?"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 1,
+      "activityId": "ch12-s7-q1",
+      "sourceIds": [
+        "ch12-s7-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "addition-make-10",
+      "prompt": "9 + 3",
+      "answer": "{\"finalAnswer\":12,\"blanks\":[1,1,2,1,2,12]}",
+      "options": "",
+      "dataHash": "0313ac3d",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 2,
+      "activityId": "ch12-s7-q1-2",
+      "sourceIds": [
+        "ch12-s7-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "addition-make-10",
+      "prompt": "5 + 8",
+      "answer": "{\"finalAnswer\":13,\"blanks\":[2,2,3,2,3,13]}",
+      "options": "",
+      "dataHash": "bd93ff81",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 3,
+      "activityId": "ch12-s7-q3",
+      "sourceIds": [
+        "ch12-s7-q3"
+      ],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "There are 8 dogs. 7 more dogs come. How many dogs are there in total?",
+      "answer": "15",
+      "options": "",
+      "dataHash": "2bc2a7f3",
+      "origin": "unknown",
+      "notes": "context=dogs"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 4,
+      "activityId": "ch12-a-q1",
+      "sourceIds": [
+        "ch12-a-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "7 + ? = 10",
+      "answer": "{\"finalAnswer\":3,\"blanks\":[3]}",
+      "options": "",
+      "dataHash": "11bf971c",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 5,
+      "activityId": "ch12-a-q1-2",
+      "sourceIds": [
+        "ch12-a-q1-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "? + 9 = 10",
+      "answer": "{\"finalAnswer\":1,\"blanks\":[1]}",
+      "options": "",
+      "dataHash": "1b8d9a31",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 6,
+      "activityId": "ch12-a-q1-3",
+      "sourceIds": [
+        "ch12-a-q1-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "10 + 8 = ?",
+      "answer": "{\"finalAnswer\":18,\"blanks\":[18]}",
+      "options": "",
+      "dataHash": "8f705ec0",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch12",
+      "chapterTitle": "Addition by making 10",
+      "sequence": 7,
+      "activityId": "ch12-a-q1-4",
+      "sourceIds": [
+        "ch12-a-q1-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "9 + 7 = ?",
+      "answer": "{\"finalAnswer\":16,\"blanks\":[16]}",
+      "options": "",
+      "dataHash": "01d38985",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 1,
+      "activityId": "ch13-s8-q1",
+      "sourceIds": [
+        "ch13-s8-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "subtraction-use-10",
+      "prompt": "14 - 8",
+      "answer": "{\"finalAnswer\":6,\"blanks\":[4,4,4,4,6]}",
+      "options": "",
+      "dataHash": "831c66df",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 2,
+      "activityId": "ch13-s8-q3",
+      "sourceIds": [
+        "ch13-s8-q3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "10 + 5 = ?",
+      "answer": "{\"finalAnswer\":15,\"blanks\":[15]}",
+      "options": "",
+      "dataHash": "a66c86f3",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 3,
+      "activityId": "ch13-s8-q3-2",
+      "sourceIds": [
+        "ch13-s8-q3-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "18 - 9 = ?",
+      "answer": "{\"finalAnswer\":9,\"blanks\":[9]}",
+      "options": "",
+      "dataHash": "ce5be2a8",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 4,
+      "activityId": "ch13-s8-q3-3",
+      "sourceIds": [
+        "ch13-s8-q3-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "14 - 7 = ?",
+      "answer": "{\"finalAnswer\":7,\"blanks\":[7]}",
+      "options": "",
+      "dataHash": "dad50441",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 5,
+      "activityId": "ch13-s8-q3-4",
+      "sourceIds": [
+        "ch13-s8-q3-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "12 - 4 = ?",
+      "answer": "{\"finalAnswer\":8,\"blanks\":[8]}",
+      "options": "",
+      "dataHash": "fed7e46c",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 6,
+      "activityId": "ch13-a-q1",
+      "sourceIds": [
+        "ch13-a-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "15 - 8",
+      "answer": "{\"finalAnswer\":7,\"blanks\":[7]}",
+      "options": "",
+      "dataHash": "8318419c",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch13",
+      "chapterTitle": "Subtraction by using 10",
+      "sequence": 7,
+      "activityId": "ch13-a-q1-2",
+      "sourceIds": [
+        "ch13-a-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from prism?",
+      "answer": "triangle",
+      "options": "[\"triangle\",\"square\",\"circle\",\"rectangle\"]",
+      "dataHash": "0a145ca7",
+      "origin": "unknown",
+      "notes": "context=We traced a shape onto paper, and it looks like the opposite shape. Which shape did we trace?"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 1,
+      "activityId": "ch14-s9-q1",
+      "sourceIds": [
+        "ch14-s9-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 40 blocks",
+      "answer": "4 tens, 0 ones",
+      "options": "",
+      "dataHash": "cf45e2ff",
+      "origin": "unknown",
+      "notes": "context=block"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 2,
+      "activityId": "ch14-s9-q1-2",
+      "sourceIds": [
+        "ch14-s9-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 60 blocks",
+      "answer": "6 tens, 0 ones",
+      "options": "",
+      "dataHash": "9bf7fbe3",
+      "origin": "unknown",
+      "notes": "context=block"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 3,
+      "activityId": "ch14-s9-q1-3",
+      "sourceIds": [
+        "ch14-s9-q1-3"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 80 blocks",
+      "answer": "8 tens, 0 ones",
+      "options": "",
+      "dataHash": "1d6c95bf",
+      "origin": "unknown",
+      "notes": "context=block"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 4,
+      "activityId": "ch14-s10-q1",
+      "sourceIds": [
+        "ch14-s10-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 36 sticks",
+      "answer": "3 tens, 6 ones",
+      "options": "",
+      "dataHash": "15beede6",
+      "origin": "unknown",
+      "notes": "context=stick"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 5,
+      "activityId": "ch14-s10-q1-2",
+      "sourceIds": [
+        "ch14-s10-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 18 sticks",
+      "answer": "1 tens, 8 ones",
+      "options": "",
+      "dataHash": "5449554a",
+      "origin": "unknown",
+      "notes": "context=stick"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 6,
+      "activityId": "ch14-s10-q1-3",
+      "sourceIds": [
+        "ch14-s10-q1-3"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 90 sticks",
+      "answer": "9 tens, 0 ones",
+      "options": "",
+      "dataHash": "2b3dd90a",
+      "origin": "unknown",
+      "notes": "context=stick"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 7,
+      "activityId": "ch14-s10-q4",
+      "sourceIds": [
+        "ch14-s10-q4"
+      ],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "Ahmed had 13 pencils. He gave away 9 of them. How many pencils does he have now?",
+      "answer": "4",
+      "options": "",
+      "dataHash": "5dae5326",
+      "origin": "unknown",
+      "notes": "context=pencils"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 8,
+      "activityId": "ch14-s11-q1",
+      "sourceIds": [
+        "ch14-s11-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "30 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[70]}",
+      "options": "",
+      "dataHash": "89ecc6fa",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 9,
+      "activityId": "ch14-s11-q1-2",
+      "sourceIds": [
+        "ch14-s11-q1-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "40 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[60]}",
+      "options": "",
+      "dataHash": "e596ed86",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 10,
+      "activityId": "ch14-s11-q1-3",
+      "sourceIds": [
+        "ch14-s11-q1-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "50 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[50]}",
+      "options": "",
+      "dataHash": "53beaa0a",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 11,
+      "activityId": "ch14-s11-q1-4",
+      "sourceIds": [
+        "ch14-s11-q1-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "80 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[20]}",
+      "options": "",
+      "dataHash": "a2500458",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 12,
+      "activityId": "ch14-s12-q1",
+      "sourceIds": [
+        "ch14-s12-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "fill-missing on hundreds chart",
+      "answer": "47",
+      "options": "",
+      "dataHash": "62ac46ef",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 13,
+      "activityId": "ch14-s12-q1-2",
+      "sourceIds": [
+        "ch14-s12-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "fill-missing on hundreds chart",
+      "answer": "82",
+      "options": "",
+      "dataHash": "f34f39b9",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 14,
+      "activityId": "ch14-s15-q1",
+      "sourceIds": [
+        "ch14-s15-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "74 - 1",
+      "answer": "{\"finalAnswer\":73,\"blanks\":[73]}",
+      "options": "",
+      "dataHash": "bdc1d231",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 15,
+      "activityId": "ch14-s15-q1-2",
+      "sourceIds": [
+        "ch14-s15-q1-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "30 + 70",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[100]}",
+      "options": "",
+      "dataHash": "6e31c68a",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 16,
+      "activityId": "ch14-s15-q1-3",
+      "sourceIds": [
+        "ch14-s15-q1-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "50 - 10",
+      "answer": "{\"finalAnswer\":40,\"blanks\":[40]}",
+      "options": "",
+      "dataHash": "f1241461",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 17,
+      "activityId": "ch14-s15-q1-4",
+      "sourceIds": [
+        "ch14-s15-q1-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "86 + 10",
+      "answer": "{\"finalAnswer\":96,\"blanks\":[96]}",
+      "options": "",
+      "dataHash": "29df075a",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 18,
+      "activityId": "ch14-s16-q1",
+      "sourceIds": [
+        "ch14-s16-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Arrange containers from least to most cups.",
+      "answer": "order A -> C -> B / [1,4,2]",
+      "options": "[\"A:1\",\"B:4\",\"C:2\"]",
+      "dataHash": "368a7de2",
+      "origin": "unknown",
+      "notes": "context=beakers_blue_liquid"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch14",
+      "chapterTitle": "Ones, Tens, and Hundreds",
+      "sequence": 19,
+      "activityId": "ch14-s16-q3",
+      "sourceIds": [
+        "ch14-s16-q3"
+      ],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "Mariam had 80 candies. She gave 40 to her brother. How many does she have left?",
+      "answer": "40",
+      "options": "",
+      "dataHash": "c98050c7",
+      "origin": "unknown",
+      "notes": "context=items"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 1,
+      "activityId": "s17_p2",
+      "sourceIds": [
+        "s17_p2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "60 - 20 = ?",
+      "answer": "{\"finalAnswer\":40,\"blanks\":[40]}",
+      "options": "",
+      "dataHash": "5ba4ae74",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 2,
+      "activityId": "s17_p2-2",
+      "sourceIds": [
+        "s17_p2-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "4 groups of 10 make ?",
+      "answer": "{\"finalAnswer\":40,\"blanks\":[40]}",
+      "options": "",
+      "dataHash": "bda998f9",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 3,
+      "activityId": "s17_p2-3",
+      "sourceIds": [
+        "s17_p2-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "71 + 8 = ?",
+      "answer": "{\"finalAnswer\":79,\"blanks\":[79]}",
+      "options": "",
+      "dataHash": "f44dc89e",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 4,
+      "activityId": "s17_p2-4",
+      "sourceIds": [
+        "s17_p2-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "52 - 2 = ?",
+      "answer": "{\"finalAnswer\":50,\"blanks\":[50]}",
+      "options": "",
+      "dataHash": "e9dc6e9f",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 5,
+      "activityId": "s17_p3",
+      "sourceIds": [
+        "s17_p3"
+      ],
+      "type": "quiz",
+      "conceptKey": "number-comparison",
+      "prompt": "62 ? 69; 19 ? 91; 120 ? 112; 54 ? 47",
+      "answer": "62 < 69; 19 < 91; 120 > 112; 54 > 47",
+      "options": ">; <; =",
+      "dataHash": "0d0a5c13",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 6,
+      "activityId": "s17_p4",
+      "sourceIds": [
+        "s17_p4"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Arrange containers from least to most cups.",
+      "answer": "order A -> D -> B -> C / [4,2,1,3]",
+      "options": "[\"A:4\",\"B:2\",\"C:1\",\"D:3\"]",
+      "dataHash": "df8d6c93",
+      "origin": "unknown",
+      "notes": "context=container"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 7,
+      "activityId": "s18_p2",
+      "sourceIds": [
+        "s18_p2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "? 10s make 70",
+      "answer": "{\"finalAnswer\":7,\"blanks\":[7]}",
+      "options": "",
+      "dataHash": "f256dc5f",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 8,
+      "activityId": "s18_p2-2",
+      "sourceIds": [
+        "s18_p2-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "10 and ? make 12",
+      "answer": "{\"finalAnswer\":2,\"blanks\":[2]}",
+      "options": "",
+      "dataHash": "313dbc8a",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 9,
+      "activityId": "s18_p2-3",
+      "sourceIds": [
+        "s18_p2-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "Pieces of colored green triangle paper needed to make a larger triangle (4 internal pieces)",
+      "answer": "{\"finalAnswer\":4,\"blanks\":[4]}",
+      "options": "",
+      "dataHash": "ce76d1af",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 10,
+      "activityId": "s18_p2-4",
+      "sourceIds": [
+        "s18_p2-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "5 less than 90 is ?",
+      "answer": "{\"finalAnswer\":85,\"blanks\":[85]}",
+      "options": "",
+      "dataHash": "d556c5ec",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 11,
+      "activityId": "s18_p3",
+      "sourceIds": [
+        "s18_p3"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "fill-missing on hundreds chart",
+      "answer": "55",
+      "options": "",
+      "dataHash": "2be91820",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 12,
+      "activityId": "s18_p3-2",
+      "sourceIds": [
+        "s18_p3-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "fill-missing on hundreds chart",
+      "answer": "76",
+      "options": "",
+      "dataHash": "64248493",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 13,
+      "activityId": "s18_p4",
+      "sourceIds": [
+        "s18_p4"
+      ],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "There are 40 people on the bus, 20 people got off. How many people are on the bus now?",
+      "answer": "20",
+      "options": "",
+      "dataHash": "d7c324fb",
+      "origin": "unknown",
+      "notes": "context=items"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 14,
+      "activityId": "s19_p2",
+      "sourceIds": [
+        "s19_p2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "70 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[30]}",
+      "options": "",
+      "dataHash": "683e5875",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 15,
+      "activityId": "s19_p2-2",
+      "sourceIds": [
+        "s19_p2-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "80 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[20]}",
+      "options": "",
+      "dataHash": "1e2d618d",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 16,
+      "activityId": "s19_p2-3",
+      "sourceIds": [
+        "s19_p2-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "40 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[60]}",
+      "options": "",
+      "dataHash": "80b507ca",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 17,
+      "activityId": "s19_p2-4",
+      "sourceIds": [
+        "s19_p2-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "10 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[90]}",
+      "options": "",
+      "dataHash": "89cddc7c",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 18,
+      "activityId": "s19_p2-5",
+      "sourceIds": [
+        "s19_p2-5"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "50 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[50]}",
+      "options": "",
+      "dataHash": "bfcbc347",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 19,
+      "activityId": "s19_p2-6",
+      "sourceIds": [
+        "s19_p2-6"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "100 + ? = 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[0]}",
+      "options": "",
+      "dataHash": "9daec63d",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 20,
+      "activityId": "s19_p3",
+      "sourceIds": [
+        "s19_p3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "B",
+      "options": "[{\"label\":\"B\",\"count\":9,\"color\":\"blue\"},{\"label\":\"A\",\"count\":8,\"color\":\"orange\"}]",
+      "dataHash": "05dcb65d",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 21,
+      "activityId": "s19_p3-pair2",
+      "sourceIds": [
+        "s19_p3-pair2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "A",
+      "options": "[{\"label\":\"A\",\"count\":8,\"color\":\"blue\"},{\"label\":\"C\",\"count\":5,\"color\":\"orange\"}]",
+      "dataHash": "28afe804",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 22,
+      "activityId": "s19_p3-pair3",
+      "sourceIds": [
+        "s19_p3-pair3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "C",
+      "options": "[{\"label\":\"C\",\"count\":5,\"color\":\"blue\"},{\"label\":\"D\",\"count\":4,\"color\":\"orange\"}]",
+      "dataHash": "9ec14052",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch15",
+      "chapterTitle": "Chapter 15",
+      "sequence": 23,
+      "activityId": "s19_p4",
+      "sourceIds": [
+        "s19_p4"
+      ],
+      "type": "interactive",
+      "conceptKey": "guided-box-make10",
+      "prompt": "8 + 5",
+      "answer": "{\"finalAnswer\":13,\"blanks\":[2,2,3,3,13]}",
+      "options": "",
+      "dataHash": "c99423b3",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 1,
+      "activityId": "s20_p1",
+      "sourceIds": [
+        "s20_p1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "19 < 63",
+      "answer": "{\"finalAnswer\":63,\"blanks\":[63]}",
+      "options": "",
+      "dataHash": "01ff10ca",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 2,
+      "activityId": "s20_p1-2",
+      "sourceIds": [
+        "s20_p1-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "63 < 85",
+      "answer": "{\"finalAnswer\":85,\"blanks\":[85]}",
+      "options": "",
+      "dataHash": "58223d39",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 3,
+      "activityId": "s20_p1-3",
+      "sourceIds": [
+        "s20_p1-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "85 < 94",
+      "answer": "{\"finalAnswer\":94,\"blanks\":[94]}",
+      "options": "",
+      "dataHash": "1fbbba3c",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 4,
+      "activityId": "s20_p1-4",
+      "sourceIds": [
+        "s20_p1-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "94 < 100",
+      "answer": "{\"finalAnswer\":100,\"blanks\":[100]}",
+      "options": "",
+      "dataHash": "a378df6d",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 5,
+      "activityId": "s20_p2",
+      "sourceIds": [
+        "s20_p2"
+      ],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "10:30",
+      "options": "[\"10:30\",\"10:00\"]",
+      "dataHash": "2ed5140c",
+      "origin": "unknown",
+      "notes": "context=clock"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 6,
+      "activityId": "s20_p2-2",
+      "sourceIds": [
+        "s20_p2-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "7:00",
+      "options": "[\"7:00\",\"7:30\"]",
+      "dataHash": "2b74d576",
+      "origin": "unknown",
+      "notes": "context=clock"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 7,
+      "activityId": "s20_p4",
+      "sourceIds": [
+        "s20_p4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "70 - 10 = ?",
+      "answer": "{\"finalAnswer\":60,\"blanks\":[60]}",
+      "options": "",
+      "dataHash": "cc781f54",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 8,
+      "activityId": "s20_p4-2",
+      "sourceIds": [
+        "s20_p4-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "8 tens and 5 ones make ?",
+      "answer": "{\"finalAnswer\":85,\"blanks\":[85]}",
+      "options": "",
+      "dataHash": "d17c4de1",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 9,
+      "activityId": "s20_p4-3",
+      "sourceIds": [
+        "s20_p4-3"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "? is 5 more than 41",
+      "answer": "{\"finalAnswer\":46,\"blanks\":[46]}",
+      "options": "",
+      "dataHash": "ec5b73a8",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 10,
+      "activityId": "s20_p4-4",
+      "sourceIds": [
+        "s20_p4-4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "The name of the shape [blue cube] is ? shape",
+      "answer": "{\"finalAnswer\":\"cube\",\"blanks\":[\"cube\"]}",
+      "options": "",
+      "dataHash": "2379d6c7",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 11,
+      "activityId": "ass16_p1",
+      "sourceIds": [
+        "ass16_p1"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cylinder?",
+      "answer": "cylinder",
+      "options": "[\"cuboid\",\"triangular_prism\",\"cube\",\"cylinder\"]",
+      "dataHash": "fd51b38e",
+      "origin": "unknown",
+      "notes": "context=cylinder"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 12,
+      "activityId": "ass16_p2",
+      "sourceIds": [
+        "ass16_p2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Tap the container that has more water.",
+      "answer": "3",
+      "options": "[\"a:3\",\"b:3\"]",
+      "dataHash": "efbcb534",
+      "origin": "unknown",
+      "notes": "context=container"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 13,
+      "activityId": "ass16_p2-2",
+      "sourceIds": [
+        "ass16_p2-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Tap the container that has more water.",
+      "answer": "4",
+      "options": "[\"a:4\",\"b:4\"]",
+      "dataHash": "be1ad99c",
+      "origin": "unknown",
+      "notes": "context=container"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 14,
+      "activityId": "ass16_p2-3",
+      "sourceIds": [
+        "ass16_p2-3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Tap the container that has more water.",
+      "answer": "5",
+      "options": "[\"a:5\",\"b:5\"]",
+      "dataHash": "7b0cd3fb",
+      "origin": "unknown",
+      "notes": "context=container"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 15,
+      "activityId": "ass16_p2-4",
+      "sourceIds": [
+        "ass16_p2-4"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-capacity",
+      "prompt": "Tap the container that has more water.",
+      "answer": "6",
+      "options": "[\"a:6\",\"b:6\"]",
+      "dataHash": "638b5b3b",
+      "origin": "unknown",
+      "notes": "context=container"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 16,
+      "activityId": "ass16_p3",
+      "sourceIds": [
+        "ass16_p3"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is sphere?",
+      "answer": "sphere",
+      "options": "[\"sphere\",\"cylinder\",\"cylinder\",\"cylinder\"]",
+      "dataHash": "d2a818af",
+      "origin": "unknown",
+      "notes": "context=Which one does not belong?"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 17,
+      "activityId": "ass16_p3-2",
+      "sourceIds": [
+        "ass16_p3-2"
+      ],
+      "type": "quiz",
+      "conceptKey": "shape-3d-identify",
+      "prompt": "Which option is cube?",
+      "answer": "cube",
+      "options": "[\"cube\",\"prism\",\"prism\",\"prism\"]",
+      "dataHash": "1fd37d62",
+      "origin": "unknown",
+      "notes": "context=Which one does not belong?"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 18,
+      "activityId": "ass16_p5",
+      "sourceIds": [
+        "ass16_p5"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "A",
+      "options": "[{\"label\":\"A\",\"count\":4,\"color\":\"blue\"},{\"label\":\"D\",\"count\":4,\"color\":\"orange\"}]",
+      "dataHash": "f4f3875f",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 19,
+      "activityId": "ass16_p5-pair2",
+      "sourceIds": [
+        "ass16_p5-pair2"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "D",
+      "options": "[{\"label\":\"D\",\"count\":4,\"color\":\"blue\"},{\"label\":\"B\",\"count\":3,\"color\":\"orange\"}]",
+      "dataHash": "fc9a019d",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 20,
+      "activityId": "ass16_p5-pair3",
+      "sourceIds": [
+        "ass16_p5-pair3"
+      ],
+      "type": "interactive",
+      "conceptKey": "compare-area",
+      "prompt": "Which shape has the larger area?",
+      "answer": "B",
+      "options": "[{\"label\":\"B\",\"count\":3,\"color\":\"blue\"},{\"label\":\"C\",\"count\":2,\"color\":\"orange\"}]",
+      "dataHash": "49391b51",
+      "origin": "unknown",
+      "notes": "context=area"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 21,
+      "activityId": "ass16_p6",
+      "sourceIds": [
+        "ass16_p6"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 2 blocks",
+      "answer": "0 tens, 2 ones",
+      "options": "",
+      "dataHash": "285140ae",
+      "origin": "unknown",
+      "notes": "context=Count cube shapes"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 22,
+      "activityId": "ass16_p6-2",
+      "sourceIds": [
+        "ass16_p6-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 1 blocks",
+      "answer": "0 tens, 1 ones",
+      "options": "",
+      "dataHash": "51c03162",
+      "origin": "unknown",
+      "notes": "context=Count cuboid shapes"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 23,
+      "activityId": "ass16_p6-3",
+      "sourceIds": [
+        "ass16_p6-3"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 4 blocks",
+      "answer": "0 tens, 4 ones",
+      "options": "",
+      "dataHash": "b86cb072",
+      "origin": "unknown",
+      "notes": "context=Count cylinder shapes"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch16",
+      "chapterTitle": "Chapter 16",
+      "sequence": 24,
+      "activityId": "ass16_p6-4",
+      "sourceIds": [
+        "ass16_p6-4"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 0 blocks",
+      "answer": "0 tens, 0 ones",
+      "options": "",
+      "dataHash": "f5bdf432",
+      "origin": "unknown",
+      "notes": "context=Count ball shapes"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 1,
+      "activityId": "ass17_p1",
+      "sourceIds": [
+        "ass17_p1"
+      ],
+      "type": "quiz",
+      "conceptKey": "number-comparison",
+      "prompt": "45 ? 27; 8 tens ? 11 ones; 79 ? 82",
+      "answer": "45 > 27; 8 tens > 11 ones; 79 < 82",
+      "options": ">; <; =",
+      "dataHash": "a48d10ad",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 2,
+      "activityId": "ass17_p2",
+      "sourceIds": [
+        "ass17_p2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "fill-missing on hundreds chart",
+      "answer": "23",
+      "options": "",
+      "dataHash": "a88713b6",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 3,
+      "activityId": "ass17_p2-2",
+      "sourceIds": [
+        "ass17_p2-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-hundreds-chart",
+      "prompt": "fill-missing on hundreds chart",
+      "answer": "65",
+      "options": "",
+      "dataHash": "3941625a",
+      "origin": "unknown",
+      "notes": "context=hundreds chart"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 4,
+      "activityId": "ass17_p4",
+      "sourceIds": [
+        "ass17_p4"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 45 sticks",
+      "answer": "4 tens, 5 ones",
+      "options": "",
+      "dataHash": "dd61074a",
+      "origin": "unknown",
+      "notes": "context=bundle"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 5,
+      "activityId": "ass17_p4-2",
+      "sourceIds": [
+        "ass17_p4-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "place-value-group",
+      "prompt": "Group/count 20 sticks",
+      "answer": "2 tens, 0 ones",
+      "options": "",
+      "dataHash": "7192659c",
+      "origin": "unknown",
+      "notes": "context=bundle"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 6,
+      "activityId": "ch17-s21-q1",
+      "sourceIds": [
+        "ch17-s21-q1"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-make10",
+      "prompt": "20 and 3 make __",
+      "answer": "{\"finalAnswer\":23,\"blanks\":[23]}",
+      "options": "",
+      "dataHash": "032be230",
+      "origin": "unknown",
+      "notes": "context=stick"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 7,
+      "activityId": "ch17-s21-q4",
+      "sourceIds": [
+        "ch17-s21-q4"
+      ],
+      "type": "quiz",
+      "conceptKey": "guided-box-sub10",
+      "prompt": "If you are the 4th person in a line, how many people are in front of you?",
+      "answer": "{\"finalAnswer\":3,\"blanks\":[3]}",
+      "options": "",
+      "dataHash": "b708cca1",
+      "origin": "unknown",
+      "notes": ""
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 8,
+      "activityId": "ch17-s22-q1",
+      "sourceIds": [
+        "ch17-s22-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "tell-time",
+      "prompt": "What time is it?",
+      "answer": "3:30",
+      "options": "[\"3:30\",\"3:00\"]",
+      "dataHash": "41b4b535",
+      "origin": "unknown",
+      "notes": "context=clock"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 9,
+      "activityId": "ch17-s22-q5",
+      "sourceIds": [
+        "ch17-s22-q5"
+      ],
+      "type": "interactive",
+      "conceptKey": "add-sub-mixed",
+      "prompt": "There were 12 cakes. 4 were eaten. How many are left?",
+      "answer": "8",
+      "options": "",
+      "dataHash": "684f7a87",
+      "origin": "unknown",
+      "notes": "context=cakes"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 10,
+      "activityId": "ch17-s23-q1",
+      "sourceIds": [
+        "ch17-s23-q1"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cube?",
+      "answer": "rectangle",
+      "options": "[\"rectangle\",\"square\",\"circle\",\"triangle\"]",
+      "dataHash": "e6b6fff9",
+      "origin": "unknown",
+      "notes": "context=Tissue box"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 11,
+      "activityId": "ch17-s23-q1-2",
+      "sourceIds": [
+        "ch17-s23-q1-2"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cube?",
+      "answer": "triangle",
+      "options": "[\"triangle\",\"square\",\"circle\",\"rectangle\"]",
+      "dataHash": "70329559",
+      "origin": "unknown",
+      "notes": "context=Tent"
+    },
+    {
+      "scope": "adapted-source",
+      "chapterId": "ch17",
+      "chapterTitle": "Chapter 17",
+      "sequence": 12,
+      "activityId": "ch17-s23-q1-3",
+      "sourceIds": [
+        "ch17-s23-q1-3"
+      ],
+      "type": "interactive",
+      "conceptKey": "shape-3d-to-2d",
+      "prompt": "What 2D shape comes from cube?",
+      "answer": "circle",
+      "options": "[\"circle\",\"square\",\"triangle\",\"rectangle\"]",
+      "dataHash": "07b0ffc9",
+      "origin": "unknown",
+      "notes": "context=Ball"
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_2",
+      "chapterTitle": "Accumulative Assessment Till Chapter 17",
+      "sequence": 1,
+      "activityId": "f2_p1",
+      "sourceIds": [
+        "f2_p1"
+      ],
+      "type": "analog-clock-read-multiple",
+      "conceptKey": "time",
+      "prompt": "What time is it?",
+      "answer": "[{\"id\":\"f2_c1\",\"time\":\"1:15\",\"details\":\"Hour hand past 1, minute hand at 3\"},{\"id\":\"f2_c2\",\"time\":\"6:30\",\"details\":\"Hour hand between 6-7, minute hand at 6\"},{\"id\":\"f2_c3\",\"time\":\"2:45\",\"details\":\"Hour hand near 3, minute hand at 9\"}]",
+      "options": "[{\"id\":\"f2_c1\",\"time\":\"1:15\",\"details\":\"Hour hand past 1, minute hand at 3\"},{\"id\":\"f2_c2\",\"time\":\"6:30\",\"details\":\"Hour hand between 6-7, minute hand at 6\"},{\"id\":\"f2_c3\",\"time\":\"2:45\",\"details\":\"Hour hand near 3, minute hand at 9\"}]",
+      "dataHash": "dce04d70",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_2",
+      "chapterTitle": "Accumulative Assessment Till Chapter 17",
+      "sequence": 2,
+      "activityId": "f2_p2",
+      "sourceIds": [
+        "f2_p2"
+      ],
+      "type": "number-ordering",
+      "conceptKey": "capacity",
+      "prompt": "Order from least to greatest.",
+      "answer": "[10,13,30,31]",
+      "options": "",
+      "dataHash": "ad5cf31c",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_2",
+      "chapterTitle": "Accumulative Assessment Till Chapter 17",
+      "sequence": 3,
+      "activityId": "f2_p3",
+      "sourceIds": [
+        "f2_p3"
+      ],
+      "type": "shape-footprint-match",
+      "conceptKey": "shape",
+      "prompt": "Match the 3D shape to its face footprint.",
+      "answer": "[{\"3d\":\"cube\",\"face\":\"square\"},{\"3d\":\"cuboid\",\"face\":\"rectangle\"},{\"3d\":\"cylinder\",\"face\":\"circle\"}]",
+      "options": "",
+      "dataHash": "1ab52c8a",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_2",
+      "chapterTitle": "Accumulative Assessment Till Chapter 17",
+      "sequence": 4,
+      "activityId": "f2_p4",
+      "sourceIds": [
+        "f2_p4"
+      ],
+      "type": "money-counting",
+      "conceptKey": "",
+      "prompt": "How much money? (L.E.)",
+      "answer": "[{\"id\":\"f2_m1\",\"composition\":\"one 10 LE note + five 1 LE coins\",\"answer\":15},{\"id\":\"f2_m2\",\"composition\":\"two 20 LE notes\",\"answer\":40}]",
+      "options": "[{\"id\":\"f2_m1\",\"composition\":\"one 10 LE note + five 1 LE coins\",\"answer\":15},{\"id\":\"f2_m2\",\"composition\":\"two 20 LE notes\",\"answer\":40}]",
+      "dataHash": "ba682fb9",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_3",
+      "chapterTitle": "Final Assessment 3",
+      "sequence": 1,
+      "activityId": "f3_p1",
+      "sourceIds": [
+        "f3_p1"
+      ],
+      "type": "composite-shape-analysis",
+      "conceptKey": "shape",
+      "prompt": "A parallelogram is made of 2 __?",
+      "answer": "triangles",
+      "options": "[\"circles\",\"triangles\",\"squares\"]",
+      "dataHash": "cdb88c7d",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_3",
+      "chapterTitle": "Final Assessment 3",
+      "sequence": 2,
+      "activityId": "f3_p2",
+      "sourceIds": [
+        "f3_p2"
+      ],
+      "type": "grid-navigation",
+      "conceptKey": "place-value/number",
+      "prompt": "On the 100-chart, what is the number above 55?",
+      "answer": "45",
+      "options": "",
+      "dataHash": "792cf16e",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_3",
+      "chapterTitle": "Final Assessment 3",
+      "sequence": 3,
+      "activityId": "f3_p3",
+      "sourceIds": [
+        "f3_p3"
+      ],
+      "type": "area-comparison",
+      "conceptKey": "area",
+      "prompt": "Which color shape has the largest area?",
+      "answer": "Yellow",
+      "options": "[{\"color\":\"Yellow\",\"units\":8},{\"color\":\"Blue\",\"units\":6}]",
+      "dataHash": "f8f7a7ce",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_4",
+      "chapterTitle": "Final Assessment 4",
+      "sequence": 1,
+      "activityId": "f4_p1",
+      "sourceIds": [
+        "f4_p1"
+      ],
+      "type": "word-to-number",
+      "conceptKey": "place-value/number",
+      "prompt": "Which number is 'one hundred'?",
+      "answer": "100",
+      "options": "",
+      "dataHash": "926a4822",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_4",
+      "chapterTitle": "Final Assessment 4",
+      "sequence": 2,
+      "activityId": "f4_p2",
+      "sourceIds": [
+        "f4_p2"
+      ],
+      "type": "make-a-ten-strategy",
+      "conceptKey": "place-value/number",
+      "prompt": "To subtract 17 - 8, we can decompose 8 into 7 and 1. 17 - 7 = 10. 10 - 1 = __?",
+      "answer": "9",
+      "options": "",
+      "dataHash": "ab3d1dbb",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_4",
+      "chapterTitle": "Final Assessment 4",
+      "sequence": 3,
+      "activityId": "f4_p3",
+      "sourceIds": [
+        "f4_p3"
+      ],
+      "type": "clock-hands-drawing",
+      "conceptKey": "time",
+      "prompt": "Draw the minute hand for 5:20. Where should it point?",
+      "answer": "4",
+      "options": "[4,5,20]",
+      "dataHash": "4c70080f",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_5",
+      "chapterTitle": "Final Assessment 5",
+      "sequence": 1,
+      "activityId": "f5_p1",
+      "sourceIds": [
+        "f5_p1"
+      ],
+      "type": "dot-grid-copy",
+      "conceptKey": "place-value/number",
+      "prompt": "Copy the 'M' shape onto the dot grid.",
+      "answer": "",
+      "options": "",
+      "dataHash": "e59fbc66",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_5",
+      "chapterTitle": "Final Assessment 5",
+      "sequence": 2,
+      "activityId": "f5_p2",
+      "sourceIds": [
+        "f5_p2"
+      ],
+      "type": "ordinal-logic",
+      "conceptKey": "",
+      "prompt": "Ibrahim is 5th from the back. There are 8 people in front of him. How many people in total?",
+      "answer": "13",
+      "options": "",
+      "dataHash": "cf559029",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_6",
+      "chapterTitle": "Final Assessment 6",
+      "sequence": 1,
+      "activityId": "f6_p1",
+      "sourceIds": [
+        "f6_p1"
+      ],
+      "type": "3d-shape-identification",
+      "conceptKey": "shape",
+      "prompt": "Which shape is a cylinder?",
+      "answer": "soup can",
+      "options": "[\"soup can\",\"dice\",\"pencil box\"]",
+      "dataHash": "b9e90c63",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_6",
+      "chapterTitle": "Final Assessment 6",
+      "sequence": 2,
+      "activityId": "f6_p2",
+      "sourceIds": [
+        "f6_p2"
+      ],
+      "type": "clock-hands-drawing",
+      "conceptKey": "time",
+      "prompt": "Draw hands for 7:15. Minute hand should be at __?",
+      "answer": "3",
+      "options": "",
+      "dataHash": "eafd9ffb",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_7",
+      "chapterTitle": "Final Assessment 7",
+      "sequence": 1,
+      "activityId": "f7_p1",
+      "sourceIds": [
+        "f7_p1"
+      ],
+      "type": "dot-grid-copy",
+      "conceptKey": "place-value/number",
+      "prompt": "Copy the mushroom shape onto the dot grid.",
+      "answer": "",
+      "options": "",
+      "dataHash": "f17166d6",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_7",
+      "chapterTitle": "Final Assessment 7",
+      "sequence": 2,
+      "activityId": "f7_p2",
+      "sourceIds": [
+        "f7_p2"
+      ],
+      "type": "subtraction-word-problem",
+      "conceptKey": "arithmetic",
+      "prompt": "There are 17 children. There are 9 fewer teachers than children. How many teachers are there?",
+      "answer": "8",
+      "options": "",
+      "dataHash": "95e2a9da",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_8",
+      "chapterTitle": "Final Assessment 8",
+      "sequence": 1,
+      "activityId": "f8_p1",
+      "sourceIds": [
+        "f8_p1"
+      ],
+      "type": "stick-counting",
+      "conceptKey": "",
+      "prompt": "How many sticks are used to make the hourglass shape?",
+      "answer": "6",
+      "options": "",
+      "dataHash": "4c6cec19",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_8",
+      "chapterTitle": "Final Assessment 8",
+      "sequence": 2,
+      "activityId": "f8_p2",
+      "sourceIds": [
+        "f8_p2"
+      ],
+      "type": "area-unit-comparison",
+      "conceptKey": "area",
+      "prompt": "Heba's shape has 19 units. Gamal's has 17 units. Who has the larger area?",
+      "answer": "Heba",
+      "options": "",
+      "dataHash": "d79109ac",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_9",
+      "chapterTitle": "Final Assessment 9",
+      "sequence": 1,
+      "activityId": "f9_p1",
+      "sourceIds": [
+        "f9_p1"
+      ],
+      "type": "3d-face-tracing",
+      "conceptKey": "shape",
+      "prompt": "Tracing a face of a __ gives a square.",
+      "answer": "cube",
+      "options": "",
+      "dataHash": "407cb84c",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_9",
+      "chapterTitle": "Final Assessment 9",
+      "sequence": 2,
+      "activityId": "f9_p2",
+      "sourceIds": [
+        "f9_p2"
+      ],
+      "type": "capacity-math",
+      "conceptKey": "capacity",
+      "prompt": "Container B holds 10 cups. Container A holds 8 cups. How many more cups does B hold than A?",
+      "answer": "2",
+      "options": "",
+      "dataHash": "551b0a8f",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_10",
+      "chapterTitle": "Final Assessment 10",
+      "sequence": 1,
+      "activityId": "f10_p1",
+      "sourceIds": [
+        "f10_p1"
+      ],
+      "type": "object-category-match",
+      "conceptKey": "",
+      "prompt": "Which object is a sphere?",
+      "answer": "tennis ball",
+      "options": "",
+      "dataHash": "71210b3a",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_10",
+      "chapterTitle": "Final Assessment 10",
+      "sequence": 2,
+      "activityId": "f10_p2",
+      "sourceIds": [
+        "f10_p2"
+      ],
+      "type": "ordinal-reasoning",
+      "conceptKey": "",
+      "prompt": "There are 20 books on a shelf. The food book is 10th from the left. How many books are to its right?",
+      "answer": "10",
+      "options": "",
+      "dataHash": "3cc23177",
+      "origin": "assessment-json",
+      "notes": ""
+    },
+    {
+      "scope": "assessment-source",
+      "chapterId": "final_10",
+      "chapterTitle": "Final Assessment 10",
+      "sequence": 3,
+      "activityId": "f10_p3",
+      "sourceIds": [
+        "f10_p3"
+      ],
+      "type": "analog-clock-read-mixed",
+      "conceptKey": "time",
+      "prompt": "Read the following times.",
+      "answer": "[\"8:00\",\"7:15\",\"9:45\"]",
+      "options": "[\"8:00\",\"7:15\",\"9:45\"]",
+      "dataHash": "db7e29c5",
+      "origin": "assessment-json",
+      "notes": ""
+    }
+  ]
+}

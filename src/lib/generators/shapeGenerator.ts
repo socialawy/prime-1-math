@@ -5,12 +5,14 @@ import type { Shape3DKind } from "../../components/shared/Shape3DSVG";
 const SHAPE_3D_OPTIONS: Shape3DKind[] = ["cube", "cuboid", "cylinder", "ball", "prism"];
 const SHAPE_2D_OPTIONS: Shape2DKind[] = ["square", "circle", "triangle", "rectangle"];
 
+// Primary-1 canonical footprints: one correct answer per shape.
+// Cuboid → rectangle (the defining face), prism → triangle (the defining face).
 export const FOOTPRINT_MAP: Record<Shape3DKind, Shape2DKind[]> = {
   cube: ["square"],
-  cuboid: ["rectangle", "square"],
+  cuboid: ["rectangle"],
   cylinder: ["circle"],
   ball: ["circle"],
-  prism: ["triangle", "rectangle"],
+  prism: ["triangle"],
 };
 
 function randomInt(min: number, max: number): number {
@@ -63,12 +65,9 @@ export function generateShapeFootprint(): Shape3Dto2DData {
     Shape3DKind,
     "ball"
   >;
-  const validFootprints = FOOTPRINT_MAP[shape3d];
-  const correctFootprint = pickRandom(validFootprints);
-  // Exclude ALL valid footprints from distractors (cuboid has both rectangle & square,
-  // prism has both triangle & rectangle — showing another valid answer as "wrong" is a bug)
+  const correctFootprint = FOOTPRINT_MAP[shape3d][0]!;
   const distractors = shuffle(
-    SHAPE_2D_OPTIONS.filter((shape) => !validFootprints.includes(shape)),
+    SHAPE_2D_OPTIONS.filter((shape) => shape !== correctFootprint),
   ).slice(0, 3);
 
   return {

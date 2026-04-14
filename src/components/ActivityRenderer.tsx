@@ -48,6 +48,9 @@ const SplitTreeAdder = lazy(() =>
 const WordProblem = lazy(() =>
   import("./interactives/WordProblem").then((module) => ({ default: module.WordProblem })),
 );
+const NumberComparison = lazy(() =>
+  import("./interactives/NumberComparison").then((module) => ({ default: module.NumberComparison })),
+);
 
 interface ActivityRendererProps {
   activity: Activity;
@@ -151,6 +154,14 @@ export function ActivityRenderer({
         break;
       }
       content = <WordProblem data={activity.data} onComplete={onComplete} />;
+      break;
+
+    case "number-comparison":
+      if (activity.data.type !== "number-comparison") {
+        content = <PlaceholderCard conceptKey={activity.conceptKey} detail="Expected number-comparison data." />;
+        break;
+      }
+      content = <NumberComparison data={activity.data} onComplete={onComplete} />;
       break;
 
     case "place-value-group":

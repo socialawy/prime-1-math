@@ -385,6 +385,7 @@ function adaptOrdering(p: FlashProblem): Activity[] {
     : [...ranked]
         .sort((a, b) => a.capacityCups - b.capacityCups)
         .map((item) => item.id);
+  const capacityById = new Map(ranked.map((item) => [item.id, item.capacityCups]));
 
   const data: CapacityData = {
     type: "compare-capacity",
@@ -396,7 +397,7 @@ function adaptOrdering(p: FlashProblem): Activity[] {
     })),
     mode: "order-multiple",
     question: "order",
-    correctAnswer: ranked.map((item) => item.capacityCups),
+    correctAnswer: correctOrder.map((id) => capacityById.get(id) ?? 0),
     correctOrder,
   };
 
@@ -1048,68 +1049,74 @@ function adaptMultipleChoice(p: FlashProblem): Activity[] {
   });
 }
 
+function parseComparisonValue(raw: unknown): { label: string; value: number } {
+  if (typeof raw === "number") return { label: String(raw), value: raw };
+  const str = String(raw);
+  // Handle "8 tens" → 80, "11 ones" → 11, etc.
+  const tensMatch = str.match(/^(\d+)\s*tens?$/i);
+  if (tensMatch) {
+    const n = parseInt(tensMatch[1]!, 10);
+    return { label: str, value: n * 10 };
+  }
+  const onesMatch = str.match(/^(\d+)\s*ones?$/i);
+  if (onesMatch) {
+    const n = parseInt(onesMatch[1]!, 10);
+    return { label: str, value: n };
+  }
+  return { label: str, value: parseInt(str, 10) || 0 };
+}
+
+function deriveSymbol(left: number, right: number): ">" | "<" | "=" {
+  if (left > right) return ">";
+  if (left < right) return "<";
+  return "=";
+}
+
 function adaptNumberComparison(p: FlashProblem): Activity[] {
+  type NumberComparisonData = import("../../types/curriculum").NumberComparisonData;
+
   // comparison_circle format: pairs with {options: [a, b], answer}
   const pairFormat = p.pairs as Array<{ options: number[]; answer: number }> | undefined;
   if (pairFormat?.length && typeof pairFormat[0]?.answer === "number") {
-    return pairFormat.map((pair, index) => {
-      const data: GuidedBoxProblem = {
-        type: "addition",
-        equation: `${pair.options[0]} ? ${pair.options[1]}`,
-        steps: [
-          {
-            id: `${p.id}-${index}-s1`,
-            template: `Which is greater: ${pair.options[0]} or ${pair.options[1]}? Answer: {0}`,
-            blanks: [{ index: 0, correctValue: pair.answer }],
-            revealAfterPrevious: false,
-          },
-        ],
-        finalAnswer: pair.answer,
-      };
-
-      return {
-        id: index === 0 ? p.id : `${p.id}-${index + 1}`,
-        type: "quiz" as const,
-        conceptKey: "guided-box-make10" as ConceptKey,
-        difficulty: 1 as const,
-        data,
-        contextHint: extractUnitFromInstruction(p.instruction),
-      };
+    const pairs = pairFormat.map((pair) => {
+      const left = { label: String(pair.options[0]), value: pair.options[0]! };
+      const right = { label: String(pair.options[1]), value: pair.options[1]! };
+      return { left, right, correctSymbol: deriveSymbol(left.value, right.value) };
     });
+
+    const data: NumberComparisonData = { type: "number-comparison", pairs };
+    return [{
+      id: p.id,
+      type: "quiz" as const,
+      conceptKey: "number-comparison" as ConceptKey,
+      difficulty: 1 as const,
+      data,
+      contextHint: extractUnitFromInstruction(p.instruction),
+    }];
   }
 
   // number_comparison / number-comparison: items with {left, right, answer}
   const items = p.items as Array<{ left: unknown; right: unknown; answer: string }> | undefined;
   if (!items?.length) return [];
 
-  return items.map((item, index) => {
-    const left = typeof item.left === "number" ? item.left : parseInt(String(item.left), 10) || 0;
-    const right = typeof item.right === "number" ? item.right : parseInt(String(item.right), 10) || 0;
-    const larger = Math.max(left, right);
-
-    const data: GuidedBoxProblem = {
-      type: "addition",
-      equation: `${item.left} ? ${item.right}`,
-      steps: [
-        {
-          id: `${p.id}-${index}-s1`,
-          template: `Which is greater: ${item.left} or ${item.right}? Answer: {0}`,
-          blanks: [{ index: 0, correctValue: larger }],
-          revealAfterPrevious: false,
-        },
-      ],
-      finalAnswer: larger,
-    };
-
-    return {
-      id: index === 0 ? p.id : `${p.id}-${index + 1}`,
-      type: "quiz" as const,
-      conceptKey: "guided-box-make10" as ConceptKey,
-      difficulty: 1 as const,
-      data,
-      contextHint: extractUnitFromInstruction(p.instruction),
-    };
+  const pairs = items.map((item) => {
+    const left = parseComparisonValue(item.left);
+    const right = parseComparisonValue(item.right);
+    const correctSymbol = (item.answer === ">" || item.answer === "<" || item.answer === "=")
+      ? item.answer
+      : deriveSymbol(left.value, right.value);
+    return { left, right, correctSymbol };
   });
+
+  const data: NumberComparisonData = { type: "number-comparison", pairs };
+  return [{
+    id: p.id,
+    type: "quiz" as const,
+    conceptKey: "number-comparison" as ConceptKey,
+    difficulty: 1 as const,
+    data,
+    contextHint: extractUnitFromInstruction(p.instruction),
+  }];
 }
 
 function adaptGridFragment(p: FlashProblem): Activity[] {

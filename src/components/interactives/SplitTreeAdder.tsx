@@ -436,7 +436,11 @@ export function SplitTreeAdder({ data, onComplete }: SplitTreeAdderProps) {
             animate={{ opacity: 1 }}
             className="text-sm text-amber-600"
           >
-            💡 What number plus {otherNum} equals 10?
+            {state.mode === "addition"
+              ? `💡 What number plus ${otherNum} equals 10?`
+              : state.activeSplitIndex === 0
+                ? `💡 ${state.numberA} has ${Math.max(state.numberA - 10, 0)} ones after 10. Remove those first.`
+                : `💡 Split ${state.numberB} into ${state.correctSplit?.[0] ?? "_"} and the rest.`}
           </motion.p>
         )}
 

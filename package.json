@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -p tsconfig.json --pretty false && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit:questions": "node scripts/extract-question-audit.mjs"
   },
   "devDependencies": {
     "@types/howler": "^2.2.12",

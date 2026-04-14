@@ -19,7 +19,7 @@ export function ShapeFootprint({ data, onComplete }: ShapeFootprintProps) {
   const [startTime] = useState(() => Date.now());
 
   const options = useMemo(
-    () => [data.correctFootprint, ...data.distractors].slice(0, 4) as Shape2DKind[],
+    () => shuffleOptions([data.correctFootprint, ...data.distractors].slice(0, 4) as Shape2DKind[]),
     [data.correctFootprint, data.distractors],
   );
 
@@ -100,6 +100,15 @@ export function ShapeFootprint({ data, onComplete }: ShapeFootprintProps) {
       )}
     </div>
   );
+}
+
+function shuffleOptions<T>(items: T[]): T[] {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
+  }
+  return shuffled;
 }
 
 function toShape3DKind(shape: Shape3Dto2DData["shape3d"]): Shape3DKind {
