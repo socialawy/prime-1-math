@@ -34,8 +34,12 @@ export function generateCapacity(
   const caps = ensureUniqueCaps(rawCaps);
 
   const imagePool = ["jug", "bottle", "box", "bucket", "bowl", "pot"];
-  // Pick unique imageIds so labels are distinct
-  const shuffled = imagePool.sort(() => Math.random() - 0.5);
+  // Pick unique imageIds so labels are distinct — Fisher-Yates shuffle
+  const shuffled = [...imagePool];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = randomInt(0, i);
+    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
+  }
   const containers = caps.map((capacityCups, index) => {
     const imageId = shuffled[index % shuffled.length]!;
     return {

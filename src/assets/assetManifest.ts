@@ -72,6 +72,7 @@ export const ASSET_MAP: Record<string, AssetEntry> = {
   "cheese":      { emoji: "🧀", label: "cheese" },
   "cheese-wedge":{ emoji: "🧀", label: "cheese" },
   "juice":       { emoji: "🧃", label: "juice box" },
+  "juice box":   { emoji: "🧃", label: "juice box" },
   "juice-box":   { emoji: "🧃", label: "juice box" },
 
   // ── School & Stationery ───────────────────────────────
@@ -81,8 +82,10 @@ export const ASSET_MAP: Record<string, AssetEntry> = {
 
   // ── Toys & Play ───────────────────────────────────────
   "gift":        { emoji: "🎁", label: "gift box" },
+  "gift box":    { emoji: "🎁", label: "gift box" },
   "gift-box":    { emoji: "🎁", label: "gift box" },
   "ball":        { emoji: "⚽", label: "ball" },
+  "tennis ball": { emoji: "🎾", label: "ball" },
   "tennis-ball": { emoji: "🎾", label: "ball" },
   "football":    { emoji: "⚽", label: "ball" },
   "marble":      { emoji: "🔮", label: "marble" },
@@ -104,6 +107,7 @@ export const ASSET_MAP: Record<string, AssetEntry> = {
   // ── Objects from flash data ───────────────────────────
   "tent":    { emoji: "⛺", label: "tent" },
   "tissue":  { emoji: "🧻", label: "tissue box" },
+  "tissue box": { emoji: "🧻", label: "tissue box" },
   "boat":    { emoji: "⛵", label: "boat" },
   "castle":  { emoji: "🏰", label: "castle" },
   "cart":    { emoji: "🛒", label: "cart" },
@@ -124,8 +128,11 @@ export function resolveAsset(hint: string): AssetEntry | null {
   const exact = ASSET_MAP[normalized];
   if (exact) return exact;
 
-  // Try matching on any word in the hint (e.g. "tissue box" matches "tissue")
-  for (const key of Object.keys(ASSET_MAP)) {
+  // Prefer specific multi-word keys before generic keys like "box".
+  const keysBySpecificity = Object.keys(ASSET_MAP).sort(
+    (a, b) => b.length - a.length,
+  );
+  for (const key of keysBySpecificity) {
     if (normalized.includes(key)) return ASSET_MAP[key]!;
   }
 

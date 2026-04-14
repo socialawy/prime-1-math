@@ -209,7 +209,10 @@ function adaptVisualSelection(p: FlashProblem): Activity[] {
       type: "shape-3d-to-2d",
       shape3d,
       correctFootprint: footprint,
-      distractors: item.options.filter((option) => option !== item.answer),
+      distractors: item.options
+        .filter((option) => option !== item.answer)
+        .map((option) => normalize2d(option))
+        .filter((shape): shape is "square" | "circle" | "triangle" | "rectangle" => shape !== null),
     };
 
     results.push({

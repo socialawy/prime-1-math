@@ -172,13 +172,14 @@ function buildChapter11Activities(): Activity[] {
 
 function buildChapter12Activities(): Activity[] {
   const source = getAdditionGuidedSources();
+  const allMake10 = generateAllMake10Problems();
   const learn = takeOrGenerate(source, 3, (index) => {
-    const generated = generateAllMake10Problems()[index % generateAllMake10Problems().length]!;
+    const generated = allMake10[index % allMake10.length]!;
     return createGuidedActivity(`ch12-learn-${index + 1}`, "addition-make-10", generated);
   }).map((activity, index) => cloneGuidedActivity(activity, "addition-make-10", `ch12-learn-${index + 1}`));
 
   const practice = takeOrGenerate(source.slice(3), 5, (index) => {
-    const generated = generateAllMake10Problems()[(index + 3) % generateAllMake10Problems().length]!;
+    const generated = allMake10[(index + 3) % allMake10.length]!;
     return createGuidedActivity(`ch12-practice-${index + 1}`, "guided-box-make10", generated, "quiz");
   }).map((activity, index) => cloneGuidedActivity(activity, "guided-box-make10", `ch12-practice-${index + 1}`));
 
@@ -187,13 +188,14 @@ function buildChapter12Activities(): Activity[] {
 
 function buildChapter13Activities(): Activity[] {
   const source = getSubtractionGuidedSources();
+  const allUse10 = generateAllUse10Problems();
   const learn = takeOrGenerate(source, 2, (index) => {
-    const generated = generateAllUse10Problems()[index % generateAllUse10Problems().length]!;
+    const generated = allUse10[index % allUse10.length]!;
     return createGuidedActivity(`ch13-learn-${index + 1}`, "subtraction-use-10", generated);
   }).map((activity, index) => cloneGuidedActivity(activity, "subtraction-use-10", `ch13-learn-${index + 1}`));
 
   const practice = takeOrGenerate(source.slice(2), 5, (index) => {
-    const generated = generateAllUse10Problems()[(index + 2) % generateAllUse10Problems().length]!;
+    const generated = allUse10[(index + 2) % allUse10.length]!;
     return createGuidedActivity(`ch13-practice-${index + 1}`, "guided-box-sub10", generated, "quiz");
   }).map((activity, index) => cloneGuidedActivity(activity, "guided-box-sub10", `ch13-practice-${index + 1}`));
 
@@ -256,10 +258,13 @@ function buildChapter17Activities(): Activity[] {
     ...takeOrGenerate(wordProblems, 4, (index) =>
       createActivity(`ch17-word-${index + 1}`, "add-sub-mixed", generateWordProblem(index < 2 ? 1 : 2)),
     ),
-    ...takeOrGenerate(math, 2, (index) =>
-      createActivity(`ch17-math-${index + 1}`, "guided-box-make10",
-        generateAllMake10Problems()[index % generateAllMake10Problems().length]!, "quiz"),
-    ),
+    ...(() => {
+      const allMake10 = generateAllMake10Problems();
+      return takeOrGenerate(math, 2, (index) =>
+        createActivity(`ch17-math-${index + 1}`, "guided-box-make10",
+          allMake10[index % allMake10.length]!, "quiz"),
+      );
+    })(),
     ...Array.from({ length: 2 }, (_, index) =>
       createActivity(`ch17-word-extra-${index + 1}`, "add-sub-mixed", generateWordProblem(2)),
     ),

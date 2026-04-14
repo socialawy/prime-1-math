@@ -103,7 +103,9 @@ function toShape2DKind(shape: string): Shape2DKind {
   if (shape === "square" || shape === "circle" || shape === "triangle" || shape === "rectangle") {
     return shape;
   }
-  return "rectangle";
+  // All generator compositions should use valid 2D shapes.
+  // Default to square (most neutral) if data is somehow invalid.
+  return "square";
 }
 
 function toRenderablePiece(piece: string): Shape2DKind {

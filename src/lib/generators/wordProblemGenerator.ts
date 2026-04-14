@@ -18,11 +18,13 @@ export function generateWordProblem(
   let a: number;
   let b: number;
 
+  // Primary-1 sums must stay within 20
+  const maxOperand = Math.min(9 * difficulty, 18);
   if (operation === "+") {
-    a = randomInt(3, 9 * difficulty);
-    b = randomInt(1, a);
+    a = randomInt(3, Math.min(maxOperand, 15));
+    b = randomInt(1, Math.min(a, 20 - a));
   } else {
-    a = randomInt(5, 10 * difficulty);
+    a = randomInt(5, Math.min(10 * difficulty, 20));
     b = randomInt(1, a - 1);
   }
 

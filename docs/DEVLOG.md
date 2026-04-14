@@ -2741,4 +2741,40 @@ SplitTree’s phase-specific number pad was advanced and checked separately
 
 **Verification**:
 - `npm run build` passed with all 17 webp assets included.
-- Development UI verified for mascot rendering on Splash and Results screens.
+- Development UI verified for mascot rendering on Splash and Results screens.
+
+---
+
+### Critical Bug Fixes & Generator Polishing [2026-04-14]
+
+**Critical Bugs Fixed:**
+
+1.  **Shape Fallback**: Fixed `ShapeComposer.tsx` to default to `square` instead of `rectangle` for unknown shapes, preventing incorrect renders for hexagons/trapezoids.
+2.  **Generator Compatibility**: Updated `shapeComposerGenerator.ts` to replace unsupported shapes (Hexagon, Trapezoid, House) with valid Primary-1 compositions using squares, triangles, and rectangles.
+3.  **Distractor Normalization**: Fixed `flashDataAdapter.ts` where raw data strings were passed as distractors without `normalize2d()`, which previously caused empty SVG renders.
+4.  **Footprint Ambiguity**: Resolved a conflict in `shapeGenerator.ts` where shared footprints (e.g., rectangle being valid for both cuboids and prisms) caused correct answers to be marked as wrong distractors.
+
+**Generator Improvements:**
+
+5.  **Clock Phrasing**: Fixed `clockGenerator.ts` to use correct English phrasing ("half past 3" instead of "3 half past").
+6.  **Shuffle Logic**: Replaced biased `.sort(() => Math.random() - 0.5)` with a proper Fisher-Yates shuffle in `capacityGenerator.ts`.
+7.  **Operand Bounds**: Capped `wordProblemGenerator.ts` operands at difficulty 2 to ensure sums stay within the Primary-1 limit of 20.
+
+**Efficiency Fixes:**
+
+8.  **Problem Caching**: Implemented caching in `lessonBuilder.ts` for `generateAllMake10` and `Use10Problems` to improve performance during lesson assembly.
+
+**Verification**:
+- `npm run build` passed.
+- Verified clock phrasing and number bounds in local dev environment.
+
+---
+
+### Review Fixes: Asset Specificity + Version Alignment [2026-04-14]
+
+**Fixes:**
+- Updated `resolveAsset()` to prefer longer, more specific keys before generic substring matches. This prevents hints like `juice box`, `gift box`, and `tissue box` from resolving to the generic `box` asset first.
+- Aligned release metadata by bumping `package.json` and `package-lock.json` from `1.3.0` to `1.4.0`, matching the top `CHANGELOG.md` release entry.
+
+**Verification:**
+- `npm run build` passed.

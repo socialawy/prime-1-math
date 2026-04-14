@@ -63,9 +63,12 @@ export function generateShapeFootprint(): Shape3Dto2DData {
     Shape3DKind,
     "ball"
   >;
-  const correctFootprint = pickRandom(FOOTPRINT_MAP[shape3d]);
+  const validFootprints = FOOTPRINT_MAP[shape3d];
+  const correctFootprint = pickRandom(validFootprints);
+  // Exclude ALL valid footprints from distractors (cuboid has both rectangle & square,
+  // prism has both triangle & rectangle — showing another valid answer as "wrong" is a bug)
   const distractors = shuffle(
-    SHAPE_2D_OPTIONS.filter((shape) => shape !== correctFootprint),
+    SHAPE_2D_OPTIONS.filter((shape) => !validFootprints.includes(shape)),
   ).slice(0, 3);
 
   return {

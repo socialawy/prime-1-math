@@ -85,7 +85,7 @@ export function formatTimeLabel(
   hour: number,
   minuteType: "o-clock" | "half-past",
 ): string {
-  return minuteType === "o-clock" ? `${hour} o'clock` : `${hour} half past`;
+  return minuteType === "o-clock" ? `${hour} o'clock` : `half past ${hour}`;
 }
 
 export function getHourAngle(

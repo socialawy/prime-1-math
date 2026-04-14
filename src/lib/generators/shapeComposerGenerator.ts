@@ -34,26 +34,26 @@ const COMPOSITIONS: Array<{
     correctPieces: ["triangle", "triangle"],
     wrongOptions: [["square", "triangle"], ["rectangle", "triangle"]],
   },
-  // Hexagon = 6 triangles
+  // Rectangle = triangle + triangle + square
   {
-    targetShape: "hexagon",
-    targetDescription: "a hexagon",
-    correctPieces: ["triangle", "triangle", "triangle", "triangle", "triangle", "triangle"],
-    wrongOptions: [["square", "square", "square"], ["triangle", "triangle", "square", "square"]],
+    targetShape: "rectangle",
+    targetDescription: "a rectangle",
+    correctPieces: ["triangle", "triangle", "square"],
+    wrongOptions: [["square", "square", "square"], ["triangle", "square"]],
   },
-  // Trapezoid = 3 triangles
+  // Square = 4 triangles
   {
-    targetShape: "trapezoid",
-    targetDescription: "a trapezoid",
-    correctPieces: ["triangle", "triangle", "triangle"],
-    wrongOptions: [["square", "triangle"], ["triangle", "triangle", "square"]],
+    targetShape: "square",
+    targetDescription: "a square",
+    correctPieces: ["triangle", "triangle", "triangle", "triangle"],
+    wrongOptions: [["triangle", "triangle"], ["square", "square"]],
   },
-  // House = square + triangle
+  // Triangle = 4 small triangles
   {
-    targetShape: "house",
-    targetDescription: "a house shape",
-    correctPieces: ["square", "triangle"],
-    wrongOptions: [["triangle", "triangle"], ["rectangle", "triangle"]],
+    targetShape: "triangle",
+    targetDescription: "a large triangle",
+    correctPieces: ["triangle", "triangle", "triangle", "triangle"],
+    wrongOptions: [["square", "triangle", "triangle"], ["rectangle", "triangle"]],
   },
 ];
 

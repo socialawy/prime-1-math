@@ -1,9 +1,20 @@
-# Changelog
+## [1.4.0] - 2026-04-14
 
-All notable changes to this project will be documented in this file.
+### Added
+- **Mascot Integration**: Introduced a lively mascot character into the Splash and Lesson results screens.
+- **Unified Asset System**: Merged legacy emoji maps and image manifests into a single `ASSET_MAP` in `assetManifest.ts` for unified context rendering.
+- **New Component**: Added `MascotImg` for reusable, pose-aware mascot rendering.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Changed
+- **Visual Upgrades**: Upgraded all container and shape assets to `.webp` format for better performance.
+- **Asset Rendering**: Refactored `AssetIcon` to use a preferred-image, fallback-emoji strategy.
+- **Smart Asset Resolution**: `resolveAsset()` now supports substring matching (e.g., "gift box" matches "gift").
+
+### Fixed
+- **Critical Logic**: Fixed shape fallback bias, clock phrasing ("half past"), and biased shuffle distributions.
+- **Curriculum Bounds**: Capped operand generation to the Primary-1 limit (sums within 20).
+- **Ambiguity Fix**: Resolved conflicts in footprint matching where shared shapes (rectangles) caused false negatives.
+- **Efficiency**: Implemented caching for expensive generator loops in `lessonBuilder.ts`.
 
 ## [1.3.0] - 2026-04-07
 
@@ -56,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Initial Data:** Extracted curriculum JSON for early chapters.
 
 ---
+[1.4.0]: https://github.com/socialawy/prime-1-math/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/socialawy/prime-1-math/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/socialawy/prime-1-math/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/socialawy/prime-1-math/compare/v1.0.0...v1.1.0
