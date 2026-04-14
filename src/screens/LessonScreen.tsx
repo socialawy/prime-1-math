@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { ActivityRenderer } from "../components/ActivityRenderer";
 import { AppLogo } from "../components/AppLogo";
+import { MascotImg } from "../components/shared/MascotImg";
 import { chapters } from "../data/chapters";
 import { useApp } from "../context/AppContext";
 import { buildLessonForChapter } from "../lib/lessonBuilder";
@@ -160,7 +161,8 @@ export function LessonScreen() {
             animate={{ opacity: 1, scale: 1 }}
             className="rounded-3xl bg-white p-8 text-center shadow-lg"
           >
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
+            <MascotImg pose="celebrate" size={100} className="mx-auto" />
+            <p className="mt-4 text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
               Lesson Complete
             </p>
             <h2 className="mt-3 text-4xl font-black text-slate-900">

@@ -2711,6 +2711,34 @@ SplitTree’s phase-specific number pad was advanced and checked separately
   2. Build passes with zero errors
   - No whitespace issues beyond the expected LF→CRLF warnings (Windows environment)
 
-  3. Observation: duplicated NumberPad
+  Each of the 8 components has its own copy of NumberPad. This is pre-existing arch debt (not introduced here), but this refactor touched all 8 copies for the same change — a shared NumberPad component would have made this a 1-file edit.
 
-  Each of the 8 components has its own copy of NumberPad. This is pre-existing arch debt (not introduced here), but this refactor touched all 8 copies for the same change — a shared NumberPad component would have made this a 1-file edit.  
+---
+
+### Asset Map Unification & Mascot Integration [2026-04-14]
+
+**Changes:**
+
+1.  **Unified ASSET_MAP (assetManifest.ts)**:
+    - Merged the two separate systems (old `ASSET_MANIFEST` image-only map + `EMOJI_GROUPS` array in `EmojiMap.tsx`) into a single `ASSET_MAP`.
+    - Each entry follows the interface `{ emoji, label, img? }`, providing a single source of truth for all context hints.
+    - Updated all container and shape assets to use `.webp` versions.
+
+2.  **Rewrote AssetIcon/EmojiMap (EmojiMap.tsx)**:
+    - `AssetIcon` now uses `resolveAsset()` to prefer images over emojis with a graceful fallback system.
+    - `ContextHintBadge` now derives its label from the unified map.
+    - Removed legacy `EMOJI_GROUPS` and associated search logic.
+
+3.  **Wired Mascot into the App**:
+    - **Splash Screen**: `mascot-happy` pose added to the welcome sequence.
+    - **Lesson Complete**: `mascot-celebrate` pose added to the results card.
+    - **MascotImg Component**: Created a typed, reusable component for mascot rendering.
+
+4.  **Fixed ContextHint Logic in Adapters**:
+    - **Capacity Ordering**: Fixed a bug where multiple container types were joined into a single string; now correctly passes the first container's type.
+    - **Shape Comparison**: Simplified labels to match the new unified keys (e.g., just "cube" or "cylinder").
+    - **Substring Matching**: `resolveAsset()` now supports substring matches (e.g., "tissue box" successfully matches the "tissue" asset entry).
+
+**Verification**:
+- `npm run build` passed with all 17 webp assets included.
+- Development UI verified for mascot rendering on Splash and Results screens.

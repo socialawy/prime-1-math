@@ -300,7 +300,6 @@ function adaptCountingComposite(p: FlashProblem): Activity[] {
 
   items.forEach((item, itemIndex) => {
     const counts = item.counts ?? {};
-    const description = item.composite?.description ?? "composite object";
 
     Object.entries(counts).forEach(([shape, rawCount]) => {
       const count = typeof rawCount === "number" ? rawCount : 0;
@@ -321,7 +320,7 @@ function adaptCountingComposite(p: FlashProblem): Activity[] {
         conceptKey: "place-value-group",
         difficulty: 1,
         data,
-        contextHint: `${description} (${shape})`,
+        contextHint: shape,
       });
     });
   });
@@ -404,7 +403,7 @@ function adaptOrdering(p: FlashProblem): Activity[] {
     conceptKey: "compare-capacity",
     difficulty: 1,
     data,
-    contextHint: ranked.map((item) => item.context ?? item.imageType).join(", "),
+    contextHint: ranked[0]?.imageType ?? "container",
   }];
 }
 
@@ -1456,7 +1455,7 @@ function adaptCapacityMatching(p: FlashProblem): Activity[] {
       conceptKey: "compare-capacity" as ConceptKey,
       difficulty: 1 as const,
       data,
-      contextHint: `${pair.item1} = ${pair.item2} (${pair.cups} cups)`,
+      contextHint: "container",
     };
   });
 }
